@@ -31,4 +31,5 @@ resource "gitlab_project" "group_projects" {
   name         = replace(each.key, "/", "-")
   namespace_id = each.value["parent_id"] == "" ? gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
   path         = replace(each.key, "/", "-")
+  visibility_level = "private"
 }
