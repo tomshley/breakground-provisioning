@@ -1,9 +1,9 @@
 terraform {
   required_providers {
-    artifactory = {
-      source  = "jfrog/artifactory"
-      version = "~> 7.10.0"
-    }
+#    artifactory = {
+#      source  = "jfrog/artifactory"
+#      version = "~> 7.10.0"
+#    }
     random = {
       source  = "hashicorp/random"
       version = "~> 3.5.1"
