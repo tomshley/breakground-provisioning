@@ -1,0 +1,30 @@
+# ide
+.idea/
+.idea/*
+*.iml
+
+# tools
+venv/
+
+# logging
+*.log
+
+# cli
+nohup.out
+
+# test cruft
+TEST*.xml
+
+# os cruft
+.DS_Store
+Thumbs.db
+*Icon*
+
+
+*.terraform/
+*.tfstate*
+*.tfvars
+*plan.txt
+*.tfplan
+*.terraform-version
+*.terraform.lock.hcl
