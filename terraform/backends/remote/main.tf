@@ -31,6 +31,7 @@ terraform {
 
 provider "github" {
   token = sensitive(var.github_token)
+  owner = var.github_owner_org
 }
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
