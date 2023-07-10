@@ -25,6 +25,10 @@ terraform {
 #  access_token = sensitive("${var.artifactory_access_token}")
 #}
 
+#provider "github" {
+#  token = sensitive(var.github_token)
+#}
+
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
