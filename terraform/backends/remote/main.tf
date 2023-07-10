@@ -18,6 +18,10 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "15.11.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
   }
 }
 #provider "artifactory" {
@@ -25,15 +29,20 @@ terraform {
 #  access_token = sensitive("${var.artifactory_access_token}")
 #}
 
-#provider "github" {
-#  token = sensitive(var.github_token)
-#}
-
+provider "github" {
+  token = sensitive(var.github_token)
+}
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
-
-
 module "tware-bootstrap-remote" {
+  providers = {
+#    artifactory  = artifactory
+    random  = random
+    local  = local
+    gitlab  = gitlab
+    github  = github
+  }
   source = "../../modules/tware-bootstrap-remote"
+  github_mirror_token = var.github_mirror_token
 }

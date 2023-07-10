@@ -1,5 +1,5 @@
 locals {
-  mirrored_projects = {
+  mirrored_project_https_clone_urls = {
     for mp in var.git_project_mirrors : mp[0] => mp[1]
   }
   project_data = {
@@ -7,8 +7,27 @@ locals {
       parent_id   = pt[2]
       parent_path = trimsuffix(pt[1], "/")
       parent_name = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/")))-1)
-      mirror_address = lookup(local.mirrored_projects, pt[0], "")
+      mirror_https_clone_address = lookup(local.mirrored_project_https_clone_urls, pt[0], "")
+      repository_files_default = {
+        gitignore = {
+          filename = ".gitignore"
+          content = templatefile("${path.module}/templates/.gitignore.tftpl", { })
+        }
+        license = {
+          filename = "LICENSE"
+          content = templatefile("${path.module}/templates/LICENSE.tftpl", { })
+        }
 
+        readme = {
+          filename = "README.md"
+          content = templatefile("${path.module}/templates/README.md.tftpl", { repository_name=pt[0] })
+        }
+
+        version = {
+          filename = "VERSION"
+          content = templatefile("${path.module}/templates/VERSION.tftpl", { })
+        }
+      }
     }
   }
   unique_groups_for_management = distinct([

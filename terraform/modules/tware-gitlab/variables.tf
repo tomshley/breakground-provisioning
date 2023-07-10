@@ -6,3 +6,7 @@ variable "git_project_mirrors" {
   description = "<required:repo-name>, <required:repo-url>"
   default = []
 }
+
+variable "github_mirror_token" {
+  type    = string
+}
