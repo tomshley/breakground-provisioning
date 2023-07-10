@@ -5,8 +5,8 @@ module "tware-github" {
     github  = github
   }
   source = "../tware-github"
-  git_projects_with_parent=[]
-#  git_projects_with_parent=[(["tware-hexagonal-plugin-sbt", "tomshley", "tomshley"])]
+#  git_projects_with_parent=[]
+  git_projects_with_parent=[(["tware-hexagonal-plugin-sbt", "tomshley", "tomshley"])]
 }
 
  module "tware-gitlab" {
@@ -21,7 +21,7 @@ module "tware-github" {
      (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]), # path, parent, existing id
      (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]), # path, parent, existing id
      (["hexagonal-lib-jvm", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
-#     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
+     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
      (["hexagonal-sdk-kotlin", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
      (["hexagonal-sdk-python", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
      (["hexagonal-lib-py", "tomshley/brands/global/tware/tech/products/hexagonal", "69749680"]),
@@ -42,7 +42,7 @@ module "tware-github" {
      (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "69749881"])
    ]
    git_project_mirrors = [
-#     (["hexagonal-lib-jvm", module.tware-github.gh_repositories["tware-hexagonal-plugin-sbt"].http_clone_url])
+     (["hexagonal-plugin-sbt", module.tware-github.gh_repositories["tware-hexagonal-plugin-sbt"].http_clone_url])
    ]
    github_mirror_token = var.github_mirror_token
  }
