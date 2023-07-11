@@ -143,5 +143,5 @@ validate-remote:
 plan-remote:
   stage: plan-remote
   script:
-    - -chdir {TF_ROOT}
+    - cd {TF_ROOT}
     - make plan
