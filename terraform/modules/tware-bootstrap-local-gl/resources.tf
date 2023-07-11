@@ -1,4 +1,3 @@
-
 module "tware-hexagonal-gitlab" {
   source = "../tware-gitlab"
   git_projects_with_parent = [

@@ -4,28 +4,28 @@ locals {
   }
   project_data = {
     for pt in var.git_projects_with_parent : pt[0] => {
-      parent_id   = pt[2]
-      parent_path = trimsuffix(pt[1], "/")
-      parent_name = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/")))-1)
+      parent_id                  = pt[2]
+      parent_path                = trimsuffix(pt[1], "/")
+      parent_name                = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/")))-1)
       mirror_https_clone_address = lookup(local.mirrored_project_https_clone_urls, pt[0], "")
-      repository_files_default = {
+      repository_files_default   = {
         gitignore = {
           filename = ".gitignore"
-          content = templatefile("${path.module}/templates/.gitignore.tftpl", { })
+          content  = templatefile("${path.module}/templates/.gitignore.tftpl", {})
         }
         license = {
           filename = "LICENSE"
-          content = templatefile("${path.module}/templates/LICENSE.tftpl", { })
+          content  = templatefile("${path.module}/templates/LICENSE.tftpl", {})
         }
 
         readme = {
           filename = "README.md"
-          content = templatefile("${path.module}/templates/README.md.tftpl", { repository_name=pt[0] })
+          content  = templatefile("${path.module}/templates/README.md.tftpl", { repository_name = pt[0] })
         }
 
         version = {
           filename = "VERSION"
-          content = templatefile("${path.module}/templates/VERSION.tftpl", { })
+          content  = templatefile("${path.module}/templates/VERSION.tftpl", {})
         }
       }
     }

@@ -3,14 +3,15 @@ resource "artifactory_general_security" "security" {
 }
 
 locals {
-  naming_prefix="tware-hexagonal"
+  naming_prefix        = "tware-hexagonal"
   fronted_repositories = [
     artifactory_remote_sbt_repository.global-sbt-remote.key,
     artifactory_remote_terraform_repository.global-terraform-remote.key,
     artifactory_local_terraform_provider_repository.hexagonal-tf-local.key,
     artifactory_local_sbt_repository.hexagonal-sbt-local.key
   ]
-  repositories = flatten([local.fronted_repositories,
+  repositories = flatten([
+    local.fronted_repositories,
     artifactory_virtual_generic_repository.hexagonal.key
   ])
 }
@@ -90,16 +91,16 @@ resource "artifactory_local_terraform_provider_repository" "hexagonal-tf-local" 
 }
 
 resource "artifactory_virtual_generic_repository" "hexagonal" {
-  key               = "hexagonal"
-  repo_layout_ref   = "simple-default"
-  repositories      = local.fronted_repositories
+  key                     = "hexagonal"
+  repo_layout_ref         = "simple-default"
+  repositories            = local.fronted_repositories
   default_deployment_repo = artifactory_local_sbt_repository.hexagonal-sbt-local.key
-  description       = "Repository for Tware Hexagonal Artifacts"
-  notes             = "This repo also includes a facade for selected maven artifacts"
-  
-# example: 
-#   includes_pattern  = "com/jfrog/**,cloud/jfrog/**"
-#   excludes_pattern  = "com/google/**"
+  description             = "Repository for Tware Hexagonal Artifacts"
+  notes                   = "This repo also includes a facade for selected maven artifacts"
+
+  # example:
+  #   includes_pattern  = "com/jfrog/**,cloud/jfrog/**"
+  #   excludes_pattern  = "com/google/**"
 }
 
 #resource "random_password" "hexagonal-reader-password" {
@@ -109,13 +110,13 @@ resource "artifactory_virtual_generic_repository" "hexagonal" {
 #}
 
 resource "artifactory_user" "hexagonal-reader" {
-  name                          = "hexagonal-reader"
-  email = "noreply+hexagonalreader@tware.tech"
-#  password = random_password.hexagonal-reader-password[0].result
-  admin                         = false
-  profile_updatable               = false
-  disable_ui_access                = true
-  internal_password_disabled     = true
+  name                       = "hexagonal-reader"
+  email                      = "noreply+hexagonalreader@tware.tech"
+  #  password = random_password.hexagonal-reader-password[0].result
+  admin                      = false
+  profile_updatable          = false
+  disable_ui_access          = true
+  internal_password_disabled = true
 }
 
 #resource "random_password" "hexagonal-deployer-password" {
@@ -125,13 +126,13 @@ resource "artifactory_user" "hexagonal-reader" {
 #}
 
 resource "artifactory_user" "hexagonal-deployer" {
-  name                          = "hexagonal-deployer"
-  email = "noreply+hexagonaldeployer@tware.tech"
-#  password = random_password.hexagonal-deployer-password[0].result
-  admin                         = false
-  profile_updatable               = false
-  disable_ui_access                = true
-  internal_password_disabled     = true
+  name                       = "hexagonal-deployer"
+  email                      = "noreply+hexagonaldeployer@tware.tech"
+  #  password = random_password.hexagonal-deployer-password[0].result
+  admin                      = false
+  profile_updatable          = false
+  disable_ui_access          = true
+  internal_password_disabled = true
 }
 
 resource "artifactory_access_token" "hexagonal-reader-key" {
@@ -146,24 +147,24 @@ resource "artifactory_access_token" "hexagonal-deployer-key" {
 
 
 resource "local_file" "hexagonal-reader-key" {
-  depends_on = [ artifactory_user.hexagonal-reader ]
-  
-    content  = templatefile("${path.module}/templates/artifactory-users.tftpl", {
-      output = {
-        jf_username = "${artifactory_access_token.hexagonal-reader-key.username}"
-        jf_user_key = "${artifactory_access_token.hexagonal-reader-key.access_token}"
-      }
-    })
-    filename = ".tware.hexagonal.artifactory.user.reader.key"
+  depends_on = [artifactory_user.hexagonal-reader]
+
+  content = templatefile("${path.module}/templates/artifactory-users.tftpl", {
+    output = {
+      jf_username = artifactory_access_token.hexagonal-reader-key.username
+      jf_user_key = artifactory_access_token.hexagonal-reader-key.access_token
+    }
+  })
+  filename = ".tware.hexagonal.artifactory.user.reader.key"
 }
 
 resource "local_file" "hexagonal-deployer-key" {
-  depends_on = [ artifactory_user.hexagonal-deployer ]
-  content  = templatefile("${path.module}/templates/artifactory-users.tftpl", {
+  depends_on = [artifactory_user.hexagonal-deployer]
+  content    = templatefile("${path.module}/templates/artifactory-users.tftpl", {
     output = {
-        jf_username = "${artifactory_access_token.hexagonal-deployer-key.username}"
-        jf_user_key = "${artifactory_access_token.hexagonal-deployer-key.access_token}"
-      }
-    })
+      jf_username = artifactory_access_token.hexagonal-deployer-key.username
+      jf_user_key = artifactory_access_token.hexagonal-deployer-key.access_token
+    }
+  })
   filename = ".tware.hexagonal.artifactory.user.deployer.key"
 }

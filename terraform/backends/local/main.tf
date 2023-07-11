@@ -13,7 +13,7 @@ provider "gitlab" {
 
 module "tware-bootstrap-local-gl" {
   providers = {
-    gitlab  = gitlab
+    gitlab = gitlab
   }
   source = "../../modules/tware-bootstrap-local-gl"
   github_mirror_token = var.github_mirror_token
