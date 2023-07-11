@@ -1,4 +1,4 @@
-module "tware-git-project-with-parent" {
+module "tware-hydrator-git-repositories-with-parents" {
   source                   = "../tware-hydrator-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
   git_project_mirrors      = var.git_project_mirrors
@@ -6,10 +6,10 @@ module "tware-git-project-with-parent" {
 
 locals {
   project_data_no_mirrors = {
-    for k, v in module.tware-git-project-with-parent.project_data : k => v if v["mirror_https_clone_address"] == ""
+    for k, v in module.tware-hydrator-git-repositories-with-parents.project_data : k => v if v["mirror_https_clone_address"] == ""
   }
   project_data_with_mirrors = {
-    for k, v in module.tware-git-project-with-parent.project_data : k => v if v["mirror_https_clone_address"] != ""
+    for k, v in module.tware-hydrator-git-repositories-with-parents.project_data : k => v if v["mirror_https_clone_address"] != ""
   }
 }
 
@@ -20,7 +20,7 @@ locals {
 #   path     = each.value["path"]
 # }
 data "gitlab_group" "groups" {
-  for_each  = module.tware-git-project-with-parent.unique_groups_for_management_map
+  for_each  = module.tware-hydrator-git-repositories-with-parents.unique_groups_for_management_map
   full_path = each.value["path"]
 }
 
@@ -40,7 +40,7 @@ resource "gitlab_project" "mirrored_group_projects" {
   visibility_level    = "private"
   import_url_password = split(":", var.github_mirror_token)[1]
   import_url_username = split(":", var.github_mirror_token)[0]
-  import_url          = module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"]
+  import_url          = module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"]
   mirror              = false
 }
 
@@ -72,7 +72,7 @@ resource "gitlab_project_mirror" "group_projects_mirrors" {
   #     url     = "https://username:password@github.com/org/repository.git"
   #     url     = local.project_data_with_mirrors[each.key]["mirror_https_clone_address"]
   #  url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"], "https://")}"
-  url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"], "https://")}"
+  url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"], "https://")}"
   enabled                 = true
   keep_divergent_refs     = false
   only_protected_branches = true
