@@ -149,7 +149,7 @@ plan-remote-backend:
   stage: plan-remote-backend
   script:
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - ls -al
+    - make init
     - make plan
 
 apply-remote-backend:
@@ -164,6 +164,6 @@ apply-remote-backend:
   stage: apply-remote-backend
   script:
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - ls -al
+    - make init
     - make plan
     - make apply
