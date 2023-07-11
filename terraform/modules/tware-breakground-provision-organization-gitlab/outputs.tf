@@ -1,4 +1,4 @@
 output "gl_repositories" {
-  depends_on = [gitlab_project.group_projects]
-  value      = merge(gitlab_project.group_projects, gitlab_project.mirrored_group_projects)
+  depends_on = [gitlab_project.group_projects_no_mirror]
+  value      = merge(gitlab_project.group_projects_no_mirror, gitlab_project.group_projects_with_mirror)
 }
