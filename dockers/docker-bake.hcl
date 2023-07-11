@@ -71,7 +71,7 @@ target "provisioning_terraform_1_4_6" {
   dockerfile = "Dockerfile"
   context    = "./provisioning/terraform/1.4.6"
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM}:3.16",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM}:1.4.6",
     "${REGISTRY}/${PROVISIONING_TERRAFORM}:latest"
   ]
 
