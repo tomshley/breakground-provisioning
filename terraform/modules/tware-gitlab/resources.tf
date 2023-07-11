@@ -44,6 +44,26 @@ resource "gitlab_project" "mirrored_group_projects" {
   mirror              = false
 }
 
+resource "gitlab_branch_protection" "main" {
+  for_each = merge(gitlab_project.group_projects, gitlab_project.mirrored_group_projects)
+
+  project                = each.value.id
+  branch                 = "main"
+  push_access_level      = "maintainer"
+  merge_access_level     = "maintainer"
+  unprotect_access_level = "maintainer"
+}
+
+resource "gitlab_branch_protection" "develop" {
+  for_each = merge(gitlab_project.group_projects, gitlab_project.mirrored_group_projects)
+
+  project                = each.value.id
+  branch                 = "develop"
+  push_access_level      = "maintainer"
+  merge_access_level     = "maintainer"
+  unprotect_access_level = "maintainer"
+}
+
 # https://github.com/settings/tokens
 resource "gitlab_project_mirror" "group_projects_mirrors" {
   for_each                = gitlab_project.mirrored_group_projects
@@ -52,7 +72,7 @@ resource "gitlab_project_mirror" "group_projects_mirrors" {
 #     url     = "https://username:password@github.com/org/repository.git"
 #     url     = local.project_data_with_mirrors[each.key]["mirror_https_clone_address"]
 #  url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"], "https://")}"
-  url                     = module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"]
+  url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"], "https://")}"
   enabled                 = true
   keep_divergent_refs     = false
   only_protected_branches = true
