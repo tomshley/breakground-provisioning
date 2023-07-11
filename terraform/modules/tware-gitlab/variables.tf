@@ -8,6 +8,6 @@ variable "git_project_mirrors" {
 }
 
 variable "github_mirror_token" {
-  type = string
+  type    = string
   default = ""
 }

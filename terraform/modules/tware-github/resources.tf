@@ -28,7 +28,7 @@
 #}
 
 module "tware-git-project-with-parent" {
-  source = "../tware-git-project-with-parent"
+  source                   = "../tware-git-project-with-parent"
   git_projects_with_parent = var.git_projects_with_parent
 }
 

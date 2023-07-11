@@ -40,6 +40,6 @@ module "tware-bootstrap-remote" {
     gitlab = gitlab
     github = github
   }
-  source = "../../modules/tware-bootstrap-remote"
+  source              = "../../modules/tware-bootstrap-remote"
   github_mirror_token = var.github_mirror_token
 }

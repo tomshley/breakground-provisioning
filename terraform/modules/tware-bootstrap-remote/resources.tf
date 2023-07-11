@@ -4,7 +4,7 @@ module "tware-github" {
     random = random
     github = github
   }
-  source                   = "../tware-github"
+  source = "../tware-github"
   #  git_projects_with_parent=[]
   git_projects_with_parent = [(["tware-hexagonal-plugin-sbt", "tomshley", "tomshley"])]
 }
@@ -15,8 +15,8 @@ module "tware-gitlab" {
     random = random
     gitlab = gitlab
   }
-  depends_on               = [module.tware-github]
-  source                   = "../tware-gitlab"
+  depends_on = [module.tware-github]
+  source     = "../tware-gitlab"
   git_projects_with_parent = [
     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]), # path, parent, existing id
     (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]),
