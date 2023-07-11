@@ -1,5 +1,5 @@
 module "tware-git-project-with-parent" {
-  source                   = "../tware-git-project-with-parent"
+  source                   = "../tware-hydrator-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
   git_project_mirrors      = var.git_project_mirrors
 }

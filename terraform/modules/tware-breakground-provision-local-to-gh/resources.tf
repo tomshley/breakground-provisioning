@@ -1,6 +1,6 @@
 
 module "tware-hexagonal-github" {
-  source = "../tware-gitlab"
+  source = "../tware-breakground-provision-organization-gitlab"
   github_root_organization = "tomshley"
 
   git_projects_with_parent = [

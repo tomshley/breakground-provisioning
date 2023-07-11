@@ -50,7 +50,6 @@ plan:
 	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
 	-var state_remote_host="${TF_HOST}" \
-	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}" \
 	-out=.tfstate.plan
 
 apply:
@@ -66,5 +65,4 @@ destroy:
 	-var gitlab_token="${GL_PASSWORD}" \
 	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
-	-var state_remote_host="${TF_HOST}" \
-	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}"
+	-var state_remote_host="${TF_HOST}"
