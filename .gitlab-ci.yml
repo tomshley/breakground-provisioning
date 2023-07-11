@@ -4,6 +4,16 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Terraform.gitlab-ci.yml
 
+.tfmake:plan:
+  script:
+    - cd terraform/backends/remote
+    - make plan
+
+.tfmake:apply:
+  script:
+    - cd terraform/backends/remote
+    - make apply
+
 include:
   - template: Terraform/Base.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
   - template: Jobs/SAST-IaC.gitlab-ci.yml   # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
@@ -24,13 +34,13 @@ validate:
   needs: []
 
 build:
-  extends: .terraform:build
+  extends: .tfmake:plan
   environment:
     name: $TF_STATE_NAME
     action: prepare
 
 deploy:
-  extends: .terraform:deploy
+  extends: .tfmake:apply
   dependencies:
     - build
   environment:
