@@ -39,7 +39,7 @@ reconfigure:
 
 # nb: https://developer.godaddy.com/keys?hbi_code=1
 plan:
-	terraform plan \
+	terraform fmt --recursive && terraform plan \
 	-lock=true \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
