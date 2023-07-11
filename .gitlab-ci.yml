@@ -119,12 +119,11 @@ stages:
 validate-remote:
   stage: validate-remote
   script:
-    - chdir "terraform/backends/remote"
     - gitlab-terraform validate
   allow_failure: true
 
 plan-remote:
   stage: plan-remote
   script:
-    - chdir "terraform/backends/remote"
+    - cd "terraform/backends/remote"
     - make plan
