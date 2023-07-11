@@ -38,43 +38,43 @@
 #             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
 #             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_developorhotfix_to_release.sh
 
-.tfmakeflow:flow_develop:
-  resource_group: ${TF_STATE_NAME}
-  script:
-    - chdir terraform/backends/remote
-    - make init
-    - make validate
-
-.tfmakeflow:flow_release_to_release:
-  resource_group: ${TF_STATE_NAME}
-  script:
-    - chdir terraform/backends/remote
-    - make init
-    - make plan
-
-.tfmakeflow:flow_release_to_tag:
-  resource_group: ${TF_STATE_NAME}
-  script:
-    - chdir terraform/backends/remote
-    - make init
-    - make plan
-    - make apply
-
-.tfmakeflow:flow_developorhotfix_to_release:
-  resource_group: ${TF_STATE_NAME}
-  script:
-    - chdir terraform/backends/remote
-    - make init
-    - make plan
-    - make apply
-
-.tfmakeflow:flow_released_tag:
-  resource_group: ${TF_STATE_NAME}
-  script:
-    - chdir terraform/backends/remote
-    - make init
-    - make plan
-    - make apply
+#.tfmakeflow:flow_develop:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make validate
+#
+#.tfmakeflow:flow_release_to_release:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#
+#.tfmakeflow:flow_release_to_tag:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
+#
+#.tfmakeflow:flow_developorhotfix_to_release:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
+#
+#.tfmakeflow:flow_released_tag:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
 
 # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
 # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
@@ -98,3 +98,15 @@
 #  environment:
 #    name: $TF_STATE_NAME
 #    action: start
+
+image:
+  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
+  TF_STATE_NAME: default      # The name of the state file used by the GitLab Managed Terraform state backend
+
+cache:
+  key: "${TF_ROOT}"
+  paths:
+    - ${TF_ROOT}/.terraform/
