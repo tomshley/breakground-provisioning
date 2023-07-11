@@ -9,4 +9,5 @@ variable "git_project_mirrors" {
 
 variable "github_mirror_token" {
   type = string
+  default = ""
 }
