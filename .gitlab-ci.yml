@@ -1,38 +1,129 @@
-# This file is a template, and might need editing before it works on your project.
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Terraform.gitlab-ci.yml
+# Example:
+# pipelines:
+#   branches:
+#     feature/*:
+#       - step:
+#           trigger: 'automatic'
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
+#     release/*:
+#       - step:
+#           trigger: 'automatic'
+#           deployment: staging
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_release_to_release.sh
+#       - step:
+#           trigger: 'automatic'
+#           deployment: prod
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_release_to_tag.sh
+#     bugfix/*:
+#       - step:
+#           trigger: 'automatic'
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
+#     develop:
+#       - step:
+#           trigger: 'automatic'
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
+#       - step:
+#           trigger: 'automatic'
+#           script:
+#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
+#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_developorhotfix_to_release.sh
 
-include:
-  - template: Terraform/Base.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
-  - template: Jobs/SAST-IaC.gitlab-ci.yml   # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
+#.tfmakeflow:flow_develop:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make validate
+#
+#.tfmakeflow:flow_release_to_release:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#
+#.tfmakeflow:flow_release_to_tag:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
+#
+#.tfmakeflow:flow_developorhotfix_to_release:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
+#
+#.tfmakeflow:flow_released_tag:
+#  resource_group: ${TF_STATE_NAME}
+#  script:
+#    - chdir terraform/backends/remote
+#    - make init
+#    - make plan
+#    - make apply
+
+# https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
+# https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
+#
+#stages:
+#  - validate
+#  - build
+#  - release-candidate
+#
+#validate:
+#  extends: .terraform:validate
+#  needs: []
+#
+#build:
+#  extends: .tfmake:plan
+#
+#release-candidate:
+#  extends: .tfmake:apply
+#  dependencies:
+#    - build
+#  environment:
+#    name: $TF_STATE_NAME
+#    action: start
+
+
+image:
+  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
+
+variables:
+  TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
+  TF_STATE_NAME: default      # The name of the state file used by the GitLab Managed Terraform state backend
+
+cache:
+  key: "${TF_ROOT}"
+  paths:
+    - ${TF_ROOT}/.terraform/
 
 stages:
-  - validate
-  - test
-  - build
-  - deploy
-  - cleanup
+  - validate-remote
+  - plan-remote
 
-fmt:
-  extends: .terraform:fmt
-  needs: []
+validate-remote:
+  stage: validate-remote
+  script:
+    - gitlab-terraform validate
+  allow_failure: true
 
-validate:
-  extends: .terraform:validate
-  needs: []
-
-build:
-  extends: .terraform:build
-  environment:
-    name: $TF_STATE_NAME
-    action: prepare
-
-deploy:
-  extends: .terraform:deploy
-  dependencies:
-    - build
-  environment:
-    name: $TF_STATE_NAME
-    action: start
+#plan-remote:
+#  stage: plan-remote
+#  script:
+#    - cd "terraform/backends/remote"
+#    - make plan
