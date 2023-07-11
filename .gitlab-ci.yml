@@ -113,10 +113,18 @@ cache:
     - ${TF_ROOT}/.terraform/
 
 stages:
-  - validate
+  - validate-remote
+  - plan-remote
 
-validate:
-  stage: validate
+validate-remote:
+  stage: validate-remote
   script:
-    - gitlab-terraform fmt
+    - chdir "terraform/backends/remote"
+    - gitlab-terraform validate
   allow_failure: true
+
+plan-remote:
+  stage: plan-remote
+  script:
+    - chdir "terraform/backends/remote"
+    - make plan
