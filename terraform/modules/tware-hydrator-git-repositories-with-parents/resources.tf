@@ -1,13 +1,21 @@
 locals {
-  mirrored_project_https_clone_urls = {
-    for mp in var.git_project_mirrors : mp[0] => mp[1]
+  project_data_prep_with_mirror_urls = {
+    for mp in var.git_project_mirrors : mp[0] =>  {
+      mirror_https_clone_address = mp[1]
+    }
   }
-  project_data = {
+
+  project_data_prep_no_mirror_urls = {
+    for pd in var.git_projects_with_parent : pd[0] => {
+      mirror_https_clone_address = ""
+    } if !contains(keys(local.project_data_prep_with_mirror_urls), pd[0])
+  }
+
+  project_data_mapped = {
     for pt in var.git_projects_with_parent : pt[0] => {
       parent_id                  = pt[2]
       parent_path                = trimsuffix(pt[1], "/")
       parent_name                = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/"))) - 1)
-      mirror_https_clone_address = lookup(local.mirrored_project_https_clone_urls, pt[0], "")
       repository_files_default = {
         gitignore = {
           filename = ".gitignore"
@@ -30,6 +38,17 @@ locals {
       }
     }
   }
+
+  project_data_no_mirrors = {
+    for k, v in local.project_data_prep_no_mirror_urls : k => merge(v, lookup(local.project_data_mapped, k, {}))
+  }
+
+  project_data_with_mirrors = {
+    for k, v in local.project_data_prep_with_mirror_urls : k => merge(v, lookup(local.project_data_mapped, k, {}))
+  }
+
+  project_data = merge(local.project_data_with_mirrors, local.project_data_no_mirrors)
+
   unique_groups_for_management = distinct([
     for pt in var.git_projects_with_parent : trimsuffix(pt[1], "/") if pt[2] == ""
   ])
