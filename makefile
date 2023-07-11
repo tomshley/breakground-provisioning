@@ -43,7 +43,7 @@ plan:
 	-lock=true \
 	-input=false \
 	-var state_access_token="${TF_PASSWORD}" \
-	-var state_identifier="${PROJECT_ID}" \
+	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
 	-var state_remote_host="${TF_HOST}" \
 	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}" \
@@ -60,7 +60,7 @@ destroy:
 	terraform destroy \
 	-lock=true \
 	-var state_access_token="${TF_PASSWORD}" \
-	-var state_identifier="${PROJECT_ID}" \
+	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
 	-var state_remote_host="${TF_HOST}" \
 	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}"

@@ -17,7 +17,11 @@ plan:
 	terraform plan \
 	-lock=true \
 	-input=false \
-	-var gitlab_token="${TF_PASSWORD}" \
+	-var github_user="${GH_USERNAME}" \
+	-var github_token="${GH_PASSWORD}" \
+	-var github_owner_org="${GH_OWNER_ORG}" \
+	-var github_mirror_token="${GH_MIRROR_TOKEN}" \
+	-var gitlab_token="${GL_PASSWORD}" \
 	-out=.tfstate.plan
 
 apply:
@@ -30,4 +34,4 @@ apply:
 destroy:
 	terraform destroy \
 	-lock=true \
-	-var gitlab_token="${TF_PASSWORD}" 
+	-var gitlab_token="${GL_PASSWORD}"

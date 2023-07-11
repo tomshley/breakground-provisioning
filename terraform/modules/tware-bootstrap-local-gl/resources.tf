@@ -1,7 +1,8 @@
 
 module "tware-hexagonal-gitlab" {
   source = "../tware-gitlab"
-  gitlab_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "64355277"]),
+  git_projects_with_parent = [
+    (["breakground-provisioning", "tomshley", "64355277"])
   ]
+  github_mirror_token = var.github_mirror_token
 }
