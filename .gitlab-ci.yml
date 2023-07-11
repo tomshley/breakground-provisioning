@@ -131,17 +131,29 @@ cache:
     - ${TF_ROOT}/.terraform/
 
 stages:
-  - validate-remote
-  - plan-remote
+  - validate-remote-backend
+  - plan-remote-backend
+  - apply-remote-backend
 
-validate-remote:
-  stage: validate-remote
+validate-remote-backend:
+  stage: validate-remote-backend
   script:
     - gitlab-terraform validate
   allow_failure: true
 
-plan-remote:
-  stage: plan-remote
+plan-remote-backend:
+  stage: plan-remote-backend
   script:
-    - cd {TF_ROOT}
+    - cd ${TF_ROOT}
     - make plan
+
+apply-remote-backend:
+  only:
+    - tags
+  except:
+    - branches
+  stage: apply-remote-backend
+  script:
+    - cd ${TF_ROOT}
+    - make plan
+    - make apply
