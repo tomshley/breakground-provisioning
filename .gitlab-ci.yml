@@ -122,7 +122,7 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 variables:
-  TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform/backends/remote  # The relative path to the root directory of the Terraform project
   TF_STATE_NAME: tomshley-breakground-provisioning      # The name of the state file used by the GitLab Managed Terraform state backend
 
 cache:
@@ -143,5 +143,5 @@ validate-remote:
 plan-remote:
   stage: plan-remote
   script:
-    - -chdir "terraform/backends/remote"
+    - -chdir {TF_ROOT}
     - make plan
