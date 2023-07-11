@@ -142,6 +142,8 @@ stages:
 #  allow_failure: true
 
 plan-remote-backend:
+  before_script:
+    - cd ${TF_ROOT}
   variables:
     SECURE_FILES_DOWNLOAD_PATH: ./
   stage: plan-remote-backend
@@ -151,6 +153,8 @@ plan-remote-backend:
     - make plan
 
 apply-remote-backend:
+  before_script:
+    - cd ${TF_ROOT}
   variables:
     SECURE_FILES_DOWNLOAD_PATH: ./
   only:
