@@ -144,18 +144,15 @@ validate-remote-backend:
 plan-remote-backend:
   variables:
     SECURE_FILES_DOWNLOAD_PATH: ${TF_ROOT}
-  before_script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   stage: plan-remote-backend
   script:
     - cd ${TF_ROOT}
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - make plan
 
 apply-remote-backend:
   variables:
     SECURE_FILES_DOWNLOAD_PATH: ${TF_ROOT}
-  before_script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   only:
     - tags
   except:
@@ -163,5 +160,6 @@ apply-remote-backend:
   stage: apply-remote-backend
   script:
     - cd ${TF_ROOT}
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - make plan
     - make apply
