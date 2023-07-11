@@ -136,12 +136,20 @@ stages:
   - apply-remote-backend
 
 validate-remote-backend:
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: ${TF_ROOT}
+  before_script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   stage: validate-remote-backend
   script:
     - gitlab-terraform validate
   allow_failure: true
 
 plan-remote-backend:
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: ${TF_ROOT}
+  before_script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
   stage: plan-remote-backend
   script:
     - cd ${TF_ROOT}
