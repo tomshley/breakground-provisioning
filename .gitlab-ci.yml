@@ -98,6 +98,11 @@
 #  environment:
 #    name: $TF_STATE_NAME
 #    action: start
+.terraform:fmt:
+  stage: validate
+  script:
+    - gitlab-terraform fmt
+  allow_failure: true
 
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
@@ -110,3 +115,10 @@ cache:
   key: "${TF_ROOT}"
   paths:
     - ${TF_ROOT}/.terraform/
+
+stages:
+  - validate
+
+validate:
+  extends: .terraform:validate
+  needs: [ ]
