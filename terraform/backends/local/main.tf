@@ -11,10 +11,15 @@ provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
 
-module "tware-bootstrap-local-gl" {
+module "tware-breakground-provision-local-gl" {
   providers = {
     gitlab = gitlab
   }
-  source              = "../../modules/tware-bootstrap-local-gl"
+  source              = "../../modules/tware-breakground-provision-local-gl"
   github_mirror_token = var.github_mirror_token
+}
+
+module "tware-breakground-provision-deploy-containers" {
+  depends_on = [module.tware-breakground-provision-local-gl]
+  source     = "../../modules/tware-breakground-provision-deploy-containers"
 }

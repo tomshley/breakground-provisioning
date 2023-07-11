@@ -2,10 +2,6 @@ terraform {
   backend "http" {}
 
   required_providers {
-    #    artifactory = {
-    #      source  = "jfrog/artifactory"
-    #      version = "7.10.0"
-    #    }
     random = {
       source  = "hashicorp/random"
       version = "3.5.1"
@@ -32,14 +28,13 @@ provider "github" {
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
-module "tware-bootstrap-remote" {
+module "tware-breakground-provision-remote-gl" {
   providers = {
-    #    artifactory  = artifactory
     random = random
     local  = local
     gitlab = gitlab
     github = github
   }
-  source              = "../../modules/tware-bootstrap-remote"
+  source              = "../../modules/tware-breakground-provision-remote-gl"
   github_mirror_token = var.github_mirror_token
 }

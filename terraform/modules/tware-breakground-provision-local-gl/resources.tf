@@ -1,5 +1,5 @@
 module "tware-hexagonal-gitlab" {
-  source = "../tware-gitlab"
+  source = "../tware-breakground-provision-organization-gitlab"
   git_projects_with_parent = [
     (["breakground-provisioning", "tomshley", "64355277"])
   ]
