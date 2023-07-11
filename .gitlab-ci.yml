@@ -130,16 +130,16 @@ cache:
   paths:
     - ${TF_ROOT}/.terraform/
 
-stages:
 #  - validate-remote-backend
+stages:
   - plan-remote-backend
   - apply-remote-backend
 
-validate-remote-backend:
-  stage: validate-remote-backend
-  script:
-    - gitlab-terraform validate
-  allow_failure: true
+#validate-remote-backend:
+#  stage: validate-remote-backend
+#  script:
+#    - gitlab-terraform validate
+#  allow_failure: true
 
 plan-remote-backend:
   variables:
