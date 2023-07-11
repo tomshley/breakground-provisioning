@@ -4,13 +4,16 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Terraform.gitlab-ci.yml
 
+
 .tfmake:plan:
   script:
+    - apt-get install -yq make
     - cd terraform/backends/remote
     - make plan
 
 .tfmake:apply:
   script:
+    - apt-get install -yq make
     - cd terraform/backends/remote
     - make apply
 
