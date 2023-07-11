@@ -20,5 +20,6 @@ module "tware-breakground-provision-local-gl" {
 }
 
 module "tware-breakground-provision-deploy-containers" {
-  source              = "../../modules/tware-breakground-provision-deploy-containers"
+  depends_on = [module.tware-breakground-provision-local-gl]
+  source     = "../../modules/tware-breakground-provision-deploy-containers"
 }
