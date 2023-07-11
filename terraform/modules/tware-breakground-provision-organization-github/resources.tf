@@ -33,11 +33,11 @@ module "tware-git-project-with-parent" {
 }
 
 resource "github_repository" "repositories" {
-  for_each     = module.tware-git-project-with-parent.project_data
-  name         = replace(each.key, "/", "-")
+  for_each   = module.tware-git-project-with-parent.project_data
+  name       = replace(each.key, "/", "-")
   visibility = "private"
-  auto_init   = false
-#  full_name = replace(each.value["parent_path"], "/", "-")
+  auto_init  = false
+  #  full_name = replace(each.value["parent_path"], "/", "-")
 }
 
 # if initialized:
