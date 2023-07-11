@@ -1,5 +1,17 @@
 # Tomshley LLC Breakground Provisioning
+### Setup the local docker registry profile
+```shell
+docker buildx create --name mybuilder --use --bootstrap
 
+docker login registry.gitlab.com
+
+# note: use an access token
+# Username: sgoggles
+# Password: #########
+# Login Succeeded
+```
+
+## License
 This repository is the seed for the infrastructure and gitops tenancy of tomshley
 
 Copyright 2023 Tomshley LLC

@@ -1,30 +1,24 @@
 variable "github_user" {
-  type    = string
+  type = string
 }
 variable "github_token" {
-  type    = string
+  type = string
 }
 variable "github_owner_org" {
-  type    = string
+  type = string
 }
 variable "github_mirror_token" {
-  type    = string
+  type = string
 }
 variable "gitlab_token" {
-  type    = string
+  type = string
 }
 variable "state_identifier" {
-  type    = string
+  type = string
 }
 variable "state_username" {
-  type    = string
+  type = string
 }
 variable "state_remote_host" {
-  type    = string
-}
-variable "artifactory_access_token" {
-  type    = string
-}
-variable "artifactory_base_url" {
-  type    = string
+  type = string
 }
