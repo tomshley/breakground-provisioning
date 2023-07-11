@@ -12,10 +12,10 @@ ARG VERSION_CURL=8.1.2-r0
 RUN apk add --no-cache \
       jq=${VERSION_JQ} \
       openssl=${VERSION_OPENSSL} \
-      git=${VERSION_GIT} && \
-      make=${VERSION_MAKE} && \
-      curl=${VERSION_CURL} && \
-      openssh=${VERSION_OPENSSH} && \
+      git=${VERSION_GIT} \
+      make=${VERSION_MAKE} \
+      curl=${VERSION_CURL} \
+      openssh=${VERSION_OPENSSH} \
       gcompat=${VERSION_GCOMPAT} && \
     echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     apk add \
