@@ -1,3 +1,21 @@
+#
+# Copyright 2023 Tomshley LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
+#
+
 # Example:
 # pipelines:
 #   branches:
@@ -104,26 +122,48 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 variables:
-  TF_ROOT: ${CI_PROJECT_DIR}  # The relative path to the root directory of the Terraform project
-  TF_STATE_NAME: default      # The name of the state file used by the GitLab Managed Terraform state backend
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform/backends/remote  # The relative path to the root directory of the Terraform project
+  TF_STATE_NAME: tomshley-breakground-provisioning      # The name of the state file used by the GitLab Managed Terraform state backend
 
 cache:
   key: "${TF_ROOT}"
   paths:
     - ${TF_ROOT}/.terraform/
 
+#  - validate-remote-backend
 stages:
-  - validate-remote
-  - plan-remote
+  - plan-remote-backend
+  - apply-remote-backend
 
-validate-remote:
-  stage: validate-remote
-  script:
-    - gitlab-terraform validate
-  allow_failure: true
-
-#plan-remote:
-#  stage: plan-remote
+#validate-remote-backend:
+#  stage: validate-remote-backend
 #  script:
-#    - cd "terraform/backends/remote"
-#    - make plan
+#    - gitlab-terraform validate
+#  allow_failure: true
+
+plan-remote-backend:
+  before_script:
+    - cd ${TF_ROOT}
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: ./
+  stage: plan-remote-backend
+  script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - make init
+    - make plan
+
+apply-remote-backend:
+  before_script:
+    - cd ${TF_ROOT}
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: ./
+  only:
+    - tags
+  except:
+    - branches
+  stage: apply-remote-backend
+  script:
+    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+    - make init
+    - make plan
+    - make apply
