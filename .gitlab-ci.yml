@@ -7,15 +7,47 @@
 
 .tfmake:plan:
   script:
-    - apt-get install -yq make
     - cd terraform/backends/remote
-    - make plan
+    - terraform init \
+      -backend-config=address=${TF_ADDRESS} \
+      -backend-config=lock_address=${TF_ADDRESS}/lock \
+      -backend-config=unlock_address=${TF_ADDRESS}/lock \
+      -backend-config=username=${TF_USERNAME} \
+      -backend-config=password=${TF_PASSWORD} \
+      -backend-config=lock_method=POST \
+      -backend-config=unlock_method=DELETE \
+      -backend-config=retry_wait_min=5
+    - terraform plan \
+      -lock=true \
+      -input=false \
+      -var github_user="${GH_USERNAME}" \
+      -var github_token="${GH_PASSWORD}" \
+      -var github_owner_org="${GH_OWNER_ORG}" \
+      -var github_mirror_token="${GH_MIRROR_TOKEN}" \
+      -var gitlab_token="${GL_PASSWORD}" \
+      -var state_identifier="${TF_PROJECT_ID}" \
+      -var state_username="${TF_USERNAME}" \
+      -var state_remote_host="${TF_HOST}" \
+      -var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}" \
+      -out=.tfstate.plan
 
 .tfmake:apply:
   script:
-    - apt-get install -yq make
     - cd terraform/backends/remote
-    - make apply
+    - terraform init \
+      -backend-config=address=${TF_ADDRESS} \
+      -backend-config=lock_address=${TF_ADDRESS}/lock \
+      -backend-config=unlock_address=${TF_ADDRESS}/lock \
+      -backend-config=username=${TF_USERNAME} \
+      -backend-config=password=${TF_PASSWORD} \
+      -backend-config=lock_method=POST \
+      -backend-config=unlock_method=DELETE \
+      -backend-config=retry_wait_min=5
+    - terraform apply \
+      -input=false \
+      -auto-approve=true \
+      -lock=true \
+      .tfstate.plan
 
 include:
   - template: Terraform/Base.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
