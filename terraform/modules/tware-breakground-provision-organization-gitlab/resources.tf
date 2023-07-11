@@ -66,8 +66,8 @@ resource "gitlab_branch_protection" "develop" {
 
 # https://github.com/settings/tokens
 resource "gitlab_project_mirror" "group_projects_mirrors" {
-  for_each                = gitlab_project.mirrored_group_projects
-  project                 = each.value.id
+  for_each = gitlab_project.mirrored_group_projects
+  project  = each.value.id
   #   Example:
   #     url     = "https://username:password@github.com/org/repository.git"
   #     url     = local.project_data_with_mirrors[each.key]["mirror_https_clone_address"]
