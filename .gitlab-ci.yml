@@ -122,8 +122,8 @@ validate-remote:
     - gitlab-terraform validate
   allow_failure: true
 
-plan-remote:
-  stage: plan-remote
-  script:
-    - cd "terraform/backends/remote"
-    - make plan
+#plan-remote:
+#  stage: plan-remote
+#  script:
+#    - cd "terraform/backends/remote"
+#    - make plan
