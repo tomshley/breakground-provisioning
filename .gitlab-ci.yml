@@ -173,7 +173,7 @@ stages:
 #  allow_failure: true
 
 plan-remote-backend:
-#  extends: .tware_provider_gitlab_scripted_develop
+  extends: .tware_provider_gitlab_scripted_develop
   stage: plan-remote-backend
   script:
     - echo "plan-remote-backend"
