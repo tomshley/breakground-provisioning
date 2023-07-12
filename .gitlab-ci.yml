@@ -124,6 +124,8 @@ image:
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/terraform/backends/remote  # The relative path to the root directory of the Terraform project
   TF_STATE_NAME: tomshley-breakground-provisioning      # The name of the state file used by the GitLab Managed Terraform state backend
+  TWARE_BUILD_VERSION: cat ${CI_PROJECT_DIR}VERSION
+
 
 cache:
   key: "${TF_ROOT}"
@@ -148,6 +150,7 @@ plan-remote-backend:
     SECURE_FILES_DOWNLOAD_PATH: ./
   stage: plan-remote-backend
   script:
+    - echo ${TWARE_BUILD_VERSION}
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - make init
     - make plan
