@@ -175,7 +175,8 @@ stages:
 plan-remote-backend:
   extends: .tware_provider_gitlab_scripted_develop
   stage: plan-remote-backend
-#  script:
+  script:
+    - echo "plan-remote-backend"
 #    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
 #    - make init
 #    - make plan
