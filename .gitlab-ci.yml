@@ -124,7 +124,7 @@ image:
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/terraform/backends/remote  # The relative path to the root directory of the Terraform project
   TF_STATE_NAME: tomshley-breakground-provisioning      # The name of the state file used by the GitLab Managed Terraform state backend
-  TWARE_BUILD_VERSION: cat ${CI_PROJECT_DIR}VERSION
+  TWARE_BUILD_VERSION: cat ${CI_PROJECT_DIR}/VERSION
 
 
 cache:
