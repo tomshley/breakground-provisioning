@@ -151,7 +151,9 @@ plan-remote-backend:
   stage: plan-remote-backend
   script:
     - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
+    - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
     - echo ${TWARE_BUILD_VERSION}
+    - echo ${TWARE_BUILD_VERSION_NEXT}
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - make init
     - make plan
