@@ -150,7 +150,7 @@ plan-remote-backend:
     SECURE_FILES_DOWNLOAD_PATH: ./
   stage: plan-remote-backend
   script:
-    - export TWARE_BUILD_VERSION="$(cat ${TWARE_BUILD_DIR}VERSION)"
+    - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
     - echo ${TWARE_BUILD_VERSION}
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     - make init
