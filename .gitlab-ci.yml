@@ -117,42 +117,46 @@
 #    name: $TF_STATE_NAME
 #    action: start
 
-.tware.core.exports:bootstrap:
-  extends: .tware.core.exports:versions
-  script:
+.tware.core.exports.bootstrap:
+  extends: .tware.core.exports.versions
+  before_script:
     - export TF_ROOT="${CI_PROJECT_DIR}/terraform/backends/remote"  # The relative path to the root directory of the Terraform project
     - export TF_STATE_NAME="tomshley-breakground-provisioning"      # The name of the state file used by the GitLab Managed Terraform state backend
     - export SECURE_FILES_DOWNLOAD_PATH="${TF_ROOT}/"
 
-.tware.core.exports:non_prod_bootstrap:
-  extends: .tware.core.exports:bootstrap
-  script:
+.tware.core.exports.non_prod_bootstrap:
+  extends: .tware.core.exports.bootstrap
+  before_script:
     - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
     - export TWARE_RELEASE="false"
 
-.tware.core.exports:versions:
-  script:
+.tware.core.exports.versions:
+  before_script:
     - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
     - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
 
-.tware.provider.gitlab.scripted:develop:
-  extends: .tware.core.exports:non_prod_bootstrap
+.tware.provider.gitlab.scripted.develop:
+  extends:
+    - .tware.core.exports.non_prod_bootstrap
+    - .tware.core.quality.run_base_code_quality
+  before_script:
+    - cd ${TF_ROOT}
   script:
-    - echo ".tware.provider.gitlab.scripted:develop beggining"
+    - echo ".tware.provider.gitlab.scripted.develop beggining"
     - echo "TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
 
-.tware.core.quality:run_base_code_quality:
+.tware.core.quality.run_base_code_quality:
   script:
-    - echo ".tware.core.quality:run_base_code_quality beggining"
+    - echo ".tware.core.quality.run_base_code_quality beggining"
 
-.tware.core.quality:run_scripted_with_resolvers:
+.tware.core.quality.run_scripted_with_resolvers:
   script:
-    - echo ".tware.core.quality:run_scripted_with_resolvers beggining"
+    - echo ".tware.core.quality.run_scripted_with_resolvers beggining"
 
-.tware.core.publish:prod_rc_push:
+.tware.core.publish.prod_rc_push:
   script:
-    - echo ".tware.core.publish:prod_rc_push beggining"
+    - echo ".tware.core.publish.prod_rc_push beggining"
 
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
@@ -169,14 +173,12 @@ stages:
 #  allow_failure: true
 
 plan-remote-backend:
-  extends: .tware.provider.gitlab.scripted:develop
-  before_script:
-    - cd ${TF_ROOT}
+  extends: .tware.provider.gitlab.scripted.develop
   stage: plan-remote-backend
-  script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - make init
-    - make plan
+#  script:
+#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+#    - make init
+#    - make plan
 
 apply-remote-backend:
   before_script:
@@ -188,8 +190,8 @@ apply-remote-backend:
   except:
     - branches
   stage: apply-remote-backend
-  script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - make init
-    - make plan
-    - make apply
+#  script:
+#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+#    - make init
+#    - make plan
+#    - make apply
