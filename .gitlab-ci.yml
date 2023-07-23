@@ -118,7 +118,7 @@
 #    action: start
 #
 .tware_core_exports_bootstrap: &tware_core_exports_bootstrap
-  <<: *tware_core_exports_versions
+  # <<: *tware_core_exports_versions
   before_script:
     - export TF_ROOT="${CI_PROJECT_DIR}/terraform/backends/remote"  # The relative path to the root directory of the Terraform project
     - export TF_STATE_NAME="tomshley-breakground-provisioning"      # The name of the state file used by the GitLab Managed Terraform state backend
