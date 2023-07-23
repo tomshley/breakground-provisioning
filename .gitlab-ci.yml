@@ -163,13 +163,12 @@ job1:
   script: echo "hello from job1"
   stage: test
 job2:
-  stage: job2
   extends: job1
   script: echo "hello from job2"
 
 #  - validate-remote-backend
-stages:
-  - job2
+# stages:
+  # - job2
   # - plan-remote-backend
   # - apply-remote-backend
 
