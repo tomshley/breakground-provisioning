@@ -136,18 +136,19 @@
     - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
     - export TWARE_RELEASE="false"
 
+.tware_core_quality_run_base_code_quality: &tware_core_quality_run_base_code_quality
+  script:
+    - echo ".tware_core_quality_run_base_code_quality beginning"
+
+
 .tware_provider_gitlab_scripted_develop: &tware_provider_gitlab_scripted_develop
   <<: *tware_core_exports_non_prod_bootstrap
-  # <<: *tware_core_quality_run_base_code_quality
+  <<: *tware_core_quality_run_base_code_quality
   script:
     - cd ${TF_ROOT}
     - echo ".tware_provider_gitlab_scripted_develop beginning"
     - echo "TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
-
-.tware_core_quality_run_base_code_quality: &tware_core_quality_run_base_code_quality
-  script:
-    - echo ".tware_core_quality_run_base_code_quality beginning"
 
 .tware_core_quality_run_scripted_with_resolvers: &tware_core_quality_run_scripted_with_resolvers
   script:
@@ -160,24 +161,9 @@
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
-# job1:
-#   script: echo "hello from job1"
-#   stage: test
-# job2:
-#   extends: job1
-#   script: echo "hello from job2"
-
-#  - validate-remote-backend
-
 stages:
   - plan-remote-backend
-  # - apply-remote-backend
-
-#validate-remote-backend:
-#  stage: validate-remote-backend
-#  script:
-#    - gitlab-terraform validate
-#  allow_failure: true
+  - apply-remote-backend
 
 plan-remote-backend:
   <<: *tware_provider_gitlab_scripted_develop
@@ -190,20 +176,17 @@ plan-remote-backend:
 #    - make init
 #    - make plan
 
-# apply-remote-backend:
-#   script:
-#     - cd "${TF_ROOT}"
-#   variables:
-#     SECURE_FILES_DOWNLOAD_PATH: ./
-#   only:
-#     - tags
-#   except:
-#     - branches
-#   stage: apply-remote-backend
-#   script:
-#     - echo "apply-remote-backend"
-# #  script:
-# #    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-# #    - make init
-# #    - make plan
-# #    - make apply
+apply-remote-backend:
+  <<: *tware_provider_gitlab_scripted_develop
+  only:
+    - tags
+  except:
+    - branches
+  stage: apply-remote-backend
+  script:
+    - echo "apply-remote-backend"
+#  script:
+#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+#    - make init
+#    - make plan
+#    - make apply
