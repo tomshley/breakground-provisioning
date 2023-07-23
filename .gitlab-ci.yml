@@ -117,8 +117,14 @@
 #    name: $TF_STATE_NAME
 #    action: start
 #
+
+.tware_core_exports_versions: &tware_core_exports_versions
+  script:
+    - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
+    - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
+
 .tware_core_exports_bootstrap: &tware_core_exports_bootstrap
-  # <<: *tware_core_exports_versions
+  <<: *tware_core_exports_versions
   script:
     - export TF_ROOT="${CI_PROJECT_DIR}/terraform/backends/remote"  # The relative path to the root directory of the Terraform project
     - export TF_STATE_NAME="tomshley-breakground-provisioning"      # The name of the state file used by the GitLab Managed Terraform state backend
@@ -129,11 +135,6 @@
   script:
     - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
     - export TWARE_RELEASE="false"
-
-.tware_core_exports_versions: &tware_core_exports_versions
-  script:
-    - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
-    - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
 
 .tware_provider_gitlab_scripted_develop: &tware_provider_gitlab_scripted_develop
   <<: *tware_core_exports_non_prod_bootstrap
