@@ -178,32 +178,32 @@ job2:
 #    - gitlab-terraform validate
 #  allow_failure: true
 
-plan-remote-backend:
-  extends:
-    - .tware_provider_gitlab_scripted_develop
-  stage: plan-remote-backend
-  script:
-    - echo "plan-remote-backend"
-    - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
-    - echo "plan-remote-backend - TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
-#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-#    - make init
-#    - make plan
+# plan-remote-backend:
+#   extends:
+#     - .tware_provider_gitlab_scripted_develop
+#   stage: plan-remote-backend
+#   script:
+#     - echo "plan-remote-backend"
+#     - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
+#     - echo "plan-remote-backend - TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
+# #    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+# #    - make init
+# #    - make plan
 
-apply-remote-backend:
-  before_script:
-    - cd "${TF_ROOT}"
-  variables:
-    SECURE_FILES_DOWNLOAD_PATH: ./
-  only:
-    - tags
-  except:
-    - branches
-  stage: apply-remote-backend
-  script:
-    - echo "apply-remote-backend"
-#  script:
-#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-#    - make init
-#    - make plan
-#    - make apply
+# apply-remote-backend:
+#   before_script:
+#     - cd "${TF_ROOT}"
+#   variables:
+#     SECURE_FILES_DOWNLOAD_PATH: ./
+#   only:
+#     - tags
+#   except:
+#     - branches
+#   stage: apply-remote-backend
+#   script:
+#     - echo "apply-remote-backend"
+# #  script:
+# #    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+# #    - make init
+# #    - make plan
+# #    - make apply
