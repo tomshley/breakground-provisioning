@@ -179,8 +179,9 @@ plan-remote-backend:
     - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
     - export TWARE_RELEASE="false"
     
-    - echo ${TF_STATE_NAME}
+    - echo pwd
     - cd ${TF_ROOT}
+    - echo pwd
     - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
     
     - echo ".tware_provider_gitlab_scripted_develop beginning"
