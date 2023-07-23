@@ -20,35 +20,23 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 stages:
+  - validate-remote-backend
   - plan-remote-backend
   - apply-remote-backend
+
+validate-remote-backend:
+  stage: validate-remote-backend
+  before_script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-validate.sh"
 
 plan-remote-backend:
   stage: plan-remote-backend
   before_script:
-    - export TF_ROOT=${CI_PROJECT_DIR}/terraform/backends/remote
-    - export TF_STATE_NAME=tomshley-breakground-provisioning
-    - export SECURE_FILES_DOWNLOAD_PATH=./
-    - export TOMSHLEY_BREAKGROUND_BUILD_VERSION=$(cat ${CI_PROJECT_DIR}/VERSION)
-    - export TOMSHLEY_BREAKGROUND_RELEASE="false"
-    
-    - echo $(pwd)
-    - cd ${TF_ROOT}
-    - echo $(pwd)
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    
-    - echo ".tomshley_breakground_provider_gitlab_scripted_develop beginning"
-    - echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-    - echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT=${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-    - echo "plan-remote-backend"
-    - echo "plan-remote-backend - TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-    - echo "plan-remote-backend - TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT=${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
   script:
-    - echo $(pwd)
-    - echo $(ls -al)
-    - echo $(cat ${TF_ROOT}/.tfstate.env)
-    - make init
-    - make plan
+    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-plan.sh"
 
 apply-remote-backend:
   only:
@@ -56,25 +44,7 @@ apply-remote-backend:
   except:
     - branches
   stage: apply-remote-backend
+  before_script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
   script:
-    - export TF_ROOT=${CI_PROJECT_DIR}/terraform/backends/remote
-    - export TF_STATE_NAME=tomshley-breakground-provisioning
-    - export SECURE_FILES_DOWNLOAD_PATH=${TF_ROOT}/
-    - export TOMSHLEY_BREAKGROUND_BUILD_VERSION=$(cat ${CI_PROJECT_DIR}/VERSION)
-    - export TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT=$(echo $TOMSHLEY_BREAKGROUND_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "v%d.%d.%d\n", $1, $2, $3 }')
-    - export TOMSHLEY_BREAKGROUND_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TOMSHLEY_BREAKGROUND_BUILD_VERSION
-    - export TOMSHLEY_BREAKGROUND_RELEASE="false"
-    
-    - echo ${TF_STATE_NAME}
-    - cd ${TF_ROOT}
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    
-    - echo ".tomshley_breakground_provider_gitlab_scripted_develop beginning"
-    - echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-    - echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT=${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-    - echo "plan-remote-backend"
-    - echo "plan-remote-backend - TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-    - echo "plan-remote-backend - TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT=${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-    - make init
-    - make plan
-    - make apply
+    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-plan-apply.sh"
