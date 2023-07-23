@@ -168,9 +168,17 @@ stages:
   - apply-remote-backend
 
 plan-remote-backend:
-  <<: *tware_provider_gitlab_scripted_develop
+  # <<: *tware_provider_gitlab_scripted_develop
   stage: plan-remote-backend
   script:
+    - export TWARE_BUILD_VERSION=$(cat ${CI_PROJECT_DIR}/VERSION)
+    - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
+    - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
+    - export TWARE_RELEASE="false"
+    - cd ${TF_ROOT}
+    - echo ".tware_provider_gitlab_scripted_develop beginning"
+    - echo "TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
+    - echo "TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
     - echo "plan-remote-backend"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
