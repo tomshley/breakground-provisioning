@@ -51,7 +51,6 @@ plan-remote-backend:
     - make plan
 
 apply-remote-backend:
-  <<: *tomshley_breakground_provider_gitlab_scripted_develop
   only:
     - tags
   except:
