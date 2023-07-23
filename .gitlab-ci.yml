@@ -190,6 +190,9 @@ plan-remote-backend:
     - echo "plan-remote-backend"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
+    - echo $(pwd)
+    - echo $(ls -al)
+    - echo $(cat ${TF_ROOT}/.tfstate.env)
     - make init
     - make plan
 
