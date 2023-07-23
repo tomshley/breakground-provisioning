@@ -135,9 +135,9 @@
     - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
     - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
 
-.tware_provider_gitlab_scripted_develop: &before_script
+.tware_provider_gitlab_scripted_develop: &tware_provider_gitlab_scripted_develop
   <<: *tware_core_exports_non_prod_bootstrap
-  <<: *tware_core_quality_run_base_code_quality
+  # <<: *tware_core_quality_run_base_code_quality
   before_script:
     - cd ${TF_ROOT}
     - echo ".tware_provider_gitlab_scripted_develop beginning"
