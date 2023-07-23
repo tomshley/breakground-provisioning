@@ -173,9 +173,8 @@ plan-remote-backend:
     - echo "plan-remote-backend"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
-#    
-#    - make init
-#    - make plan
+    - make init
+    - make plan
 
 apply-remote-backend:
   <<: *tware_provider_gitlab_scripted_develop
@@ -186,8 +185,6 @@ apply-remote-backend:
   stage: apply-remote-backend
   script:
     - echo "apply-remote-backend"
-#  script:
-#    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-#    - make init
-#    - make plan
-#    - make apply
+    - make init
+    - make plan
+    - make apply
