@@ -159,10 +159,19 @@
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
+job1:
+  script: echo "hello from job1"
+  stage: test
+job2:
+  stage: job2
+  extends: job1
+  script: echo "hello from job2"
+
 #  - validate-remote-backend
 stages:
-  - plan-remote-backend
-  - apply-remote-backend
+  - job2
+  # - plan-remote-backend
+  # - apply-remote-backend
 
 #validate-remote-backend:
 #  stage: validate-remote-backend
@@ -184,7 +193,7 @@ plan-remote-backend:
 
 apply-remote-backend:
   before_script:
-    - cd ${TF_ROOT}
+    - cd "${TF_ROOT}"
   variables:
     SECURE_FILES_DOWNLOAD_PATH: ./
   only:
