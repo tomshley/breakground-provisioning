@@ -117,43 +117,43 @@
 #    name: $TF_STATE_NAME
 #    action: start
 #
-.tware_core_exports_bootstrap:
-  extends: .tware_core_exports_versions
-  script:
+.tware_core_exports_bootstrap: &tware_core_exports_bootstrap
+  <<: *tware_core_exports_versions
+  before_script:
     - export TF_ROOT="${CI_PROJECT_DIR}/terraform/backends/remote"  # The relative path to the root directory of the Terraform project
     - export TF_STATE_NAME="tomshley-breakground-provisioning"      # The name of the state file used by the GitLab Managed Terraform state backend
     - export SECURE_FILES_DOWNLOAD_PATH="${TF_ROOT}/"
 
-.tware_core_exports_non_prod_bootstrap:
-  extends: .tware_core_exports_bootstrap
-  script:
+.tware_core_exports_non_prod_bootstrap: &tware_core_exports_non_prod_bootstrap
+  <<: *tware_core_exports_bootstrap
+  before_script:
     - export TWARE_HEXAGONAL_PLATFORM_PROJECT_VERSION=$TWARE_BUILD_VERSION
     - export TWARE_RELEASE="false"
 
-.tware_core_exports_versions:
-  script:
+.tware_core_exports_versions: &tware_core_exports_versions
+  before_script:
     - export TWARE_BUILD_VERSION="$(cat ${CI_PROJECT_DIR}/VERSION)"
     - export TWARE_BUILD_VERSION_NEXT=$(echo $TWARE_BUILD_VERSION | awk 'BEGIN { FS="." } { $3++;  if ($3 > 99) { $3=0; $2++; if ($2 > 99) { $2=0; $1++ } } } { printf "%d.%d.%d\n", $1, $2, $3 }')
 
-.tware_provider_gitlab_scripted_develop:
-  extends: [.tware_core_exports_non_prod_bootstrap, .tware_core_quality_run_base_code_quality]
-  script:
+.tware_provider_gitlab_scripted_develop: &before_script
+  <<: *tware_core_exports_non_prod_bootstrap
+  <<: *tware_core_quality_run_base_code_quality
+  before_script:
     - cd ${TF_ROOT}
-  script:
     - echo ".tware_provider_gitlab_scripted_develop beginning"
     - echo "TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
     - echo "TWARE_BUILD_VERSION_NEXT=${TWARE_BUILD_VERSION_NEXT}"
 
-.tware_core_quality_run_base_code_quality:
-  script:
+.tware_core_quality_run_base_code_quality: &tware_core_quality_run_base_code_quality
+  before_script:
     - echo ".tware_core_quality_run_base_code_quality beginning"
 
-.tware_core_quality_run_scripted_with_resolvers:
-  script:
+.tware_core_quality_run_scripted_with_resolvers: &tware_core_quality_run_scripted_with_resolvers
+  before_script:
     - echo ".tware_core_quality_run_scripted_with_resolvers beginning"
 
-.tware_core_publish_prod_rc_push:
-  script:
+.tware_core_publish_prod_rc_push: &tware_core_publish_prod_rc_push
+  before_script:
     - echo ".tware_core_publish_prod_rc_push beginning"
 
 image:
@@ -179,8 +179,7 @@ image:
 #  allow_failure: true
 
 plan-remote-backend:
-  extends:
-    - .tware_provider_gitlab_scripted_develop
+  <<: *tware_provider_gitlab_scripted_develop
   # stage: plan-remote-backend
   script:
     - echo "plan-remote-backend"
