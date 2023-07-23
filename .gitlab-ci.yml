@@ -167,9 +167,9 @@ image:
 #   script: echo "hello from job2"
 
 #  - validate-remote-backend
-# stages:
-  # - job2
-  # - plan-remote-backend
+
+stages:
+  - plan-remote-backend
   # - apply-remote-backend
 
 #validate-remote-backend:
@@ -180,7 +180,7 @@ image:
 
 plan-remote-backend:
   <<: *tware_provider_gitlab_scripted_develop
-  # stage: plan-remote-backend
+  stage: plan-remote-backend
   script:
     - echo "plan-remote-backend"
     - echo "plan-remote-backend - TWARE_BUILD_VERSION=${TWARE_BUILD_VERSION}"
