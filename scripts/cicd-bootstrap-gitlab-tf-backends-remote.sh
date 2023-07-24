@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-export CI_PROJECT_DIR="/Volumes/sgoggles_ssd/⌐■_■-workbench/projects/tomshley/breakground-provisioning"
 
 # shellcheck source=cicd-exports.sh
 . "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"

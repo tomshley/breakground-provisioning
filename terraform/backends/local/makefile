@@ -31,8 +31,11 @@ reconfigure:
 	terraform init \
 	-reconfigure
 
-plan:
-	terraform fmt --recursive && terraform plan \
+validate: init
+	terraform fmt --recursive
+
+plan: init
+	terraform plan \
 	-lock=true \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
@@ -42,14 +45,14 @@ plan:
 	-var gitlab_token="${GL_PASSWORD}" \
 	-out=.tfstate.plan
 
-apply:
+apply: plan
 	terraform apply \
 	-input=false \
 	-auto-approve=true \
 	-lock=true \
 	.tfstate.plan
 
-destroy:
+destroy: init
 	terraform destroy \
 	-lock=true \
 	-var github_user="${GH_USERNAME}" \
