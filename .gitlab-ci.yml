@@ -20,23 +20,21 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 stages:
-  - validate-remote-backend
+  - validate-all
   - plan-remote-backend
   - apply-remote-backend
 
-validate-remote-backend:
+validate-all:
   stage: validate-remote-backend
-  before_script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-validate.sh"
+#    - source "${CI_PROJECT_DIR}/scripts/cicd-dockers-build.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-local-validate.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-validate.sh"
 
 plan-remote-backend:
   stage: plan-remote-backend
-  before_script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-plan.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
 
 apply-remote-backend:
   only:
@@ -44,7 +42,5 @@ apply-remote-backend:
   except:
     - branches
   stage: apply-remote-backend
-  before_script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-terraform-plan-apply.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
