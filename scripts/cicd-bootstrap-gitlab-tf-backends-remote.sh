@@ -3,6 +3,6 @@
 . "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
 
 cd "${TF_BACKENDS_REMOTE_ROOT}" || exit
-echo "bootstrap dir:"
-echo $(pwd)
-curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+export CURRENT_ROOT="${TF_BACKENDS_REMOTE_ROOT}"
+
+. "${CI_PROJECT_DIR}/scripts/cicd-utility-gitlab-grab-secure-files.sh"
