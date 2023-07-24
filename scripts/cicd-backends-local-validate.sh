@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
-. "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab.sh"
+. "${CI_PROJECT_DIR}/scripts/cicd-bootstrap-gitlab-tf-backends-local.sh"
 
-cd "${TF_BACKENDS_LOCAL_ROOT}" || exit
+make validate
