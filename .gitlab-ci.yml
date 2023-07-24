@@ -25,7 +25,7 @@ stages:
   - apply-remote-backend
 
 validate-all:
-  stage: validate-remote-backend
+  stage: validate-all
   script:
 #    - source "${CI_PROJECT_DIR}/scripts/cicd-dockers-build.sh"
     - source "${CI_PROJECT_DIR}/scripts/cicd-backends-local-validate.sh"
