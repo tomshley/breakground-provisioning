@@ -26,8 +26,10 @@ ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
 ARG VERSION_OPENSSH=9.3_p1-r3
 ARG VERSION_CURL=8.1.2-r0
+ARG VERSION_GITFLOW=1.12.3-r1
 
 RUN apk add --no-cache \
+      git-flow=${VERSION_GITFLOW} \
       jq=${VERSION_JQ} \
       openssl=${VERSION_OPENSSL} \
       git=${VERSION_GIT} \

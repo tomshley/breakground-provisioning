@@ -7,7 +7,7 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-# Unless required by applicable law or agreed to in writing, software
+# Unless required by applicable law or agreed to in writing, softomshley_breakground
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
@@ -16,154 +16,55 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-# Example:
-# pipelines:
-#   branches:
-#     feature/*:
-#       - step:
-#           trigger: 'automatic'
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
-#     release/*:
-#       - step:
-#           trigger: 'automatic'
-#           deployment: staging
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_release_to_release.sh
-#       - step:
-#           trigger: 'automatic'
-#           deployment: prod
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_release_to_tag.sh
-#     bugfix/*:
-#       - step:
-#           trigger: 'automatic'
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
-#     develop:
-#       - step:
-#           trigger: 'automatic'
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_develop.sh
-#       - step:
-#           trigger: 'automatic'
-#           script:
-#             - export TWARE_BUILD_DIR=/opt/atlassian/pipelines/agent/build/
-#             - /bin/sh /opt/atlassian/pipelines/agent/build/.tware/provider/bitbucket/scripted/flow_developorhotfix_to_release.sh
-
-#.tfmakeflow:flow_develop:
-#  resource_group: ${TF_STATE_NAME}
-#  script:
-#    - chdir terraform/backends/remote
-#    - make init
-#    - make validate
-#
-#.tfmakeflow:flow_release_to_release:
-#  resource_group: ${TF_STATE_NAME}
-#  script:
-#    - chdir terraform/backends/remote
-#    - make init
-#    - make plan
-#
-#.tfmakeflow:flow_release_to_tag:
-#  resource_group: ${TF_STATE_NAME}
-#  script:
-#    - chdir terraform/backends/remote
-#    - make init
-#    - make plan
-#    - make apply
-#
-#.tfmakeflow:flow_developorhotfix_to_release:
-#  resource_group: ${TF_STATE_NAME}
-#  script:
-#    - chdir terraform/backends/remote
-#    - make init
-#    - make plan
-#    - make apply
-#
-#.tfmakeflow:flow_released_tag:
-#  resource_group: ${TF_STATE_NAME}
-#  script:
-#    - chdir terraform/backends/remote
-#    - make init
-#    - make plan
-#    - make apply
-
-# https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Terraform/Base.gitlab-ci.yml
-# https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/SAST-IaC.gitlab-ci.yml
-#
-#stages:
-#  - validate
-#  - build
-#  - release-candidate
-#
-#validate:
-#  extends: .terraform:validate
-#  needs: []
-#
-#build:
-#  extends: .tfmake:plan
-#
-#release-candidate:
-#  extends: .tfmake:apply
-#  dependencies:
-#    - build
-#  environment:
-#    name: $TF_STATE_NAME
-#    action: start
-
-
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
-variables:
-  TF_ROOT: ${CI_PROJECT_DIR}/terraform/backends/remote  # The relative path to the root directory of the Terraform project
-  TF_STATE_NAME: tomshley-breakground-provisioning      # The name of the state file used by the GitLab Managed Terraform state backend
-
-cache:
-  key: "${TF_ROOT}"
-  paths:
-    - ${TF_ROOT}/.terraform/
-
-#  - validate-remote-backend
 stages:
+  - validate-all
   - plan-remote-backend
+  - promote-build-start
+  - promote-build-publish
+  - promote-build-finish
   - apply-remote-backend
 
-#validate-remote-backend:
-#  stage: validate-remote-backend
-#  script:
-#    - gitlab-terraform validate
-#  allow_failure: true
+validate-all:
+  stage: validate-all
+  script:
+#    - source "${CI_PROJECT_DIR}/scripts/cicd-dockers-build.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-local-validate.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-validate.sh"
 
 plan-remote-backend:
-  before_script:
-    - cd ${TF_ROOT}
-  variables:
-    SECURE_FILES_DOWNLOAD_PATH: ./
   stage: plan-remote-backend
   script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - make init
-    - make plan
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
+
+promote-build-start:
+  stage: promote-build-start
+  only:
+    - develop
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-start.sh"
+
+promote-build-publish:
+  stage: promote-build-publish
+  only:
+    - release/*
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-publish.sh"
+
+promote-build-finish:
+  stage: promote-build-finish
+  only:
+    - release/*
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-finish.sh"
 
 apply-remote-backend:
-  before_script:
-    - cd ${TF_ROOT}
-  variables:
-    SECURE_FILES_DOWNLOAD_PATH: ./
   only:
     - tags
   except:
     - branches
   stage: apply-remote-backend
   script:
-    - curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-    - make init
-    - make plan
-    - make apply
+    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
