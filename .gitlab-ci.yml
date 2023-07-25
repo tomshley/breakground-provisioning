@@ -22,6 +22,9 @@ image:
 stages:
   - validate-all
   - plan-remote-backend
+  - promote-build-start
+  - promote-build-publish
+  - promote-build-finish
   - apply-remote-backend
 
 validate-all:
@@ -35,6 +38,27 @@ plan-remote-backend:
   stage: plan-remote-backend
   script:
     - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
+
+promote-build-start:
+  stage: promote-build-start
+  only:
+    - develop
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-start.sh"
+
+promote-build-publish:
+  stage: promote-build-publish
+  only:
+    - release/*
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-publish.sh"
+
+promote-build-finish:
+  stage: promote-build-finish
+  only:
+    - release/*
+  script:
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-finish.sh"
 
 apply-remote-backend:
   only:
