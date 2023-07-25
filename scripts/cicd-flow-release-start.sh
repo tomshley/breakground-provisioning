@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+. "${CI_PROJECT_DIR}/scripts/cicd-exports.sh"
+
 cd "${CI_PROJECT_DIR}" || exit
 
 # set the -sbt- build to release not, snapshot
