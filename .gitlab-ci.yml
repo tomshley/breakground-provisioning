@@ -75,4 +75,4 @@ promote-build-feature-merge-request:
   only:
     - /^feature\/*/   # We have a very strict naming convention
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-feature-merge-request-gitlab.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-feature-gitlab-merge-request.sh"
