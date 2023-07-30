@@ -24,7 +24,6 @@ stages:
   - validate-all
   - plan-remote-backend
   - promote-build-start
-  - promote-build-release-publish
   - promote-build-release-finish
   - apply-remote-backend
 
@@ -48,17 +47,10 @@ promote-build-start:
     - source /usr/bin/cicd-flow-release-start.sh
     - source /usr/bin/cicd-flow-release-publish.sh
 
-promote-build-release-publish:
-  stage: promote-build-release-publish
-  only:
-    - /^release\/.*
-  script:
-    - source /usr/bin/cicd-flow-release-publish.sh
-
 promote-build-release-finish:
   stage: promote-build-release-finish
   only:
-    - /^release\/.*
+    - /^release\/.*$/
   script:
     - source /usr/bin/cicd-flow-release-finish.sh
 
@@ -74,6 +66,6 @@ apply-remote-backend:
 promote-build-feature-merge-request:
   stage: promote-build-feature-merge-request
   only:
-    - /^feature\/.*
+    - /^feature\/.*$/
   script:
     - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
