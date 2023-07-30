@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh -e
 #
 # Copyright 2023 Tomshley LLC
 #

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh -e
 #
 # Copyright 2023 Tomshley LLC
 #
@@ -18,7 +18,7 @@
 #
 
 # shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
+. "${PWD}/cicd-bootstrap-gitlab.sh"
 
 cd "${TF_BACKENDS_LOCAL_ROOT}" || exit
 

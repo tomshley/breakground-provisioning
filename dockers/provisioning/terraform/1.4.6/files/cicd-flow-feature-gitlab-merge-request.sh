@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh -e
 #
 # Copyright 2023 Tomshley LLC
 #
@@ -16,7 +16,7 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-exports.sh"
+. "${PWD}/cicd-exports.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 

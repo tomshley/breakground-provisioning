@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh -e
 #
 # Copyright 2023 Tomshley LLC
 #
@@ -17,5 +17,5 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 # shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-exports.sh"
+. "${PWD}/cicd-exports.sh"
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh -e
 #
 # Copyright 2023 Tomshley LLC
 #
@@ -16,6 +16,6 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
+. "${PWD}/cicd-bootstrap-gitlab-tf-backends-remote.sh"
 
 make validate
