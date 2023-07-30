@@ -113,7 +113,7 @@ terraform_authenticate_private_registry() {
     if [ "${CI_SERVER_PROTOCOL}" = "https" ] && [ -n "${CI_SERVER_HOST}" ]; then
       tf_token_var_name=TF_TOKEN_$(idn2 "${CI_SERVER_HOST}" | sed 's/\./_/g' | sed 's/-/__/g')
       # If TF_TOKEN_ for the Gitlab domain is not set then use the CI_JOB_TOKEN
-      if [ -z "$(eval "echo \${${tf_token_var_name}:-}")" ]; then
+      if [ -z "$(eval "echo \${{tf_token_var_name}:-}")" ]; then
         export "${tf_token_var_name}"="${CI_JOB_TOKEN}"
       fi
     fi
