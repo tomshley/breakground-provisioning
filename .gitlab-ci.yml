@@ -20,45 +20,46 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 stages:
+  - promote-build-feature-merge-request
   - validate-all
   - plan-remote-backend
   - promote-build-start
-  - promote-build-publish
-  - promote-build-finish
+  - promote-build-release-publish
+  - promote-build-release-finish
   - apply-remote-backend
 
 validate-all:
   stage: validate-all
   script:
-#    - source "${CI_PROJECT_DIR}/scripts/cicd-dockers-build.sh"
-    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-local-validate.sh"
-    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-validate.sh"
+#    - source /usr/bin/cicd-dockers-build.sh
+    - source /usr/bin/cicd-backends-local-validate.sh
+    - source /usr/bin/cicd-backends-remote-validate.sh
 
 plan-remote-backend:
   stage: plan-remote-backend
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
+    - source /usr/bin/cicd-backends-remote-plan.sh
 
 promote-build-start:
   stage: promote-build-start
   only:
     - develop
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-start.sh"
+    - source /usr/bin/cicd-flow-release-start.sh
 
-promote-build-publish:
-  stage: promote-build-publish
+promote-build-release-publish:
+  stage: promote-build-release-publish
   only:
     - release/*
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-publish.sh"
+    - source /usr/bin/cicd-flow-release-publish.sh
 
-promote-build-finish:
-  stage: promote-build-finish
+promote-build-release-finish:
+  stage: promote-build-release-finish
   only:
     - release/*
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-finish.sh"
+    - source /usr/bin/cicd-flow-release-finish.sh
 
 apply-remote-backend:
   only:
@@ -67,4 +68,11 @@ apply-remote-backend:
     - branches
   stage: apply-remote-backend
   script:
-    - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
+    - source /usr/bin/cicd-backends-remote-plan.sh
+
+promote-build-feature-merge-request:
+  stage: promote-build-feature-merge-request
+  only:
+    - /^feature\/*/   # We have a very strict naming convention
+  script:
+    - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
