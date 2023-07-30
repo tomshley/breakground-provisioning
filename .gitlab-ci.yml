@@ -50,14 +50,14 @@ promote-build-start:
 promote-build-release-publish:
   stage: promote-build-release-publish
   only:
-    - release/*
+    - /^release\/.*
   script:
     - source /usr/bin/cicd-flow-release-publish.sh
 
 promote-build-release-finish:
   stage: promote-build-release-finish
   only:
-    - release/*
+    - /^release\/.*
   script:
     - source /usr/bin/cicd-flow-release-finish.sh
 
