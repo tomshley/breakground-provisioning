@@ -67,22 +67,23 @@ echo "${GL_MERGE_REQUEST_BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
 echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
-MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}"`;
+MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import sys, json; print(json.load(sys.stdin))"`;
 #MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
 echo "MERGE_REQUEST_LIST_RAW: ${MERGE_REQUEST_LIST_RAW}"
-EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
-echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
-# No MR found, let's create a new one
-if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
-  curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
-  --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
-  --header "Content-Type: application/json" \
-  --data "${GL_MERGE_REQUEST_BODY}";
 
-  echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_SLUG} for user ${GITLAB_USER_LOGIN}";
-  exit;
-fi
-echo "No new merge request opened"
+#EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
+#echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
+## No MR found, let's create a new one
+#if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
+#  curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
+#  --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
+#  --header "Content-Type: application/json" \
+#  --data "${GL_MERGE_REQUEST_BODY}";
+#
+#  echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_SLUG} for user ${GITLAB_USER_LOGIN}";
+#  exit;
+#fi
+#echo "No new merge request opened"
     
 #
 ## Look which is the default branch
