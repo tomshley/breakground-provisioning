@@ -5,7 +5,7 @@ cd "${CI_PROJECT_DIR}" || exit
 
 # set the -sbt- build to release not, snapshot
 tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
-
+echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
 git fetch
 git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" develop
 
