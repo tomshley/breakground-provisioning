@@ -75,5 +75,4 @@ promote-build-feature-merge-request:
   only:
     - /^feature\/*/   # We have a very strict naming convention
   script:
-    - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN}
-    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-feature-merge-request.sh"
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-feature-merge-request-gitlab.sh"
