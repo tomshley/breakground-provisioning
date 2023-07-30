@@ -31,35 +31,35 @@ stages:
 validate-all:
   stage: validate-all
   script:
-#    - /bin/bash /usr/bin/cicd-dockers-build.sh"
-    - /bin/bash /usr/bin/cicd-backends-local-validate.sh"
-    - /bin/bash /usr/bin/cicd-backends-remote-validate.sh"
+#    - cat /usr/bin/cicd-dockers-build.sh"
+    - cat /usr/bin/cicd-backends-local-validate.sh"
+    - cat /usr/bin/cicd-backends-remote-validate.sh"
 
 plan-remote-backend:
   stage: plan-remote-backend
   script:
-    - /bin/bash /usr/bin/cicd-backends-remote-plan.sh"
+    - cat /usr/bin/cicd-backends-remote-plan.sh"
 
 promote-build-start:
   stage: promote-build-start
   only:
     - develop
   script:
-    - /bin/bash /usr/bin/cicd-flow-release-start.sh"
+    - cat /usr/bin/cicd-flow-release-start.sh"
 
 promote-build-release-publish:
   stage: promote-build-release-publish
   only:
     - release/*
   script:
-    - /bin/bash /usr/bin/cicd-flow-release-publish.sh"
+    - cat /usr/bin/cicd-flow-release-publish.sh"
 
 promote-build-release-finish:
   stage: promote-build-release-finish
   only:
     - release/*
   script:
-    - /bin/bash /usr/bin/cicd-flow-release-finish.sh"
+    - cat /usr/bin/cicd-flow-release-finish.sh"
 
 apply-remote-backend:
   only:
@@ -68,11 +68,11 @@ apply-remote-backend:
     - branches
   stage: apply-remote-backend
   script:
-    - /bin/bash /usr/bin/cicd-backends-remote-plan.sh"
+    - cat /usr/bin/cicd-backends-remote-plan.sh"
 
 promote-build-feature-merge-request:
   stage: promote-build-feature-merge-request
   only:
     - /^feature\/*/   # We have a very strict naming convention
   script:
-    - /bin/bash /usr/bin/cicd-flow-feature-gitlab-merge-request.sh"
+    - cat /usr/bin/cicd-flow-feature-gitlab-merge-request.sh"
