@@ -29,15 +29,11 @@ if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
   done <"${CI_PROJECT_DIR}/.tfstate.env"
 fi
 
-## credit: https://about.gitlab.com/blog/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
-GITLAB_API_PROJECT_HOST="${CI_API_V4_URL}/projects/"
-
-TARGET_BRANCH=develop;
 
 GL_MERGE_REQUEST_BODY="{
 \"project_id\": ${CI_PROJECT_ID},
 \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
-\"target_branch\": \"${TARGET_BRANCH}\",
+\"target_branch\": \"${TOMSHLEY_BREAKGROUND_CI_MERGE_TARGET}\",
 \"remove_source_branch\": false,
 \"force_remove_source_branch\": false,
 \"allow_collaboration\": true,
