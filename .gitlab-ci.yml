@@ -20,13 +20,13 @@ image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform:latest"
 
 stages:
+  - promote-build-feature-merge-request
   - validate-all
   - plan-remote-backend
   - promote-build-start
   - promote-build-release-publish
   - promote-build-release-finish
   - apply-remote-backend
-  - promote-build-feature-merge-request
 
 validate-all:
   stage: validate-all
