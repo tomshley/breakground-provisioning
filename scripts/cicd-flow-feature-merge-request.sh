@@ -38,6 +38,7 @@ BODY="{
     \"assignee_id\":\"${GITLAB_USER_ID}\"
 }";
 
+echo "BODY: ${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
 LISTMR=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}"`;
