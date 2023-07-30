@@ -24,7 +24,7 @@ cd "${CI_PROJECT_DIR}" || exit
 [[ $CI_PROJECT_URL =~ ^https?://[^/]+ ]] && CI_PROJECT_URL="${BASH_REMATCH[0]}/api/v4/projects/"
 
 # Look which is the default branch
-#TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
+#TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
 TARGET_BRANCH="develop"
 
 # The description of our new MR, we want to remove the branch after the MR has
@@ -41,9 +41,9 @@ BODY="{
 echo "BODY: ${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
-#LISTMR=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}"`;
-echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${PRIVATE_TOKEN}";
-LISTMR=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}"`;
+#LISTMR=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}"`;
+echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${CI_JOB_TOKEN}";
+LISTMR=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}"`;
 echo "LISTMR: ${LISTMR}"
 COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 echo "COUNTBRANCHES: ${COUNTBRANCHES}"
@@ -51,7 +51,7 @@ echo "COUNTBRANCHES: ${COUNTBRANCHES}"
 # No MR found, let's create a new one
 if [ ${COUNTBRANCHES} -eq "0" ]; then
     curl -X POST "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests" \
-        --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}" \
+        --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" \
         --header "Content-Type: application/json" \
         --data "${BODY}";
 
