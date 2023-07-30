@@ -29,6 +29,11 @@ group "os" {
     "os_alpine_3_16"
   ]
 }
+group "lang" {
+  targets = [
+    "lang_python3_3_11"
+  ]
+}
 group "provisioning" {
   targets = [
     "provisioning_terraform_1_4_6"
@@ -43,6 +48,9 @@ variable "REGISTRY" {
 variable "OS_ALPINE" {
   default = "os_alpine"
 }
+variable "LANG_PYTHON3" {
+  default = "lang_python3"
+}
 variable "PROVISIONING_TERRAFORM" {
   default = "provisioning_terraform"
 }
@@ -54,6 +62,24 @@ target "os_alpine_3_16" {
   tags       = [
     "${REGISTRY}/${OS_ALPINE}:3.16",
     "${REGISTRY}/${OS_ALPINE}:latest"
+  ]
+
+  platforms = [
+    "linux/386",
+    "linux/amd64",
+    "linux/arm/v6",
+    "linux/arm/v7",
+    "linux/arm64/v8",
+    "linux/ppc64le",
+    "linux/s390x"
+  ]
+}
+target "lang_python3_3_11" {
+  dockerfile = "Dockerfile"
+  context    = "./lang/python3/3.11"
+  tags       = [
+    "${REGISTRY}/${LANG_PYTHON3}:3.11",
+    "${REGISTRY}/${LANG_PYTHON3}:latest"
   ]
 
   platforms = [
