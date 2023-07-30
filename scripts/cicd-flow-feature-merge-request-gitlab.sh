@@ -67,8 +67,7 @@ echo "${GL_MERGE_REQUEST_BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
 echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
-MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import sys, json; print(json.load(sys.stdin))"`;
-#MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import sys, json; print(len(json.load(sys.stdin)))"`;
 echo "MERGE_REQUEST_LIST_RAW: ${MERGE_REQUEST_LIST_RAW}"
 
 #EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
