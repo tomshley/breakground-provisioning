@@ -43,8 +43,8 @@ echo "BODY: ${BODY}"
 # one with the same source branch
 #LISTMR=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}"`;
 LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${PRIVATE_TOKEN}"`;
-COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 echo "LISTMR: ${LISTMR}"
+COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 echo "COUNTBRANCHES: ${COUNTBRANCHES}"
 
 # No MR found, let's create a new one
