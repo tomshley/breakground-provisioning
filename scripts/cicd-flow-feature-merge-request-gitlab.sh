@@ -21,9 +21,13 @@
 cd "${CI_PROJECT_DIR}" || exit
 
 curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-env ?= .tfstate.env
-include $(env)
-export $(shell sed 's/=.*//' $(env))
+if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
+  # shellcheck disable=SC1097
+  while IFS== read -r key value; do
+    # shellcheck disable=SC2163
+    printf -v "$key" %s "$value" && export "$key"
+  done <"${CI_PROJECT_DIR}/.tfstate.env"
+fi
 
 ## credit: https://about.gitlab.com/blog/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
 HOST="${CI_API_V4_URL}/projects/"
