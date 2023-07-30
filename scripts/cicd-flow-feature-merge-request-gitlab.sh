@@ -34,9 +34,11 @@ TARGET_BRANCH=develop;
 
 # The user's token name so that we can open the merge request as the user
 TOKEN_NAME=`echo ${GITLAB_USER_LOGIN}_COMMIT_TOKEN | tr "[a-z]" "[A-Z]"`
+echo "${TOKEN_NAME}"
 
 # See: http://www.tldp.org/LDP/abs/html/parameter-substitution.html search ${!varprefix*}, ${!varprefix@} section
-TEST_KEY=`echo ${!TOKEN_NAME}`
+TEST_KEY1=`echo ${!TOKEN_NAME}`
+echo "${TEST_KEY1}"
 
 # The description of our new MR, we want to remove the branch after the MR has
 # been closed
