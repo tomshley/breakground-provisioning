@@ -30,28 +30,10 @@ if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
 fi
 
 ## credit: https://about.gitlab.com/blog/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
-HOST="${CI_API_V4_URL}/projects/"
+GITLAB_API_PROJECT_HOST="${CI_API_V4_URL}/projects/"
 
-# This script was adapted from:
-# https://about.gitlab.com/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
-
-# TODO determine URL from git repository URL
-#[[ $HOST =~ ^https?://[^/]+ ]] && HOST="${BASH_REMATCH[0]}/api/v4/projects/"
-
-# The branch which we wish to merge into
 TARGET_BRANCH=develop;
 
-# The user's token name so that we can open the merge request as the user
-TOKEN_NAME=`echo ${GITLAB_USER_LOGIN}_COMMIT_TOKEN | tr "[a-z]" "[A-Z]"`
-echo "${TOKEN_NAME}"
-
-# See: http://www.tldp.org/LDP/abs/html/parameter-substitution.html search ${!varprefix*}, ${!varprefix@} section
-TEST_KEY1=`echo ${!TOKEN_NAME}`
-echo "${TEST_KEY1}"
-echo "MY KEY: ${GL_PASSWORD}"
-
-# The description of our new MR, we want to remove the branch after the MR has
-# been closed
 GL_MERGE_REQUEST_BODY="{
 \"project_id\": ${CI_PROJECT_ID},
 \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
@@ -63,65 +45,18 @@ GL_MERGE_REQUEST_BODY="{
 \"title\": \"WIP: ${CI_COMMIT_REF_NAME}\",
 \"assignee_id\":\"${GITLAB_USER_ID}\"
 }";
-echo "${GL_MERGE_REQUEST_BODY}"
-# Require a list of all the merge request and take a look if there is already
-# one with the same source branch
-echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
 
-EXISTING_REQUESTS_FOR_BRANCH=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import os, sys, json; print(len([x for x in json.load(sys.stdin) if x.get('source_branch') == os.environ.get('CI_COMMIT_REF_NAME')]))"`;
-echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
+# An alternate example of \"title\": \"${GITLAB_USER_NAME} merge request for: ${CI_COMMIT_REF_SLUG}\"
 
-#EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
-#echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
-## No MR found, let's create a new one
-#if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
-#  curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
-#  --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
-#  --header "Content-Type: application/json" \
-#  --data "${GL_MERGE_REQUEST_BODY}";
-#
-#  echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_SLUG} for user ${GITLAB_USER_LOGIN}";
-#  exit;
-#fi
-#echo "No new merge request opened"
-    
-#
-## Look which is the default branch
-##TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${TEST_KEY}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
-#TARGET_BRANCH=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${TEST_KEY}" | python3 -c "import sys, json; print(json.load(sys.stdin))"`;
-#echo "${TARGET_BRANCH}"
-#TARGET_BRANCH="develop"
-#
-## The description of our new MR, we want to remove the branch after the MR has
-## been closed
-#GL_MERGE_REQUEST_BODY="{
-#    \"id\": ${CI_PROJECT_ID},
-#    \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
-#    \"target_branch\": \"${TARGET_BRANCH}\",
-#    \"remove_source_branch\": true,
-#    \"title\": \"WIP: ${CI_COMMIT_REF_NAME}\",
-#    \"assignee_id\":\"${GITLAB_USER_ID}\"
-#}";
-#
-#echo "GL_MERGE_REQUEST_BODY: ${GL_MERGE_REQUEST_BODY}"
-## Require a list of all the merge request and take a look if there is already
-## one with the same source branch
-##MERGE_REQUEST_LIST_RAW=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
-#echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${TEST_KEY}";
-#MERGE_REQUEST_LIST_RAW=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
-#echo "MERGE_REQUEST_LIST_RAW: ${MERGE_REQUEST_LIST_RAW}"
-#COUNTBRANCHES=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
-#echo "COUNTBRANCHES: ${COUNTBRANCHES}"
-#
-## No MR found, let's create a new one
-#if [ ${COUNTBRANCHES} -eq "0" ]; then
-#    curl -X POST "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests" \
-#        --header "PRIVATE-TOKEN:${TEST_KEY}" \
-#        --header "Content-Type: application/json" \
-#        --data "${GL_MERGE_REQUEST_BODY}";
-#
-#    echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_NAME} and assigned to you";
-#    exit;
-#fi
-#
-#echo "No new merge request opened";
+EXISTING_REQUESTS_FOR_BRANCH=`curl --silent "${GITLAB_API_PROJECT_HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import os, sys, json; print(len([x for x in json.load(sys.stdin) if x.get('source_branch') == os.environ.get('CI_COMMIT_REF_NAME')]))"`;
+
+if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
+  curl -X POST "${GITLAB_API_PROJECT_HOST}${CI_PROJECT_ID}/merge_requests" \
+  --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
+  --header "Content-Type: application/json" \
+  --data "${GL_MERGE_REQUEST_BODY}";
+
+  echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_SLUG} for user ${GITLAB_USER_LOGIN}";
+  exit;
+fi
+  echo "No new merge request opened"
