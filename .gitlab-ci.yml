@@ -23,9 +23,10 @@ stages:
   - validate-all
   - plan-remote-backend
   - promote-build-start
-  - promote-build-publish
-  - promote-build-finish
+  - promote-build-release-publish
+  - promote-build-release-finish
   - apply-remote-backend
+  - promote-build-feature-merge-request
 
 validate-all:
   stage: validate-all
@@ -46,15 +47,15 @@ promote-build-start:
   script:
     - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-start.sh"
 
-promote-build-publish:
-  stage: promote-build-publish
+promote-build-release-publish:
+  stage: promote-build-release-publish
   only:
     - release/*
   script:
     - source "${CI_PROJECT_DIR}/scripts/cicd-flow-release-publish.sh"
 
-promote-build-finish:
-  stage: promote-build-finish
+promote-build-release-finish:
+  stage: promote-build-release-finish
   only:
     - release/*
   script:
@@ -68,3 +69,11 @@ apply-remote-backend:
   stage: apply-remote-backend
   script:
     - source "${CI_PROJECT_DIR}/scripts/cicd-backends-remote-plan.sh"
+
+promote-build-feature-merge-request:
+  stage: promote-build-feature-merge-request
+  only:
+    - /^feature\/*/   # We have a very strict naming convention
+  script:
+    - HOST=${CI_PROJECT_URL} CI_PROJECT_ID=${CI_PROJECT_ID} CI_COMMIT_REF_NAME=${CI_COMMIT_REF_NAME} GITLAB_USER_ID=${GITLAB_USER_ID} PRIVATE_TOKEN=${PRIVATE_TOKEN}
+    - source "${CI_PROJECT_DIR}/scripts/cicd-flow-feature-merge-request.sh"
