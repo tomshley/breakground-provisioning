@@ -16,21 +16,8 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
+# shellcheck source=cicd-exports.sh
 . "/usr/bin/cicd-exports.sh"
 
-cd "${CI_PROJECT_DIR}" || exit
-
-# set the -sbt- build to release not, snapshot
-tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
-echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-
-. "/usr/bin/cicd-bootstrap-gitconfig.sh"
-
-git fetch
-git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-
-echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${tomshley_project_version_src}"
-
-git add "${tomshley_project_version_src}"
-
-git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+git config --global user.email "${GITLAB_USER_EMAIL}"
+git config --global user.name "${GITLAB_USER_NAME}"
