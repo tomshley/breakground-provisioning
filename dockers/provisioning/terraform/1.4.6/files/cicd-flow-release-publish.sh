@@ -23,6 +23,5 @@ cd "${CI_PROJECT_DIR}" || exit
 . "/usr/bin/cicd-bootstrap-gitconfig.sh"
 
 git fetch
-git checkout "release/${$TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-git pull --rebase origin "release/${$TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
-git push origin "release/${$TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
+git push --set-upstream origin release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
+git push origin
