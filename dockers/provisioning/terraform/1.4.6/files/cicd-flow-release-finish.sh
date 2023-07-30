@@ -20,6 +20,8 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
+. "/usr/bin/cicd-bootstrap-gitconfig.sh"
+
 tomshley_release_finish_message="Tomshley Release Version ${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
 export GIT_MERGE_AUTOEDIT=no ; \
 git fetch ; \
