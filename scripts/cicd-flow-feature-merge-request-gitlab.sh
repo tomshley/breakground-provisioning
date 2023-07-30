@@ -69,7 +69,7 @@ echo "${GL_MERGE_REQUEST_BODY}"
 echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
 
 #EXISTING_REQUESTS_FOR_BRANCH=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import sys, json; print(len([x for x in json.load(sys.stdin) if x.get('source_branch') == os.environ.get('CI_COMMIT_REF_NAME')]))"`;
-EXISTING_REQUESTS_FOR_BRANCH=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import sys, json; print(len([x for x in json.load(sys.stdin) if x.get('source_branch') == os.environ.get('CI_COMMIT_REF_NAME')]))"`;
+EXISTING_REQUESTS_FOR_BRANCH=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests" --header "PRIVATE-TOKEN:${GL_PASSWORD}" | python3 -c "import os, sys, json; print(len([x for x in json.load(sys.stdin) if x.get('source_branch') == os.environ.get('CI_COMMIT_REF_NAME')]))"`;
 echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
 
 #EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
