@@ -52,7 +52,7 @@ echo "MY KEY: ${GL_PASSWORD}"
 
 # The description of our new MR, we want to remove the branch after the MR has
 # been closed
-BODY="{
+GL_MERGE_REQUEST_BODY="{
 \"project_id\": ${CI_PROJECT_ID},
 \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
 \"target_branch\": \"${TARGET_BRANCH}\",
@@ -60,14 +60,16 @@ BODY="{
 \"force_remove_source_branch\": false,
 \"allow_collaboration\": true,
 \"subscribed\" : true,
-\"title\": \"${GITLAB_USER_NAME} merge request for: ${CI_COMMIT_REF_SLUG}\"
+\"title\": \"WIP: ${CI_COMMIT_REF_NAME}\",
+\"assignee_id\":\"${GITLAB_USER_ID}\"
 }";
-echo "${BODY}"
+echo "${GL_MERGE_REQUEST_BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
 echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
 MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}"`;
 #MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+echo "MERGE_REQUEST_LIST_RAW: ${MERGE_REQUEST_LIST_RAW}"
 EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
 # No MR found, let's create a new one
@@ -75,7 +77,7 @@ if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
   curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
   --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
   --header "Content-Type: application/json" \
-  --data "${BODY}";
+  --data "${GL_MERGE_REQUEST_BODY}";
 
   echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_SLUG} for user ${GITLAB_USER_LOGIN}";
   exit;
@@ -91,7 +93,7 @@ echo "No new merge request opened"
 #
 ## The description of our new MR, we want to remove the branch after the MR has
 ## been closed
-#BODY="{
+#GL_MERGE_REQUEST_BODY="{
 #    \"id\": ${CI_PROJECT_ID},
 #    \"source_branch\": \"${CI_COMMIT_REF_NAME}\",
 #    \"target_branch\": \"${TARGET_BRANCH}\",
@@ -100,7 +102,7 @@ echo "No new merge request opened"
 #    \"assignee_id\":\"${GITLAB_USER_ID}\"
 #}";
 #
-#echo "BODY: ${BODY}"
+#echo "GL_MERGE_REQUEST_BODY: ${GL_MERGE_REQUEST_BODY}"
 ## Require a list of all the merge request and take a look if there is already
 ## one with the same source branch
 ##MERGE_REQUEST_LIST_RAW=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
@@ -115,7 +117,7 @@ echo "No new merge request opened"
 #    curl -X POST "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests" \
 #        --header "PRIVATE-TOKEN:${TEST_KEY}" \
 #        --header "Content-Type: application/json" \
-#        --data "${BODY}";
+#        --data "${GL_MERGE_REQUEST_BODY}";
 #
 #    echo "Opened a new merge request: WIP: ${CI_COMMIT_REF_NAME} and assigned to you";
 #    exit;
