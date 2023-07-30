@@ -21,10 +21,12 @@
 cd "${CI_PROJECT_DIR}" || exit
 
 ## credit: https://about.gitlab.com/blog/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
-[[ $CI_PROJECT_URL =~ ^https?://[^/]+ ]] && CI_PROJECT_URL="${BASH_REMATCH[0]}/api/v4/projects/"
-echo "${CI_API_V4_URL}"
+CI_PROJECT_URL="${CI_API_V4_URL}/projects/"
+
 # Look which is the default branch
 #TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
+TARGET_BRANCH=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
+echo "${TARGET_BRANCH}"
 TARGET_BRANCH="develop"
 
 # The description of our new MR, we want to remove the branch after the MR has
