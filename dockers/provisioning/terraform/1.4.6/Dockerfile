@@ -64,23 +64,23 @@ COPY files/cicd-flow-release-publish.sh /usr/bin/cicd-flow-release-publish.sh
 COPY files/cicd-flow-release-start.sh /usr/bin/cicd-flow-release-start.sh
 COPY files/gitlab-terraform.sh /usr/bin/gitlab-terraform.sh
 
-RUN chmod +x cicd-backends-local-validate.sh
-RUN chmod +x cicd-backends-remote-plan-apply.sh
-RUN chmod +x cicd-backends-remote-plan.sh
-RUN chmod +x cicd-backends-remote-validate.sh
-RUN chmod +x cicd-bootstrap-gitlab-dockers.sh
-RUN chmod +x cicd-bootstrap-gitlab-tf-backends-local.sh
-RUN chmod +x cicd-bootstrap-gitlab-tf-backends-remote.sh
-RUN chmod +x cicd-bootstrap-gitlab.sh
-RUN chmod +x cicd-dockers-build-push.sh
-RUN chmod +x cicd-dockers-build.sh
-RUN chmod +x cicd-exports.sh
-RUN chmod +x cicd-flow-feature-gitlab-merge-request.sh
-RUN chmod +x cicd-flow-feature-update.sh
-RUN chmod +x cicd-flow-release-finish.sh
-RUN chmod +x cicd-flow-release-publish.sh
-RUN chmod +x cicd-flow-release-start.sh
-RUN chmod +x gitlab-terraform.sh
+RUN chmod +x /usr/bin/cicd-backends-local-validate.sh
+RUN chmod +x /usr/bin/cicd-backends-remote-plan-apply.sh
+RUN chmod +x /usr/bin/cicd-backends-remote-plan.sh
+RUN chmod +x /usr/bin/cicd-backends-remote-validate.sh
+RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-dockers.sh
+RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
+RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
+RUN chmod +x /usr/bin/cicd-bootstrap-gitlab.sh
+RUN chmod +x /usr/bin/cicd-dockers-build-push.sh
+RUN chmod +x /usr/bin/cicd-dockers-build.sh
+RUN chmod +x /usr/bin/cicd-exports.sh
+RUN chmod +x /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
+RUN chmod +x /usr/bin/cicd-flow-feature-update.sh
+RUN chmod +x /usr/bin/cicd-flow-release-finish.sh
+RUN chmod +x /usr/bin/cicd-flow-release-publish.sh
+RUN chmod +x /usr/bin/cicd-flow-release-start.sh
+RUN chmod +x /usr/bin/gitlab-terraform.sh
 
 # use this for direct access to TF, not for GitLab Usage: ENTRYPOINT ["terraform"]
 ENTRYPOINT []
