@@ -16,6 +16,6 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "${PWD}/cicd-bootstrap-gitlab-tf-backends-remote.sh"
+. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
 
 make validate

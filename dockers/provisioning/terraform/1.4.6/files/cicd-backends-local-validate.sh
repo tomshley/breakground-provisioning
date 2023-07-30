@@ -17,6 +17,6 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-. "${PWD}/cicd-bootstrap-gitlab-tf-backends-local.sh"
+. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh"
 
 make validate

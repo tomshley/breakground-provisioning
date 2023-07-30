@@ -18,7 +18,7 @@
 #
 
 # shellcheck source=cicd-exports.sh
-. "${PWD}/cicd-bootstrap-gitlab.sh"
+. "/usr/bin/cicd-bootstrap-gitlab.sh"
 
 cd "${TF_BACKENDS_LOCAL_ROOT}" || exit
 

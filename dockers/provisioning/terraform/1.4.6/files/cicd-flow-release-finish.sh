@@ -16,7 +16,7 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "${PWD}/cicd-exports.sh"
+. "/usr/bin/cicd-exports.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
