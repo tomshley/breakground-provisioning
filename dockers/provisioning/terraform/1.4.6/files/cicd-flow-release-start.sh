@@ -20,24 +20,11 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
-curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
-  # shellcheck disable=SC1097
-  while IFS== read -r key value; do
-    # shellcheck disable=SC2163
-    printf -v "$key" %s "$value" && export "$key"
-  done <"${CI_PROJECT_DIR}/.tfstate.env"
-fi
-
 # set the -sbt- build to release not, snapshot
 tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
 echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
 
 . "/usr/bin/cicd-bootstrap-gitconfig.sh"
-CI_PROJECT_URL_TRIMMED=$(echo ${CI_PROJECT_URL} | sed 's/https\?:\/\///')
-GITLAB_PROJECT_HTTPS_URL="https://${GITLAB_USER_LOGIN}:${GL_PASSWORD}@${CI_PROJECT_URL_TRIMMED}.git"
-echo "${GITLAB_PROJECT_HTTPS_URL}"
-git remote set-url origin "${GITLAB_PROJECT_HTTPS_URL}"
 
 git fetch
 git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
