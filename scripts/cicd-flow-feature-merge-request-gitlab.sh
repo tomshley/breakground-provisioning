@@ -66,12 +66,12 @@ echo "${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
 echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
-LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}"`;
-#LISTMR=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
-COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
-
+MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}"`;
+#MERGE_REQUEST_LIST_RAW=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+EXISTING_REQUESTS_FOR_BRANCH=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
+echo "EXISTING_REQUESTS_FOR_BRANCH: ${EXISTING_REQUESTS_FOR_BRANCH}"
 # No MR found, let's create a new one
-if [ ${COUNTBRANCHES} -eq "0" ]; then
+if [ ${EXISTING_REQUESTS_FOR_BRANCH} -eq "0" ]; then
   curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
   --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
   --header "Content-Type: application/json" \
@@ -103,11 +103,11 @@ echo "No new merge request opened"
 #echo "BODY: ${BODY}"
 ## Require a list of all the merge request and take a look if there is already
 ## one with the same source branch
-##LISTMR=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+##MERGE_REQUEST_LIST_RAW=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
 #echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${TEST_KEY}";
-#LISTMR=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
-#echo "LISTMR: ${LISTMR}"
-#COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
+#MERGE_REQUEST_LIST_RAW=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+#echo "MERGE_REQUEST_LIST_RAW: ${MERGE_REQUEST_LIST_RAW}"
+#COUNTBRANCHES=`echo ${MERGE_REQUEST_LIST_RAW} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 #echo "COUNTBRANCHES: ${COUNTBRANCHES}"
 #
 ## No MR found, let's create a new one
