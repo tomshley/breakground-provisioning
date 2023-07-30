@@ -20,6 +20,11 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
+curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+env ?= .tfstate.env
+include $(env)
+export $(shell sed 's/=.*//' $(env))
+
 ## credit: https://about.gitlab.com/blog/2017/09/05/how-to-automatically-create-a-new-mr-on-gitlab-with-gitlab-ci/
 HOST="${CI_API_V4_URL}/projects/"
 
@@ -55,15 +60,15 @@ BODY="{
 echo "${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
-echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${MASKED_TOKEN}";
-LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${MASKED_TOKEN}"`;
+echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${TF_PASSWORD}";
+LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TF_PASSWORD}"`;
 #LISTMR=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
 COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 
 # No MR found, let's create a new one
 if [ ${COUNTBRANCHES} -eq "0" ]; then
   curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
-  --header "PRIVATE-TOKEN:${MASKED_TOKEN}" \
+  --header "PRIVATE-TOKEN:${TF_PASSWORD}" \
   --header "Content-Type: application/json" \
   --data "${BODY}";
 
