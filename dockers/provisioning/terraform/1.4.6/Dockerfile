@@ -45,8 +45,42 @@ RUN apk add --no-cache \
     mkdir /var/cache/apk -p
 
 WORKDIR /
-COPY files/gitlab-terraform.sh /usr/bin/gitlab-terraform
-RUN chmod +x /usr/bin/gitlab-terraform
+
+COPY files/cicd-backends-local-validate.sh /usr/bin/cicd-backends-local-validate.sh
+COPY files/cicd-backends-remote-plan-apply.sh /usr/bin/cicd-backends-remote-plan-apply.sh
+COPY files/cicd-backends-remote-plan.sh /usr/bin/cicd-backends-remote-plan.sh
+COPY files/cicd-backends-remote-validate.sh /usr/bin/cicd-backends-remote-validate.sh
+COPY files/cicd-bootstrap-gitlab-dockers.sh /usr/bin/cicd-bootstrap-gitlab-dockers.sh
+COPY files/cicd-bootstrap-gitlab-tf-backends-local.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
+COPY files/cicd-bootstrap-gitlab-tf-backends-remote.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
+COPY files/cicd-bootstrap-gitlab.sh /usr/bin/cicd-bootstrap-gitlab.sh
+COPY files/cicd-dockers-build-push.sh /usr/bin/cicd-dockers-build-push.sh
+COPY files/cicd-dockers-build.sh /usr/bin/cicd-dockers-build.sh
+COPY files/cicd-exports.sh /usr/bin/cicd-exports.sh
+COPY files/cicd-flow-feature-gitlab-merge-request.sh /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
+COPY files/cicd-flow-feature-update.sh /usr/bin/cicd-flow-feature-update.sh
+COPY files/cicd-flow-release-finish.sh /usr/bin/cicd-flow-release-finish.sh
+COPY files/cicd-flow-release-publish.sh /usr/bin/cicd-flow-release-publish.sh
+COPY files/cicd-flow-release-start.sh /usr/bin/cicd-flow-release-start.sh
+COPY files/gitlab-terraform.sh /usr/bin/gitlab-terraform.sh
+
+RUN chmod +x cicd-backends-local-validate.sh
+RUN chmod +x cicd-backends-remote-plan-apply.sh
+RUN chmod +x cicd-backends-remote-plan.sh
+RUN chmod +x cicd-backends-remote-validate.sh
+RUN chmod +x cicd-bootstrap-gitlab-dockers.sh
+RUN chmod +x cicd-bootstrap-gitlab-tf-backends-local.sh
+RUN chmod +x cicd-bootstrap-gitlab-tf-backends-remote.sh
+RUN chmod +x cicd-bootstrap-gitlab.sh
+RUN chmod +x cicd-dockers-build-push.sh
+RUN chmod +x cicd-dockers-build.sh
+RUN chmod +x cicd-exports.sh
+RUN chmod +x cicd-flow-feature-gitlab-merge-request.sh
+RUN chmod +x cicd-flow-feature-update.sh
+RUN chmod +x cicd-flow-release-finish.sh
+RUN chmod +x cicd-flow-release-publish.sh
+RUN chmod +x cicd-flow-release-start.sh
+RUN chmod +x gitlab-terraform.sh
 
 # use this for direct access to TF, not for GitLab Usage: ENTRYPOINT ["terraform"]
 ENTRYPOINT []
