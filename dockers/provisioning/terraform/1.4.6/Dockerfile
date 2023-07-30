@@ -50,6 +50,7 @@ COPY files/cicd-backends-local-validate.sh /usr/bin/cicd-backends-local-validate
 COPY files/cicd-backends-remote-plan-apply.sh /usr/bin/cicd-backends-remote-plan-apply.sh
 COPY files/cicd-backends-remote-plan.sh /usr/bin/cicd-backends-remote-plan.sh
 COPY files/cicd-backends-remote-validate.sh /usr/bin/cicd-backends-remote-validate.sh
+COPY files/cicd-bootstrap-gitconfig.sh /usr/bin/cicd-bootstrap-gitconfig.sh
 COPY files/cicd-bootstrap-gitlab-dockers.sh /usr/bin/cicd-bootstrap-gitlab-dockers.sh
 COPY files/cicd-bootstrap-gitlab-tf-backends-local.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
 COPY files/cicd-bootstrap-gitlab-tf-backends-remote.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
@@ -68,6 +69,7 @@ RUN chmod +x /usr/bin/cicd-backends-local-validate.sh
 RUN chmod +x /usr/bin/cicd-backends-remote-plan-apply.sh
 RUN chmod +x /usr/bin/cicd-backends-remote-plan.sh
 RUN chmod +x /usr/bin/cicd-backends-remote-validate.sh
+RUN chmod +x /usr/bin/cicd-bootstrap-gitconfig.sh
 RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-dockers.sh
 RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
 RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh

@@ -46,6 +46,7 @@ promote-build-start:
     - develop
   script:
     - source /usr/bin/cicd-flow-release-start.sh
+    - source /usr/bin/cicd-flow-release-publish.sh
 
 promote-build-release-publish:
   stage: promote-build-release-publish
