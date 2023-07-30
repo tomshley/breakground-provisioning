@@ -16,16 +16,16 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/lang_python3:3.11
 
 ARG VERSION_JQ=1.6-r3
-ARG VERSION_OPENSSL=3.1.1-r1
-ARG VERSION_ALPINE_TERRAFORM=1.5.2-r0
+ARG VERSION_OPENSSL=3.1.1-r3
+ARG VERSION_ALPINE_TERRAFORM=1.4.6-r1
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
-ARG VERSION_OPENSSH=9.3_p1-r3
-ARG VERSION_CURL=8.1.2-r0
+ARG VERSION_OPENSSH=9.3_p2-r0
+ARG VERSION_CURL=8.2.1-r0
 ARG VERSION_GITFLOW=1.12.3-r1
 
 RUN apk add --no-cache \
