@@ -24,8 +24,8 @@ cd "${CI_PROJECT_DIR}" || exit
 CI_PROJECT_URL="${CI_API_V4_URL}/projects/"
 
 # Look which is the default branch
-#TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
-TARGET_BRANCH=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" | python3 -c "import sys, json; print(json.load(sys.stdin))"`;
+#TARGET_BRANCH=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${TEST_KEY}" | python3 -c "import sys, json; print(json.load(sys.stdin)['default_branch'])"`;
+TARGET_BRANCH=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}" --header "PRIVATE-TOKEN:${TEST_KEY}" | python3 -c "import sys, json; print(json.load(sys.stdin))"`;
 echo "${TARGET_BRANCH}"
 TARGET_BRANCH="develop"
 
@@ -43,9 +43,9 @@ BODY="{
 echo "BODY: ${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
-#LISTMR=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}"`;
-echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${CI_JOB_TOKEN}";
-LISTMR=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}"`;
+#LISTMR=`curl --silent "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
+echo "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${TEST_KEY}";
+LISTMR=`curl "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
 echo "LISTMR: ${LISTMR}"
 COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 echo "COUNTBRANCHES: ${COUNTBRANCHES}"
@@ -53,7 +53,7 @@ echo "COUNTBRANCHES: ${COUNTBRANCHES}"
 # No MR found, let's create a new one
 if [ ${COUNTBRANCHES} -eq "0" ]; then
     curl -X POST "${CI_PROJECT_URL}${CI_PROJECT_ID}/merge_requests" \
-        --header "PRIVATE-TOKEN:${CI_JOB_TOKEN}" \
+        --header "PRIVATE-TOKEN:${TEST_KEY}" \
         --header "Content-Type: application/json" \
         --data "${BODY}";
 
