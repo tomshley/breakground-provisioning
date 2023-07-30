@@ -73,6 +73,6 @@ apply-remote-backend:
 promote-build-feature-merge-request:
   stage: promote-build-feature-merge-request
   only:
-    - /^feature\/*/   # We have a very strict naming convention
+    - /^feature\/.*
   script:
     - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
