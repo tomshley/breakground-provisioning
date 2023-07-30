@@ -48,6 +48,7 @@ echo "${TOKEN_NAME}"
 # See: http://www.tldp.org/LDP/abs/html/parameter-substitution.html search ${!varprefix*}, ${!varprefix@} section
 TEST_KEY1=`echo ${!TOKEN_NAME}`
 echo "${TEST_KEY1}"
+echo "MY KEY: ${GL_PASSWORD}"
 
 # The description of our new MR, we want to remove the branch after the MR has
 # been closed
@@ -64,15 +65,15 @@ BODY="{
 echo "${BODY}"
 # Require a list of all the merge request and take a look if there is already
 # one with the same source branch
-echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${TF_PASSWORD}";
-LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TF_PASSWORD}"`;
+echo "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened --header PRIVATE-TOKEN:${GL_PASSWORD}";
+LISTMR=`curl "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${GL_PASSWORD}"`;
 #LISTMR=`curl --silent "${HOST}${CI_PROJECT_ID}/merge_requests?state=opened" --header "PRIVATE-TOKEN:${TEST_KEY}"`;
 COUNTBRANCHES=`echo ${LISTMR} | grep -o "\"source_branch\":\"${CI_COMMIT_REF_NAME}\"" | wc -l`;
 
 # No MR found, let's create a new one
 if [ ${COUNTBRANCHES} -eq "0" ]; then
   curl -X POST "${HOST}${CI_PROJECT_ID}/merge_requests" \
-  --header "PRIVATE-TOKEN:${TF_PASSWORD}" \
+  --header "PRIVATE-TOKEN:${GL_PASSWORD}" \
   --header "Content-Type: application/json" \
   --data "${BODY}";
 
