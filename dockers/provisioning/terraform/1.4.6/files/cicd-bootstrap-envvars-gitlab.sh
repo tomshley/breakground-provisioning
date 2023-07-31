@@ -17,13 +17,14 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 . "/usr/bin/cicd-exports.sh"
-. "/usr/bin/cicd-bootstrap-envvars-gitlab.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
-. "/usr/bin/cicd-bootstrap-gitconfig.sh"
-echo "Running Publish"
-git branch --set-upstream-to=origin/release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
-git fetch
-git pull origin release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} --rebase --prune
-git push origin
+curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
+  # shellcheck disable=SC1097
+  while IFS== read -r key value; do
+    # shellcheck disable=SC2163
+    printf -v "$key" %s "$value" && export "$key"
+  done <"${CI_PROJECT_DIR}/.tfstate.env"
+fi
