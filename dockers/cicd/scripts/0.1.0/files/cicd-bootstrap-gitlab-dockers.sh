@@ -19,4 +19,14 @@
 # shellcheck source=cicd-exports.sh
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh"
 
+cd "${DOCKERS_LOCAL_ROOT}" || exit
+
 curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+
+docker info
+docker-compose --version
+docker buildx version
+docker buildx rm toqen_tware_microcontainers_buildx
+docker buildx create --name toqen_tware_microcontainers_buildx
+docker buildx use toqen_tware_microcontainers_buildx
+docker buildx inspect toqen_tware_microcontainers_buildx --bootstrap
