@@ -28,6 +28,8 @@ stages:
   - apply-remote-backend
 
 validate-all:
+  except:
+    - tags
   stage: validate-all
   script:
 #    - source /usr/bin/cicd-dockers-build.sh
@@ -54,6 +56,13 @@ promote-build-release-finish:
   script:
     - source /usr/bin/cicd-flow-release-finish.sh
 
+promote-build-feature-merge-request:
+  stage: promote-build-feature-merge-request
+  only:
+    - /^feature\/.*$/
+  script:
+    - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
+
 apply-remote-backend:
   only:
     - tags
@@ -62,10 +71,3 @@ apply-remote-backend:
   stage: apply-remote-backend
   script:
     - source /usr/bin/cicd-backends-remote-plan.sh
-
-promote-build-feature-merge-request:
-  stage: promote-build-feature-merge-request
-  only:
-    - /^feature\/.*$/
-  script:
-    - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
