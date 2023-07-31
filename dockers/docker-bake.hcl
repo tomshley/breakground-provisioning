@@ -18,7 +18,7 @@
 
 group "default" {
   targets = [
-    "os",
+    "builders",
     "lang",
     "cicd",
     "provisioning"
@@ -26,9 +26,9 @@ group "default" {
 }
 
 # region GROUPS
-group "os" {
+group "builders" {
   targets = [
-    "os_alpine_3_16"
+    "builders_dindx_0_1_0"
   ]
 }
 group "lang" {
@@ -52,8 +52,8 @@ group "provisioning" {
 variable "REGISTRY" {
   default = "registry.gitlab.com/tomshley/breakground-provisioning"
 }
-variable "OS_ALPINE" {
-  default = "os_alpine"
+variable "BUILDERS_DINDX" {
+  default = "builders_dindx"
 }
 variable "LANG_PYTHON3" {
   default = "lang_python3"
@@ -66,24 +66,6 @@ variable "PROVISIONING_TERRAFORM" {
 }
 # endregion
 
-target "os_alpine_3_16" {
-  dockerfile = "Dockerfile"
-  context    = "./os/alpine/3.16"
-  tags       = [
-    "${REGISTRY}/${OS_ALPINE}:3.16",
-    "${REGISTRY}/${OS_ALPINE}:latest"
-  ]
-
-  platforms = [
-    "linux/386",
-    "linux/amd64",
-    "linux/arm/v6",
-    "linux/arm/v7",
-    "linux/arm64/v8",
-    "linux/ppc64le",
-    "linux/s390x"
-  ]
-}
 target "lang_python3_3_11" {
   dockerfile = "Dockerfile"
   context    = "./lang/python3/3.11"
@@ -108,6 +90,24 @@ target "provisioning_terraform_1_4_6" {
   tags       = [
     "${REGISTRY}/${PROVISIONING_TERRAFORM}:1.4.6",
     "${REGISTRY}/${PROVISIONING_TERRAFORM}:latest"
+  ]
+
+  platforms = [
+    "linux/386",
+    "linux/amd64",
+    "linux/arm/v6",
+    "linux/arm/v7",
+    "linux/arm64/v8",
+    "linux/ppc64le",
+    "linux/s390x"
+  ]
+}
+target "builders_dindx_0_1_0" {
+  dockerfile = "Dockerfile"
+  context    = "./builders/dindx/0.1.0"
+  tags       = [
+    "${REGISTRY}/${BUILDERS_DINDX}:0.1.0",
+    "${REGISTRY}/${BUILDERS_DINDX}:latest"
   ]
 
   platforms = [

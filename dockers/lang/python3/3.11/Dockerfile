@@ -16,7 +16,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:0.1.0
 
 ARG VERSION_PYTHON3=3.11.4-r0
 ENV PYTHONUNBUFFERED=1
@@ -25,4 +25,4 @@ RUN apk add --no-cache \
       python3=${VERSION_PYTHON3} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
-    ln -sf python3 /opt/tomshley/breakground-provisioning/cicd/bin/python
+    ln -sf python3 /usr/bin/python
