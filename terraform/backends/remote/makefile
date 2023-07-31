@@ -55,9 +55,12 @@ reconfigure:
     -backend-config=unlock_method=DELETE \
     -backend-config=retry_wait_min=5
 
+validate: init
+	terraform fmt --recursive
+
 # nb: https://developer.godaddy.com/keys?hbi_code=1
-plan:
-	terraform fmt --recursive && terraform plan \
+plan: init
+	terraform plan \
 	-lock=true \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
@@ -70,14 +73,14 @@ plan:
 	-var state_remote_host="${TF_HOST}" \
 	-out=.tfstate.plan
 
-apply:
+apply: plan
 	terraform apply \
 	-input=false \
 	-auto-approve=true \
 	-lock=true \
 	.tfstate.plan
 
-destroy:
+destroy: init
 	terraform destroy \
 	-lock=true \
 	-var gitlab_token="${GL_PASSWORD}" \
