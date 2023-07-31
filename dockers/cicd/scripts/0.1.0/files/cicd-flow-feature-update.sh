@@ -16,5 +16,16 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
-make apply
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
+
+cd "${CI_PROJECT_DIR}" || exit
+
+git fetch
+git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" develop
+
+echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${tomshley_project_version_src}"
+
+git add "${tomshley_project_version_src}"
+
+git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"

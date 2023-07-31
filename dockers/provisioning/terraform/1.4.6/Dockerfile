@@ -15,7 +15,7 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:0.1.0 as cicd-scripts
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/lang_python3:3.11
 
 ARG VERSION_JQ=1.6-r3
@@ -27,6 +27,8 @@ ARG VERSION_GCOMPAT=1.1.0-r1
 ARG VERSION_OPENSSH=9.3_p2-r0
 ARG VERSION_CURL=8.2.1-r0
 ARG VERSION_GITFLOW=1.12.3-r1
+
+COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
 RUN apk add --no-cache \
       git-flow=${VERSION_GITFLOW} \
@@ -42,49 +44,11 @@ RUN apk add --no-cache \
       --no-cache \
       terraform@edge-community=${VERSION_ALPINE_TERRAFORM} && \
     rm -rf /var/cache/* && \
-    mkdir /var/cache/apk -p
+    mkdir /var/cache/apk -p && \
+    cd /usr/local/bin && \
+    ln -s /opt/tomshley/breakground-provisioning/cicd/bin/*/ .
 
 WORKDIR /
-
-COPY files/cicd-backends-local-validate.sh /usr/bin/cicd-backends-local-validate.sh
-COPY files/cicd-backends-remote-plan-apply.sh /usr/bin/cicd-backends-remote-plan-apply.sh
-COPY files/cicd-backends-remote-plan.sh /usr/bin/cicd-backends-remote-plan.sh
-COPY files/cicd-backends-remote-validate.sh /usr/bin/cicd-backends-remote-validate.sh
-COPY files/cicd-bootstrap-envvars-gitlab.sh /usr/bin/cicd-bootstrap-envvars-gitlab.sh
-COPY files/cicd-bootstrap-gitconfig.sh /usr/bin/cicd-bootstrap-gitconfig.sh
-COPY files/cicd-bootstrap-gitlab-dockers.sh /usr/bin/cicd-bootstrap-gitlab-dockers.sh
-COPY files/cicd-bootstrap-gitlab-tf-backends-local.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
-COPY files/cicd-bootstrap-gitlab-tf-backends-remote.sh /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
-COPY files/cicd-bootstrap-gitlab.sh /usr/bin/cicd-bootstrap-gitlab.sh
-COPY files/cicd-dockers-build-push.sh /usr/bin/cicd-dockers-build-push.sh
-COPY files/cicd-dockers-build.sh /usr/bin/cicd-dockers-build.sh
-COPY files/cicd-exports.sh /usr/bin/cicd-exports.sh
-COPY files/cicd-flow-feature-gitlab-merge-request.sh /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
-COPY files/cicd-flow-feature-update.sh /usr/bin/cicd-flow-feature-update.sh
-COPY files/cicd-flow-release-finish.sh /usr/bin/cicd-flow-release-finish.sh
-COPY files/cicd-flow-release-publish.sh /usr/bin/cicd-flow-release-publish.sh
-COPY files/cicd-flow-release-start.sh /usr/bin/cicd-flow-release-start.sh
-COPY files/gitlab-terraform.sh /usr/bin/gitlab-terraform.sh
-
-RUN chmod +x /usr/bin/cicd-backends-local-validate.sh
-RUN chmod +x /usr/bin/cicd-backends-remote-plan-apply.sh
-RUN chmod +x /usr/bin/cicd-backends-remote-plan.sh
-RUN chmod +x /usr/bin/cicd-backends-remote-validate.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-envvars-gitlab.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-gitconfig.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-dockers.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
-RUN chmod +x /usr/bin/cicd-bootstrap-gitlab.sh
-RUN chmod +x /usr/bin/cicd-dockers-build-push.sh
-RUN chmod +x /usr/bin/cicd-dockers-build.sh
-RUN chmod +x /usr/bin/cicd-exports.sh
-RUN chmod +x /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
-RUN chmod +x /usr/bin/cicd-flow-feature-update.sh
-RUN chmod +x /usr/bin/cicd-flow-release-finish.sh
-RUN chmod +x /usr/bin/cicd-flow-release-publish.sh
-RUN chmod +x /usr/bin/cicd-flow-release-start.sh
-RUN chmod +x /usr/bin/gitlab-terraform.sh
 
 # use this for direct access to TF, not for GitLab Usage: ENTRYPOINT ["terraform"]
 ENTRYPOINT []

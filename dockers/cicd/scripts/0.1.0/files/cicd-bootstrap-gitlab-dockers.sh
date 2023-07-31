@@ -16,5 +16,7 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
-make plan
+# shellcheck source=cicd-exports.sh
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh"
+
+curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash

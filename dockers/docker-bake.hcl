@@ -19,6 +19,8 @@
 group "default" {
   targets = [
     "os",
+    "lang",
+    "cicd",
     "provisioning"
   ]
 }
@@ -32,6 +34,11 @@ group "os" {
 group "lang" {
   targets = [
     "lang_python3_3_11"
+  ]
+}
+group "cicd" {
+  targets = [
+    "cicd_scripts_0_1_0"
   ]
 }
 group "provisioning" {
@@ -50,6 +57,9 @@ variable "OS_ALPINE" {
 }
 variable "LANG_PYTHON3" {
   default = "lang_python3"
+}
+variable "CICD_SCRIPTS" {
+  default = "cicd_scripts"
 }
 variable "PROVISIONING_TERRAFORM" {
   default = "provisioning_terraform"
@@ -92,13 +102,30 @@ target "lang_python3_3_11" {
     "linux/s390x"
   ]
 }
-
 target "provisioning_terraform_1_4_6" {
   dockerfile = "Dockerfile"
   context    = "./provisioning/terraform/1.4.6"
   tags       = [
     "${REGISTRY}/${PROVISIONING_TERRAFORM}:1.4.6",
     "${REGISTRY}/${PROVISIONING_TERRAFORM}:latest"
+  ]
+
+  platforms = [
+    "linux/386",
+    "linux/amd64",
+    "linux/arm/v6",
+    "linux/arm/v7",
+    "linux/arm64/v8",
+    "linux/ppc64le",
+    "linux/s390x"
+  ]
+}
+target "cicd_scripts_0_1_0" {
+  dockerfile = "Dockerfile"
+  context    = "./cicd/scripts/0.1.0"
+  tags       = [
+    "${REGISTRY}/${CICD_SCRIPTS}:0.1.0",
+    "${REGISTRY}/${CICD_SCRIPTS}:latest"
   ]
 
   platforms = [

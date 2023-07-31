@@ -25,4 +25,4 @@ RUN apk add --no-cache \
       python3=${VERSION_PYTHON3} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
-    ln -sf python3 /usr/bin/python
+    ln -sf python3 /opt/tomshley/breakground-provisioning/cicd/bin/python

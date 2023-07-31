@@ -16,7 +16,6 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
+# shellcheck source=cicd-exports.sh
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
-. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh"
-
-make validate

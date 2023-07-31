@@ -16,6 +16,6 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh"
 cd "${DOCKERS_LOCAL_ROOT}" || exit
 make build

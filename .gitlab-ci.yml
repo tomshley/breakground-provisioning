@@ -32,36 +32,36 @@ validate-all:
     - tags
   stage: validate-all
   script:
-#    - source /usr/bin/cicd-dockers-build.sh
-    - source /usr/bin/cicd-backends-local-validate.sh
-    - source /usr/bin/cicd-backends-remote-validate.sh
+#    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 
 plan-remote-backend:
   stage: plan-remote-backend
   script:
-    - source /usr/bin/cicd-backends-remote-plan.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh
 
 promote-build-start:
   stage: promote-build-start
   only:
     - develop
   script:
-    - source /usr/bin/cicd-flow-release-start.sh
-    - source /usr/bin/cicd-flow-release-publish.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
 
 promote-build-release-finish:
   stage: promote-build-release-finish
   only:
     - /^release\/.*$/
   script:
-    - source /usr/bin/cicd-flow-release-finish.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 
 promote-build-feature-merge-request:
   stage: promote-build-feature-merge-request
   only:
     - /^feature\/.*$/
   script:
-    - source /usr/bin/cicd-flow-feature-gitlab-merge-request.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
 apply-remote-backend:
   only:
@@ -70,4 +70,4 @@ apply-remote-backend:
     - branches
   stage: apply-remote-backend
   script:
-    - source /usr/bin/cicd-backends-remote-plan.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh

@@ -17,6 +17,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 # shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
-curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+git config --global user.email "${GITLAB_USER_EMAIL}"
+git config --global user.name "${GITLAB_USER_NAME}"

@@ -41,15 +41,10 @@ setup:
 	export DOCKER_BUILDKIT=1
 
 build: setup check-reqs
-	docker buildx bake "os" && \
-	docker buildx bake "lang" && \
 	docker buildx bake "provisioning"
 
 push:
-	docker buildx bake "os" --push && \
-	docker buildx bake "lang" --push && \
 	docker buildx bake "provisioning" --push
-
 
 publish-core: build-core push-core
 build-all: build-core build-bootstrap
