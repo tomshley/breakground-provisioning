@@ -17,6 +17,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 . "/usr/bin/cicd-exports.sh"
+. "/usr/bin/cicd-bootstrap-envvars-gitlab.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
