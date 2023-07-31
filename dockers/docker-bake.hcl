@@ -18,6 +18,7 @@
 
 group "default" {
   targets = [
+    "os",
     "builders",
     "lang",
     "cicd",
@@ -26,6 +27,11 @@ group "default" {
 }
 
 # region GROUPS
+group "os" {
+  targets = [
+    "os_alpine_3_16"
+  ]
+}
 group "builders" {
   targets = [
     "builders_dindx_0_1_0"
@@ -43,7 +49,7 @@ group "cicd" {
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_1_4_6"
+    "provisioning_terraform_with_docker_0_1_0"
   ]
 }
 # endregion
@@ -51,6 +57,9 @@ group "provisioning" {
 # region REGISTRIES
 variable "REGISTRY" {
   default = "registry.gitlab.com/tomshley/breakground-provisioning"
+}
+variable "OS_ALPINE" {
+  default = "os_alpine"
 }
 variable "BUILDERS_DINDX" {
   default = "builders_dindx"
@@ -61,10 +70,29 @@ variable "LANG_PYTHON3" {
 variable "CICD_SCRIPTS" {
   default = "cicd_scripts"
 }
-variable "PROVISIONING_TERRAFORM" {
-  default = "provisioning_terraform"
+variable "PROVISIONING_TERRAFORM_WITH_DOCKER" {
+  default = "provisioning_terraform_with_docker"
 }
 # endregion
+
+target "os_alpine_3_16" {
+  dockerfile = "Dockerfile"
+  context    = "./os/alpine/3.16"
+  tags       = [
+    "${REGISTRY}/${OS_ALPINE}:3.16",
+    "${REGISTRY}/${OS_ALPINE}:latest"
+  ]
+
+  platforms = [
+    "linux/386",
+    "linux/amd64",
+    "linux/arm/v6",
+    "linux/arm/v7",
+    "linux/arm64/v8",
+    "linux/ppc64le",
+    "linux/s390x"
+  ]
+}
 
 target "lang_python3_3_11" {
   dockerfile = "Dockerfile"
@@ -84,12 +112,12 @@ target "lang_python3_3_11" {
     "linux/s390x"
   ]
 }
-target "provisioning_terraform_1_4_6" {
+target "provisioning_terraform_with_docker_0_1_0" {
   dockerfile = "Dockerfile"
-  context    = "./provisioning/terraform/1.4.6"
+  context    = "./provisioning/terraform-with-docker/0.1.0"
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM}:1.4.6",
-    "${REGISTRY}/${PROVISIONING_TERRAFORM}:latest"
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_DOCKER}:0.1.0",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_DOCKER}:latest"
   ]
 
   platforms = [

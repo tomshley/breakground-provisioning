@@ -27,6 +27,7 @@ ARG VERSION_GCOMPAT=1.1.0-r1
 ARG VERSION_OPENSSH=9.3_p2-r0
 ARG VERSION_CURL=8.2.1-r0
 ARG VERSION_GITFLOW=1.12.3-r1
+ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r3
 
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
@@ -42,7 +43,8 @@ RUN apk add --no-cache \
     echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     apk add \
       --no-cache \
-      terraform@edge-community=${VERSION_ALPINE_TERRAFORM} && \
+      terraform@edge-community=${VERSION_ALPINE_TERRAFORM} \
+      docker@edge-community=${VERSION_ALPINE_EDGE_DOCKER} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \

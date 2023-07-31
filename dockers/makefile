@@ -41,12 +41,14 @@ setup:
 	export DOCKER_BUILDKIT=1
 
 build: setup check-reqs
+	docker buildx bake "os" && \
 	docker buildx bake "builders" && \
 	docker buildx bake "lang" && \
 	docker buildx bake "cicd" && \
 	docker buildx bake "provisioning"
 
 push:
+	docker buildx bake "os" --push && \
 	docker buildx bake "builders" --push && \
 	docker buildx bake "lang" --push && \
 	docker buildx bake "cicd" --push && \
