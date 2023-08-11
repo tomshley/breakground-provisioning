@@ -30,5 +30,9 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "~> 15.11.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
   }
 }
