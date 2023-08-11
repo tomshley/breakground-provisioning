@@ -42,6 +42,9 @@ validate-all:
     - tags
   stage: validate-all
   script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+#    - docker build -t "$CI_REGISTRY_IMAGE:dind" .
+#    - docker push "$CI_REGISTRY_IMAGE:dind"
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
