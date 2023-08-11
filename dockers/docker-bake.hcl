@@ -33,17 +33,17 @@ group "os" {
 }
 group "builders" {
   targets = [
-    "builders_dindx_0_1_0"
+    "builders_dindx_latest"
   ]
 }
 group "cicd" {
   targets = [
-    "cicd_scripts_0_1_0"
+    "cicd_scripts_latest"
   ]
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_with_py_dindx_0_1_0"
+    "provisioning_terraform_with_py_dindx_latest"
   ]
 }
 # endregion
@@ -63,6 +63,9 @@ variable "CICD_SCRIPTS" {
 }
 variable "PROVISIONING_TERRAFORM_WITH_PY_DINDX" {
   default = "provisioning_terraform_with_py_dindx"
+}
+variable "TOMSHLEY_BREAKGROUND_BUILD_VERSION" {
+  default = "v0.0.0-DEV"
 }
 # endregion
 
@@ -84,11 +87,11 @@ target "os_alpine_3_16" {
     "linux/s390x"
   ]
 }
-target "provisioning_terraform_with_py_dindx_0_1_0" {
+target "provisioning_terraform_with_py_dindx_latest" {
   dockerfile = "Dockerfile"
-  context    = "./provisioning/terraform-with-py-dindx/0.1.0"
+  context    = "./provisioning/terraform-with-py-dindx"
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:0.1.0",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
     "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:latest"
   ]
 
@@ -102,11 +105,11 @@ target "provisioning_terraform_with_py_dindx_0_1_0" {
     "linux/s390x"
   ]
 }
-target "builders_dindx_0_1_0" {
+target "builders_dindx_latest" {
   dockerfile = "Dockerfile"
-  context    = "./builders/dindx/0.1.0"
+  context    = "./builders/dindx"
   tags       = [
-    "${REGISTRY}/${BUILDERS_DINDX}:0.1.0",
+    "${REGISTRY}/${BUILDERS_DINDX}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
     "${REGISTRY}/${BUILDERS_DINDX}:latest"
   ]
 
@@ -120,11 +123,11 @@ target "builders_dindx_0_1_0" {
     "linux/s390x"
   ]
 }
-target "cicd_scripts_0_1_0" {
+target "cicd_scripts_latest" {
   dockerfile = "Dockerfile"
-  context    = "./cicd/scripts/0.1.0"
+  context    = "./cicd/scripts"
   tags       = [
-    "${REGISTRY}/${CICD_SCRIPTS}:0.1.0",
+    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
     "${REGISTRY}/${CICD_SCRIPTS}:latest"
   ]
 

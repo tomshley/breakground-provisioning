@@ -16,7 +16,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:0.1.0 as cicd-scripts
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:0.3.0 as cicd-scripts
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 ARG VERSION_JQ=1.6-r3

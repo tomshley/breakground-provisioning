@@ -25,6 +25,7 @@ export BUILDKIT_PROGRESS=plain
 current_arch := $(shell uname -m)
 export ARCH ?= $(shell case $(current_arch) in (x86_64) echo "amd64" ;; (i386) echo "386";; (aarch64|arm64) echo "arm64" ;; (armv6*) echo "arm/v6";; (armv7*) echo "arm/v7";; (ppc64*|s390*|riscv*) echo $(current_arch);; (*) echo "UNKNOWN-CPU";; esac)
 # export ARCH=amd64
+export TOMSHLEY_BREAKGROUND_BUILD_VERSION=$(shell cat ../VERSION | sed -r 's/^.{1}//')
 
 check_cli = type "$(1)" >/dev/null 2>&1 || { echo "Error: command '$(1)' required but not found. Exiting." ; exit 1 ; }
 check_image = make --silent list | grep -w '$(1)' >/dev/null 2>&1 || { echo "Error: the image '$(1)' does not exist in manifest for the platform 'linux/$(ARCH)'. Please check the output of 'make list'. Exiting." ; exit 1 ; }
@@ -38,7 +39,9 @@ check-reqs:
 
 setup:
 	export DOCKER_CLI_EXPERIMENTAL=enabled && \
-	export DOCKER_BUILDKIT=1
+	export DOCKER_BUILDKIT=1 && \
+    export TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION} && \
+    echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
 
 build: setup check-reqs
 	docker buildx bake "os" && \
@@ -46,7 +49,7 @@ build: setup check-reqs
 	docker buildx bake "cicd" && \
 	docker buildx bake "provisioning"
 
-push:
+push: setup check-reqs
 	docker buildx bake "os" --push && \
 	docker buildx bake "builders" --push && \
 	docker buildx bake "cicd" --push && \
