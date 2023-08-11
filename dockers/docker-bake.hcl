@@ -20,7 +20,6 @@ group "default" {
   targets = [
     "os",
     "builders",
-    "lang",
     "cicd",
     "provisioning"
   ]
@@ -37,11 +36,6 @@ group "builders" {
     "builders_dindx_0_1_0"
   ]
 }
-group "lang" {
-  targets = [
-    "lang_python3_3_11"
-  ]
-}
 group "cicd" {
   targets = [
     "cicd_scripts_0_1_0"
@@ -49,7 +43,7 @@ group "cicd" {
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_with_docker_0_1_0"
+    "provisioning_terraform_with_py_dindx_0_1_0"
   ]
 }
 # endregion
@@ -64,14 +58,11 @@ variable "OS_ALPINE" {
 variable "BUILDERS_DINDX" {
   default = "builders_dindx"
 }
-variable "LANG_PYTHON3" {
-  default = "lang_python3"
-}
 variable "CICD_SCRIPTS" {
   default = "cicd_scripts"
 }
-variable "PROVISIONING_TERRAFORM_WITH_DOCKER" {
-  default = "provisioning_terraform_with_docker"
+variable "PROVISIONING_TERRAFORM_WITH_PY_DINDX" {
+  default = "provisioning_terraform_with_py_dindx"
 }
 # endregion
 
@@ -93,31 +84,12 @@ target "os_alpine_3_16" {
     "linux/s390x"
   ]
 }
-
-target "lang_python3_3_11" {
+target "provisioning_terraform_with_py_dindx_0_1_0" {
   dockerfile = "Dockerfile"
-  context    = "./lang/python3/3.11"
+  context    = "./provisioning/terraform-with-py-dindx/0.1.0"
   tags       = [
-    "${REGISTRY}/${LANG_PYTHON3}:3.11",
-    "${REGISTRY}/${LANG_PYTHON3}:latest"
-  ]
-
-  platforms = [
-    "linux/386",
-    "linux/amd64",
-    "linux/arm/v6",
-    "linux/arm/v7",
-    "linux/arm64/v8",
-    "linux/ppc64le",
-    "linux/s390x"
-  ]
-}
-target "provisioning_terraform_with_docker_0_1_0" {
-  dockerfile = "Dockerfile"
-  context    = "./provisioning/terraform-with-docker/0.1.0"
-  tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_DOCKER}:0.1.0",
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_DOCKER}:latest"
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:0.1.0",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:latest"
   ]
 
   platforms = [

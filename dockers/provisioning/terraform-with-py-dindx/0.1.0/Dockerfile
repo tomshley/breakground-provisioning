@@ -15,8 +15,9 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
+FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:0.1.0 as cicd-scripts
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/lang_python3:3.11
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 ARG VERSION_JQ=1.6-r3
 ARG VERSION_OPENSSL=3.1.1-r3
@@ -28,7 +29,10 @@ ARG VERSION_OPENSSH=9.3_p2-r0
 ARG VERSION_CURL=8.2.1-r0
 ARG VERSION_GITFLOW=1.12.3-r1
 ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r3
+ARG VERSION_PYTHON3=3.11.4-r0
+ENV PYTHONUNBUFFERED=1
 
+COPY --from=buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
 RUN apk add --no-cache \
@@ -39,6 +43,7 @@ RUN apk add --no-cache \
       make=${VERSION_MAKE} \
       curl=${VERSION_CURL} \
       openssh=${VERSION_OPENSSH} \
+      python3=${VERSION_PYTHON3} \
       gcompat=${VERSION_GCOMPAT} && \
     echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     apk add \
@@ -48,6 +53,7 @@ RUN apk add --no-cache \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \
+    ln -sf python3 /usr/bin/python && \
     ln -s /opt/tomshley/breakground-provisioning/cicd/bin/*/ .
 
 WORKDIR /
