@@ -17,7 +17,7 @@
 #
 
 image:
-  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_docker:0.1.0"
+  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py_dindx:0.1.0"
 
 stages:
   - promote-build-feature-merge-request
