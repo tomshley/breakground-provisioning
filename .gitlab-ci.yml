@@ -28,8 +28,15 @@ stages:
   - apply-remote-backend
 
 validate-all:
+  variables:
+    # Tell docker CLI how to talk to Docker daemon.
+    DOCKER_HOST: tcp://dockerdaemon:2375/
+    # Use the overlayfs driver for improved performance.
+    DOCKER_DRIVER: overlay2
+    # Disable TLS since we're running inside local network.
+    DOCKER_TLS_CERTDIR: ""
   services:
-    - name: registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:0.3.0
+    - name: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py_dindx:0.3.0
       alias: dockerdaemon
   except:
     - tags
