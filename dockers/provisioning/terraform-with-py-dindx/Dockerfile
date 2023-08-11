@@ -21,7 +21,6 @@ FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisio
 
 ARG VERSION_JQ=1.6-r3
 ARG VERSION_OPENSSL=3.1.2-r0
-ARG VERSION_ALPINE_TERRAFORM=1.4.6-r2
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
@@ -29,6 +28,8 @@ ARG VERSION_OPENSSH=9.3_p2-r0
 ARG VERSION_CURL=8.2.1-r0
 ARG VERSION_GITFLOW=1.12.3-r1
 ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r4
+ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.20.3-r0
+ARG VERSION_ALPINE_EDGE_TERRAFORM=1.4.6-r2
 ARG VERSION_PYTHON3=3.11.4-r0
 ENV PYTHONUNBUFFERED=1
 
@@ -48,8 +49,9 @@ RUN apk add --no-cache \
     echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
     apk add \
       --no-cache \
-      terraform@edge-community=${VERSION_ALPINE_TERRAFORM} \
-      docker@edge-community=${VERSION_ALPINE_EDGE_DOCKER} && \
+      terraform@edge-community=${VERSION_ALPINE_EDGE_TERRAFORM} \
+      docker@edge-community=${VERSION_ALPINE_EDGE_DOCKER} \
+      docker-cli-compose@edge-community=${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \
