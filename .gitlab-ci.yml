@@ -29,7 +29,7 @@ stages:
 
 validate-all:
   services:
-    - name: registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:0.1.0
+    - name: registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:0.3.0
       alias: dockerdaemon
   except:
     - tags
