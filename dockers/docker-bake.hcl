@@ -31,11 +31,6 @@ group "os" {
     "os_alpine_3_16"
   ]
 }
-group "builders" {
-  targets = [
-    "builders_dindx_latest"
-  ]
-}
 group "cicd" {
   targets = [
     "cicd_scripts_latest"
@@ -54,9 +49,6 @@ variable "REGISTRY" {
 }
 variable "OS_ALPINE" {
   default = "os_alpine"
-}
-variable "BUILDERS_DINDX" {
-  default = "builders_dindx"
 }
 variable "CICD_SCRIPTS" {
   default = "cicd_scripts"
@@ -93,24 +85,6 @@ target "provisioning_terraform_with_py_latest" {
   tags       = [
     "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
     "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:latest"
-  ]
-
-  platforms = [
-    "linux/386",
-    "linux/amd64",
-    "linux/arm/v6",
-    "linux/arm/v7",
-    "linux/arm64/v8",
-    "linux/ppc64le",
-    "linux/s390x"
-  ]
-}
-target "builders_dindx_latest" {
-  dockerfile = "Dockerfile"
-  context    = "./builders/dindx"
-  tags       = [
-    "${REGISTRY}/${BUILDERS_DINDX}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
-    "${REGISTRY}/${BUILDERS_DINDX}:latest"
   ]
 
   platforms = [
