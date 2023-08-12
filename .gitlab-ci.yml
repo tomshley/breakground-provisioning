@@ -46,6 +46,7 @@ validate-all:
 #    - docker build -t "$CI_REGISTRY_IMAGE:dind" .
 #    - docker push "$CI_REGISTRY_IMAGE:dind"
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
+    - make push
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 
