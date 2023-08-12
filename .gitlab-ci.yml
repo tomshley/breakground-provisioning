@@ -24,6 +24,7 @@ stages:
   - validate-all
   - plan-remote-backend
   - promote-build-start
+  - promote-build-release-publish
   - promote-build-release-finish
   - apply-remote-backend
 
@@ -55,6 +56,12 @@ promote-build-start:
     - develop
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
+
+promote-build-release-publish:
+  stage: promote-build-release-publish
+  only:
+    - /^release\/.*$/
+  script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
 
 promote-build-release-finish:
