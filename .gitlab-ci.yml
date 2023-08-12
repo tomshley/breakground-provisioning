@@ -36,7 +36,7 @@ validate-all:
     # Disable TLS since we're running inside local network.
     DOCKER_TLS_CERTDIR: ""
   services:
-    - name: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py_dindx:latest
+    - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
   except:
     - tags
