@@ -1,8 +1,6 @@
 # Tomshley LLC Breakground Provisioning
 This repository is the seed for the infrastructure and gitops tenancy of tomshley
 
-[![wakatime](https://wakatime.com/badge/user/9935bae7-7c1d-4843-8d0e-0fb7fa86272f/project/4f113864-46a6-4b45-83c6-caa12f856701.svg)](https://wakatime.com/badge/user/9935bae7-7c1d-4843-8d0e-0fb7fa86272f/project/4f113864-46a6-4b45-83c6-caa12f856701)
-
 ```shell
 cd ./cd terraform/backends/local/
 
