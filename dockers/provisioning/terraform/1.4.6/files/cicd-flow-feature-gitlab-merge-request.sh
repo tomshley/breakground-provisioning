@@ -29,7 +29,7 @@ GL_MERGE_REQUEST_BODY="{
 \"force_remove_source_branch\": false,
 \"allow_collaboration\": true,
 \"subscribed\" : true,
-\"title\": \"WIP: ${CI_COMMIT_REF_NAME}\",
+\"title\": \"Draft: ${CI_COMMIT_REF_NAME}\",
 \"assignee_id\":\"${GITLAB_USER_ID}\"
 }";
 
