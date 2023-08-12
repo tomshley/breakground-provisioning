@@ -16,8 +16,8 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-exports.sh"
-. "/usr/bin/cicd-bootstrap-envvars-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
@@ -29,7 +29,7 @@ GL_MERGE_REQUEST_BODY="{
 \"force_remove_source_branch\": false,
 \"allow_collaboration\": true,
 \"subscribed\" : true,
-\"title\": \"WIP: ${CI_COMMIT_REF_NAME}\",
+\"title\": \"Draft: ${CI_COMMIT_REF_NAME}\",
 \"assignee_id\":\"${GITLAB_USER_ID}\"
 }";
 
