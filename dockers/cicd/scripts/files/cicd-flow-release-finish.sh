@@ -16,12 +16,12 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-exports.sh"
-. "/usr/bin/cicd-bootstrap-envvars-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
-. "/usr/bin/cicd-bootstrap-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
 
 tomshley_release_finish_message="Tomshley Release Version ${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
 export GIT_MERGE_AUTOEDIT=no

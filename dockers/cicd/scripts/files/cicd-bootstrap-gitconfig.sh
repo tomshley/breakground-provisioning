@@ -17,7 +17,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 # shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
 git config --global user.email "${GITLAB_USER_EMAIL}"
 git config --global user.name "${GITLAB_USER_NAME}"

@@ -16,8 +16,8 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-exports.sh"
-. "/usr/bin/cicd-bootstrap-envvars-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
 
 cd "${CI_PROJECT_DIR}" || exit
 
@@ -26,7 +26,7 @@ cd "${CI_PROJECT_DIR}" || exit
 tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
 echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
 
-. "/usr/bin/cicd-bootstrap-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
 CI_PROJECT_URL_TRIMMED=$(echo ${CI_PROJECT_URL} | sed 's/https\?:\/\///')
 GITLAB_PROJECT_HTTPS_URL="https://${GITLAB_USER_LOGIN}:${GL_PASSWORD}@${CI_PROJECT_URL_TRIMMED}.git"
 echo "${GITLAB_PROJECT_HTTPS_URL}"

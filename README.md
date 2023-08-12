@@ -30,7 +30,7 @@ docker login registry.gitlab.com
 
 ### Setup the CI/CD Prerequisites
 This file is needed to run Terraform init and plan
-![readme-tfstate-example.png](readme-tfstate-example.png)
+![.tfstate.env](readme-tfstate-example.png)
 
 ## License
 Copyright 2023 Tomshley LLC

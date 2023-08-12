@@ -19,6 +19,8 @@
 group "default" {
   targets = [
     "os",
+    "builders",
+    "cicd",
     "provisioning"
   ]
 }
@@ -29,14 +31,14 @@ group "os" {
     "os_alpine_3_16"
   ]
 }
-group "lang" {
+group "cicd" {
   targets = [
-    "lang_python3_3_11"
+    "cicd_scripts_latest"
   ]
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_1_4_6"
+    "provisioning_terraform_with_py_latest"
   ]
 }
 # endregion
@@ -48,11 +50,14 @@ variable "REGISTRY" {
 variable "OS_ALPINE" {
   default = "os_alpine"
 }
-variable "LANG_PYTHON3" {
-  default = "lang_python3"
+variable "CICD_SCRIPTS" {
+  default = "cicd_scripts"
 }
-variable "PROVISIONING_TERRAFORM" {
-  default = "provisioning_terraform"
+variable "PROVISIONING_TERRAFORM_WITH_PY" {
+  default = "provisioning_terraform_with_py"
+}
+variable "TOMSHLEY_BREAKGROUND_BUILD_VERSION" {
+  default = "v0.0.0-DEV"
 }
 # endregion
 
@@ -74,12 +79,12 @@ target "os_alpine_3_16" {
     "linux/s390x"
   ]
 }
-target "lang_python3_3_11" {
+target "provisioning_terraform_with_py_latest" {
   dockerfile = "Dockerfile"
-  context    = "./lang/python3/3.11"
+  context    = "./provisioning/terraform-with-py"
   tags       = [
-    "${REGISTRY}/${LANG_PYTHON3}:3.11",
-    "${REGISTRY}/${LANG_PYTHON3}:latest"
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:latest"
   ]
 
   platforms = [
@@ -92,13 +97,12 @@ target "lang_python3_3_11" {
     "linux/s390x"
   ]
 }
-
-target "provisioning_terraform_1_4_6" {
+target "cicd_scripts_latest" {
   dockerfile = "Dockerfile"
-  context    = "./provisioning/terraform/1.4.6"
+  context    = "./cicd/scripts"
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM}:1.4.6",
-    "${REGISTRY}/${PROVISIONING_TERRAFORM}:latest"
+    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
+    "${REGISTRY}/${CICD_SCRIPTS}:latest"
   ]
 
   platforms = [
