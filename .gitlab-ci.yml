@@ -29,11 +29,8 @@ stages:
 
 validate-all:
   variables:
-    # Tell docker CLI how to talk to Docker daemon.
     DOCKER_HOST: tcp://dockerdaemon:2375/
-    # Use the overlayfs driver for improved performance.
     DOCKER_DRIVER: overlay2
-    # Disable TLS since we're running inside local network.
     DOCKER_TLS_CERTDIR: ""
   services:
 #    - name: registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:latest
@@ -81,4 +78,5 @@ apply-remote-backend:
     - branches
   stage: apply-remote-backend
   script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-push.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
