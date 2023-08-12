@@ -16,7 +16,7 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:latest
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 COPY files/cicd-backends-local-validate.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
 COPY files/cicd-backends-remote-plan-apply.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
