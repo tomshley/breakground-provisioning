@@ -16,7 +16,16 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-# shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
 
-curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+cd "${CI_PROJECT_DIR}" || exit
+
+git fetch
+git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" develop
+
+echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${tomshley_project_version_src}"
+
+git add "${tomshley_project_version_src}"
+
+git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"

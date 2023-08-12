@@ -16,11 +16,15 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
-# shellcheck source=cicd-exports.sh
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
-
-cd "${TF_BACKENDS_REMOTE_ROOT}" || exit
+cd "${CI_PROJECT_DIR}" || exit
 
 curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
-
+if test -f "${CI_PROJECT_DIR}/.tfstate.env"; then
+  # shellcheck disable=SC1097
+  while IFS== read -r key value; do
+    # shellcheck disable=SC2163
+    printf -v "$key" %s "$value" && export "$key"
+  done <"${CI_PROJECT_DIR}/.tfstate.env"
+fi
