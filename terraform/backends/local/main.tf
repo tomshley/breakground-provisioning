@@ -22,7 +22,16 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "15.11.0"
     }
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.0"
+    }
   }
+}
+
+provider "github" {
+  token = sensitive(var.github_token)
+  owner = var.github_owner_org
 }
 
 provider "gitlab" {
@@ -32,6 +41,7 @@ provider "gitlab" {
 module "tware-breakground-provision-local-gl" {
   providers = {
     gitlab = gitlab
+    github = github
   }
   source              = "../../modules/tware-breakground-provision-local-gl"
   github_mirror_token = var.github_mirror_token
