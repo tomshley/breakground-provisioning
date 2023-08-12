@@ -15,8 +15,8 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:0.3.0 as cicd-scripts
+#FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
+FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:latest as cicd-scripts
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 ARG VERSION_JQ=1.6-r3
@@ -33,7 +33,6 @@ ARG VERSION_ALPINE_EDGE_TERRAFORM=1.4.6-r2
 ARG VERSION_PYTHON3=3.11.4-r0
 ENV PYTHONUNBUFFERED=1
 
-COPY --from=buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
 RUN apk add --no-cache \
