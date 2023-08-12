@@ -43,7 +43,7 @@ group "cicd" {
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_with_py_dindx_latest"
+    "provisioning_terraform_with_py_latest"
   ]
 }
 # endregion
@@ -61,8 +61,8 @@ variable "BUILDERS_DINDX" {
 variable "CICD_SCRIPTS" {
   default = "cicd_scripts"
 }
-variable "PROVISIONING_TERRAFORM_WITH_PY_DINDX" {
-  default = "provisioning_terraform_with_py_dindx"
+variable "PROVISIONING_TERRAFORM_WITH_PY" {
+  default = "provisioning_terraform_with_py"
 }
 variable "TOMSHLEY_BREAKGROUND_BUILD_VERSION" {
   default = "v0.0.0-DEV"
@@ -87,12 +87,12 @@ target "os_alpine_3_16" {
     "linux/s390x"
   ]
 }
-target "provisioning_terraform_with_py_dindx_latest" {
+target "provisioning_terraform_with_py_latest" {
   dockerfile = "Dockerfile"
-  context    = "./provisioning/terraform-with-py-dindx"
+  context    = "./provisioning/terraform-with-py"
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY_DINDX}:latest"
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:latest"
   ]
 
   platforms = [
