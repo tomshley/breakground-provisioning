@@ -17,6 +17,6 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-dockers.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh"
 
 make push
