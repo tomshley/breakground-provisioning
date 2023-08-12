@@ -17,6 +17,10 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-. "/usr/bin/cicd-bootstrap-gitlab-tf-backends-local.sh"
+# shellcheck source=cicd-exports.sh
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh"
 
-make validate
+cd "${TF_BACKENDS_REMOTE_ROOT}" || exit
+
+curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/download-secure-files/-/raw/main/installer" | bash
+

@@ -16,6 +16,14 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-. "/usr/bin/cicd-bootstrap-gitlab.sh"
-cd "${DOCKERS_LOCAL_ROOT}" || exit
-make push
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
+
+cd "${CI_PROJECT_DIR}" || exit
+
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
+echo "Running Publish"
+git branch --set-upstream-to=origin/release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
+git fetch
+git pull origin release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} --rebase --prune
+git push origin
