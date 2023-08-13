@@ -18,7 +18,9 @@
 
 module "tware-breakground-provision-organization-github" {
   source                   = "../tware-breakground-provision-organization-github"
-  git_projects_with_parent = [(["breakground-provisioning", "tomshley", "tomshley"])]
+  git_projects_with_parent = [
+    (["breakground-provisioning", "tomshley", "tomshley"])
+  ]
 }
 
 module "tware-hexagonal-gitlab" {
@@ -29,7 +31,7 @@ module "tware-hexagonal-gitlab" {
   github_mirror_token = var.github_mirror_token
 
   git_project_mirrors = [
-         (["breakground-provisioning", module.tware-breakground-provision-organization-github.gh_repositories["breakground-provisioning"].http_clone_url])
+    (["breakground-provisioning", module.tware-breakground-provision-organization-github.gh_repositories["breakground-provisioning"].http_clone_url])
   ]
 }
 
