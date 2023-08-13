@@ -5,8 +5,9 @@ module "tware-breakground-provision-organization-github" {
     github  = github
   }
   source = "../tware-breakground-provision-organization-github"
-  git_projects_with_parent=[]
-#  git_projects_with_parent=[(["hexagonal-plugin-sbt", "tomshley", "tomshley"])]
+  git_projects_with_parent=[
+    (["hexagonal-plugin-sbt", "tomshley", "tomshley"])
+  ]
 }
 
  module "tware-breakground-provision-organization-gitlab" {
@@ -21,7 +22,7 @@ module "tware-breakground-provision-organization-github" {
 #     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]), # path, parent, existing id
 #     (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "69749675"]), # path, parent, existing id
 #     (["hexagonal-lib-jvm", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
-#     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
+     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
 #     (["hexagonal-sdk-kotlin", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
 #     (["hexagonal-sdk-python", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
 #     (["hexagonal-lib-py", "tomshley/brands/global/tware/tech/products/hexagonal", "71327147"]),
@@ -42,7 +43,7 @@ module "tware-breakground-provision-organization-github" {
 #     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "69749881"])
    ]
    git_project_mirrors = [
-#     (["hexagonal-plugin-sbt", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url])
+     (["hexagonal-plugin-sbt", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url])
    ]
    github_mirror_token = var.github_mirror_token
  }
