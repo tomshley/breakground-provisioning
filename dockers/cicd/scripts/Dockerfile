@@ -20,7 +20,7 @@ FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisio
 
 COPY files/cicd-backends-local-validate.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
 COPY files/cicd-backends-remote-plan-apply.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
-COPY files/cicd-backends-remote-plan.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh
+COPY files/cicd-backends-remote-plan-no-lock.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
 COPY files/cicd-backends-remote-validate.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 COPY files/cicd-bootstrap-envvars-gitlab.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 COPY files/cicd-bootstrap-gitconfig.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
@@ -42,7 +42,7 @@ COPY files/gitlab-terraform.sh /opt/tomshley/breakground-provisioning/cicd/bin/g
 
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
-RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh
+RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
