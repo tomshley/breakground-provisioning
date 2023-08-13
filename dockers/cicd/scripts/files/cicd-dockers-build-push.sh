@@ -19,4 +19,4 @@
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh"
 
-make push
+echo "make push"

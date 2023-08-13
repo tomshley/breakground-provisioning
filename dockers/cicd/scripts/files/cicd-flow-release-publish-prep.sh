@@ -16,9 +16,20 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
-# shellcheck source=cicd-exports.sh
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh"
 
-git config --global user.email "${GITLAB_USER_EMAIL}"
-git config --global user.name "${GITLAB_USER_NAME}"
+cd "${CI_PROJECT_DIR}" || exit
+
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
+
+echo "Running Publish Prep"
+echo "fetch"
+git fetch
+echo "checkout"
+git checkout release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
+echo "branch"
+git branch --set-upstream-to origin/release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
+echo "pull"
+git pull origin release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} --rebase --prune
 

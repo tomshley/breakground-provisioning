@@ -25,6 +25,7 @@ COPY files/cicd-backends-remote-validate.sh /opt/tomshley/breakground-provisioni
 COPY files/cicd-bootstrap-envvars-gitlab.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 COPY files/cicd-bootstrap-gitconfig.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
 COPY files/cicd-bootstrap-gitlab-dockers.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh
+COPY files/cicd-bootstrap-gitlab-gitconfig.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh
 COPY files/cicd-bootstrap-gitlab-tf-backends-local.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
 COPY files/cicd-bootstrap-gitlab-tf-backends-remote.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
 COPY files/cicd-bootstrap-gitlab.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh
@@ -35,6 +36,7 @@ COPY files/cicd-flow-feature-gitlab-merge-request.sh /opt/tomshley/breakground-p
 COPY files/cicd-flow-feature-update.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-update.sh
 COPY files/cicd-flow-release-finish.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 COPY files/cicd-flow-release-publish.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
+COPY files/cicd-flow-release-publish-prep.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh
 COPY files/cicd-flow-release-start.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
 COPY files/gitlab-terraform.sh /opt/tomshley/breakground-provisioning/cicd/bin/gitlab-terraform.sh
 
@@ -45,6 +47,7 @@ RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remot
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh
+RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab.sh
@@ -55,5 +58,6 @@ RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-g
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-update.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
+RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/gitlab-terraform.sh

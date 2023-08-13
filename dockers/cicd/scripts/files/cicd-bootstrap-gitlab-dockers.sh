@@ -21,15 +21,11 @@
 
 cd "${DOCKERS_LOCAL_ROOT}" || exit
 
-export DOCKER_HOST="tcp://dockerdaemon:2375/"
-export DOCKER_DRIVER="overlay2"
-export DOCKER_TLS_CERTDIR=""
-
 echo "RUNNING THE DOCKER BUILD"
 
-docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-docker buildx rm tomshley_tware_microcontainers_buildx
-docker buildx create --name tomshley_tware_breakground_buildx
-docker buildx use tomshley_tware_breakground_buildx
-docker buildx inspect tomshley_tware_breakground_buildx --bootstrap
+echo 'docker buildx create --name tomshley_tware_breakground_buildx'
+echo 'docker buildx rm tomshley_tware_microcontainers_buildx'
+echo 'docker buildx use tomshley_tware_breakground_buildx'
+echo 'docker buildx inspect tomshley_tware_breakground_buildx --bootstrap'
+echo 'docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"'
 
