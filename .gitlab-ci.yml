@@ -29,12 +29,9 @@ stages:
   - apply-remote-backend
 
 validate-all:
-  variables:
-    DOCKER_HOST: tcp://dockerdaemon:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+  tags:
+    - saas-linux-xlarge-amd64
   services:
-#    - name: registry.gitlab.com/tomshley/breakground-provisioning/builders_dindx:latest
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
   except:
@@ -48,9 +45,14 @@ validate-all:
 plan-remote-backend:
   stage: plan-remote-backend
   script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
 
 promote-build-start:
+  tags:
+    - saas-linux-xlarge-amd64
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
   stage: promote-build-start
   only:
     - develop
@@ -79,6 +81,11 @@ promote-build-feature-merge-request:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
 apply-remote-backend:
+  tags:
+    - saas-linux-xlarge-amd64
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
   only:
     - tags
   except:
