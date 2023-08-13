@@ -26,11 +26,7 @@ cd "${CI_PROJECT_DIR}" || exit
 tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
 echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
 
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
-CI_PROJECT_URL_TRIMMED=$(echo ${CI_PROJECT_URL} | sed 's/https\?:\/\///')
-GITLAB_PROJECT_HTTPS_URL="https://${GITLAB_USER_LOGIN}:${GL_PASSWORD}@${CI_PROJECT_URL_TRIMMED}.git"
-echo "${GITLAB_PROJECT_HTTPS_URL}"
-git remote set-url origin "${GITLAB_PROJECT_HTTPS_URL}"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
 
 git fetch
 git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
@@ -40,3 +36,5 @@ echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${tomshley_project_version_
 git add "${tomshley_project_version_src}"
 
 git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+
+git push --set-upstream origin "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"

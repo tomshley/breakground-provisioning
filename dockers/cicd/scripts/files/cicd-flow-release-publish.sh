@@ -21,9 +21,10 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh"
+
 echo "Running Publish"
-git branch --set-upstream-to=origin/release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
-git fetch
-git pull origin release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} --rebase --prune
-git push origin
+echo "push -u"
+git push -u origin HEAD:release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION}
+
