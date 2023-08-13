@@ -58,6 +58,19 @@ reconfigure:
 validate: init
 	terraform fmt --recursive
 
+plan-no-lock: init
+	terraform plan \
+	-input=false \
+	-var github_user="${GH_USERNAME}" \
+	-var github_token="${GH_PASSWORD}" \
+	-var github_owner_org="${GH_OWNER_ORG}" \
+	-var github_mirror_token="${GH_MIRROR_TOKEN}" \
+	-var gitlab_token="${GL_PASSWORD}" \
+	-var state_identifier="${TF_PROJECT_ID}" \
+	-var state_username="${TF_USERNAME}" \
+	-var state_remote_host="${TF_HOST}" \
+	-out=.tfstate.plan
+
 # nb: https://developer.godaddy.com/keys?hbi_code=1
 plan: init
 	terraform plan \

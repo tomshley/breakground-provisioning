@@ -22,10 +22,25 @@
 cd "${DOCKERS_LOCAL_ROOT}" || exit
 
 echo "RUNNING THE DOCKER BUILD"
+export DOCKER_HOST=tcp://dockerdaemon:2375/
+export DOCKER_DRIVER=overlay2
+export DOCKER_TLS_CERTDIR=""
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
-echo 'docker buildx create --name tomshley_tware_breakground_buildx'
-echo 'docker buildx rm tomshley_tware_microcontainers_buildx'
-echo 'docker buildx use tomshley_tware_breakground_buildx'
-echo 'docker buildx inspect tomshley_tware_breakground_buildx --bootstrap'
-echo 'docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"'
+echo 'DOCKER BUILD: docker info'
+docker info
+echo 'DOCKER BUILD: docker-compose --version'
+docker-compose --version
+echo 'DOCKER BUILD: docker buildx version'
+docker buildx version
+
+echo 'DOCKER BUILD: docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"'
+docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+
+echo 'DOCKER BUILD: docker buildx create --name tomshley_tware_breakground_buildx'
+docker buildx create --name tomshley_tware_breakground_buildx
+echo 'DOCKER BUILD: docker buildx use tomshley_tware_breakground_buildx'
+docker buildx use tomshley_tware_breakground_buildx
+echo 'DOCKER BUILD: docker buildx inspect tomshley_tware_breakground_buildx --bootstrap'
+docker buildx inspect tomshley_tware_breakground_buildx --bootstrap
 

@@ -17,4 +17,4 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
-make plan
+make plan-no-lock
