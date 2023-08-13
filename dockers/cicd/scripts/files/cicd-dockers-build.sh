@@ -19,4 +19,5 @@
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh"
 
-echo "make build"
+echo "DOCKERS BUILD: make build"
+make build

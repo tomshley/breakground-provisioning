@@ -18,5 +18,5 @@
 #
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-remote.sh"
 
-make plan
+make plan && \
 make apply
