@@ -6,7 +6,7 @@ module "tware-breakground-provision-organization-github" {
   }
   source = "../tware-breakground-provision-organization-github"
   git_projects_with_parent=[
-    (["hexagonal-plugin-sbt", "tomshley", "tomshley"])
+#    (["hexagonal-plugin-sbt", "tomshley", "tomshley"])
   ]
 }
 
@@ -43,7 +43,7 @@ module "tware-breakground-provision-organization-github" {
      (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "71346914"])
    ]
    git_project_mirrors = [
-     (["hexagonal-plugin-sbt", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url])
+#     (["hexagonal-plugin-sbt", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url])
    ]
    github_mirror_token = var.github_mirror_token
  }
