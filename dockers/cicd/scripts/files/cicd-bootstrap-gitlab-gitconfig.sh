@@ -17,8 +17,12 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 # shellcheck source=cicd-exports.sh
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
-git config --global user.email "${GITLAB_USER_EMAIL}"
-git config --global user.name "${GITLAB_USER_NAME}"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
+
+CI_PROJECT_URL_TRIMMED=$(echo ${CI_PROJECT_URL} | sed 's/https\?:\/\///')
+GITLAB_PROJECT_HTTPS_URL="https://${GITLAB_USER_LOGIN}:${GL_PASSWORD}@${CI_PROJECT_URL_TRIMMED}.git"
+echo "${GITLAB_PROJECT_HTTPS_URL}"
+git remote set-url origin "${GITLAB_PROJECT_HTTPS_URL}"
 

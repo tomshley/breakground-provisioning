@@ -21,14 +21,15 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh"
 
 tomshley_release_finish_message="Tomshley Release Version ${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
+
 export GIT_MERGE_AUTOEDIT=no
-git fetch
 git checkout main
 git pull origin main --rebase --prune
-git merge --no-ff --no-edit release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} -m "${tomshley_release_finish_message} | main | [skip ci]"
+git merge --no-ff --no-edit release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION} -m "${tomshley_release_finish_message} | main"
 git tag -a ${TOMSHLEY_BREAKGROUND_BUILD_VERSION} -m "${tomshley_release_finish_message}"
 git checkout develop
 git pull origin develop --rebase --prune
