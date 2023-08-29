@@ -19,7 +19,7 @@
 module "tware-breakground-provision-organization-github" {
   source                   = "../tware-breakground-provision-organization-github"
   git_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "tomshley"])
+    (["breakground-provisioning", "tomshley", "tomshley", "public"])
   ]
 }
 
