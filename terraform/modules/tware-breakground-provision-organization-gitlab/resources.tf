@@ -40,9 +40,9 @@ resource "gitlab_project" "group_projects_with_mirror" {
   namespace_id        = each.value["parent_id"] == "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
   path                = replace(each.key, "/", "-")
   visibility_level    = "private"
-  import_url_password = split(":", var.github_mirror_token)[1]
-  import_url_username = split(":", var.github_mirror_token)[0]
-  import_url          = module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"]
+  import_url_password = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[1] : ""
+  import_url_username = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[0] : ""
+  import_url          = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"] : ""
   mirror              = false
 }
 
