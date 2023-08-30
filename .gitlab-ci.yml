@@ -82,7 +82,7 @@ promote-build-feature-merge-request:
 
 apply-remote-backend:
   tags:
-    - saas-linux-xlarge-amd64
+    - saas-linux-2xlarge-amd64
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
