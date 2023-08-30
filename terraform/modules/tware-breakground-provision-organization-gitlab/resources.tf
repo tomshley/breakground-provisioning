@@ -18,40 +18,27 @@ data "gitlab_group" "groups" {
   full_path = each.value["path"]
 }
 
-resource "gitlab_project" "group_projects_no_mirror" {
+resource "gitlab_project" "group_projects" {
   depends_on = [
     module.tware-hydrator-git-repositories-with-parents,
     data.gitlab_group.groups
   ]
-  for_each         = module.tware-hydrator-git-repositories-with-parents.project_data_no_mirrors
-  name             = replace(each.key, "/", "-")
-  namespace_id     = each.value["parent_id"] == "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
-  path             = replace(each.key, "/", "-")
-  visibility_level = "private"
-}
-
-resource "gitlab_project" "group_projects_with_mirror" {
-  depends_on = [
-    module.tware-hydrator-git-repositories-with-parents,
-    data.gitlab_group.groups
-  ]
-  for_each            = module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors
+  for_each            = merge(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors, module.tware-hydrator-git-repositories-with-parents.project_data_no_mirrors)
   name                = replace(each.key, "/", "-")
   namespace_id        = each.value["parent_id"] == "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
   path                = replace(each.key, "/", "-")
   visibility_level    = "private"
-  import_url_password = split(":", var.github_mirror_token)[1]
-  import_url_username = split(":", var.github_mirror_token)[0]
-  import_url          = module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"]
+  import_url_password = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[1] : ""
+  import_url_username = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[0] : ""
+  import_url          = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"] : ""
   mirror              = false
 }
 
 resource "gitlab_branch_protection" "main" {
   depends_on = [
-    gitlab_project.group_projects_no_mirror,
-    gitlab_project.group_projects_with_mirror
+    gitlab_project.group_projects
   ]
-  for_each = merge(gitlab_project.group_projects_no_mirror, gitlab_project.group_projects_with_mirror)
+  for_each = gitlab_project.group_projects
   project                = each.value.id
   branch                 = "main"
   push_access_level      = "maintainer"
@@ -61,10 +48,9 @@ resource "gitlab_branch_protection" "main" {
 
 resource "gitlab_branch_protection" "develop" {
   depends_on = [
-    gitlab_project.group_projects_no_mirror,
-    gitlab_project.group_projects_with_mirror
+    gitlab_project.group_projects
   ]
-  for_each = merge(gitlab_project.group_projects_no_mirror, gitlab_project.group_projects_with_mirror)
+  for_each = gitlab_project.group_projects
   project                = each.value.id
   branch                 = "develop"
   push_access_level      = "maintainer"
@@ -74,7 +60,7 @@ resource "gitlab_branch_protection" "develop" {
 
 # https://github.com/settings/tokens
 resource "gitlab_project_mirror" "group_projects_mirrors" {
-  for_each = gitlab_project.group_projects_with_mirror
+  for_each = gitlab_project.group_projects
   project  = each.value.id
   #   Example:
   #     url     = "https://username:password@github.com/org/repository.git"
