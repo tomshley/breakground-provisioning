@@ -18,7 +18,7 @@ data "gitlab_group" "groups" {
   full_path = each.value["path"]
 }
 
-resource "gitlab_project" "group_projects_with_mirror" {
+resource "gitlab_project" "group_projects" {
   depends_on = [
     module.tware-hydrator-git-repositories-with-parents,
     data.gitlab_group.groups
@@ -36,9 +36,9 @@ resource "gitlab_project" "group_projects_with_mirror" {
 
 resource "gitlab_branch_protection" "main" {
   depends_on = [
-    gitlab_project.group_projects_with_mirror
+    gitlab_project.group_projects
   ]
-  for_each = gitlab_project.group_projects_with_mirror
+  for_each = gitlab_project.group_projects
   project                = each.value.id
   branch                 = "main"
   push_access_level      = "maintainer"
@@ -48,9 +48,9 @@ resource "gitlab_branch_protection" "main" {
 
 resource "gitlab_branch_protection" "develop" {
   depends_on = [
-    gitlab_project.group_projects_with_mirror
+    gitlab_project.group_projects
   ]
-  for_each = gitlab_project.group_projects_with_mirror
+  for_each = gitlab_project.group_projects
   project                = each.value.id
   branch                 = "develop"
   push_access_level      = "maintainer"
@@ -60,7 +60,7 @@ resource "gitlab_branch_protection" "develop" {
 
 # https://github.com/settings/tokens
 resource "gitlab_project_mirror" "group_projects_mirrors" {
-  for_each = gitlab_project.group_projects_with_mirror
+  for_each = gitlab_project.group_projects
   project  = each.value.id
   #   Example:
   #     url     = "https://username:password@github.com/org/repository.git"
