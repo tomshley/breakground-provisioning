@@ -16,7 +16,7 @@ locals {
       parent_id                  = pt[2]
       parent_path                = trimsuffix(pt[1], "/")
       parent_name                = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/"))) - 1)
-      visibility                 = length(pt) > 4 ? (pt[3] != "" ? pt[3] : "private") : "private"
+      visibility                 = length(pt) > 3 ? (pt[3] != "" ? pt[3] : "private") : "private"
       repository_files_default = {
         gitignore = {
           filename = ".gitignore"
