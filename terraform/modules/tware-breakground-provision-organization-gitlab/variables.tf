@@ -1,5 +1,5 @@
 variable "git_projects_with_parent" {
-  type = list(tuple([string, string, string]))
+  type = list(tuple([string, string, string, string]))
 }
 variable "git_project_mirrors" {
   type        = list(tuple([string, string]))
