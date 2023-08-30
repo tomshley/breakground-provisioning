@@ -9,7 +9,7 @@ module "tware-breakground-provision-organization-github" {
     (["gateway-scala", "tomshley", "tomshley", "private"]),
     (["gateway-sdk-scala", "tomshley", "tomshley", "private"]),
     (["hexagonal-lib-jvm", "tomshley", "tomshley", "private"]),
-    (["hexagonal-plugin-sbt", "tomshley", "tomshley", "private"]),
+    (["hexagonal-plugin-sbt", "tomshley", "tomshley", "public"]),
     (["hexagonal-sdk-kotlin", "tomshley", "tomshley", "private"]),
     (["hexagonal-sdk-python", "tomshley", "tomshley", "private"]),
     (["hexagonal-lib-py", "tomshley", "tomshley", "private"]),
