@@ -23,7 +23,7 @@ resource "gitlab_project" "group_projects" {
     module.tware-hydrator-git-repositories-with-parents,
     data.gitlab_group.groups
   ]
-  for_each            = merge(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors, module.tware-hydrator-git-repositories-with-parents.project_data_no_mirrors)
+  for_each            = module.tware-hydrator-git-repositories-with-parents.project_data
   name                = replace(each.key, "/", "-")
   namespace_id        = each.value["parent_id"] == "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
   path                = replace(each.key, "/", "-")
@@ -34,25 +34,16 @@ resource "gitlab_project" "group_projects" {
   mirror              = false
 }
 
-resource "gitlab_branch_protection" "main" {
+resource "gitlab_branch_protection" "group_projects_protected_branches" {
   depends_on = [
     gitlab_project.group_projects
   ]
-  for_each = gitlab_project.group_projects
-  project                = each.value.id
-  branch                 = "main"
-  push_access_level      = "maintainer"
-  merge_access_level     = "maintainer"
-  unprotect_access_level = "maintainer"
-}
-
-resource "gitlab_branch_protection" "develop" {
-  depends_on = [
-    gitlab_project.group_projects
-  ]
-  for_each = gitlab_project.group_projects
-  project                = each.value.id
-  branch                 = "develop"
+  for_each = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.git_flow_projects_with_branch_defaults : k => v
+    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration")
+  }
+  project = gitlab_project.group_projects[each.value["project_name"]].id
+  branch  = each.value["branch_name"]
   push_access_level      = "maintainer"
   merge_access_level     = "maintainer"
   unprotect_access_level = "maintainer"

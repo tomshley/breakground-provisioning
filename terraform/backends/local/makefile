@@ -20,9 +20,17 @@ env ?= .tfstate.env
 include $(env)
 export $(shell sed 's/=.*//' $(env))
 
+clean:
+	rm -rf .terraform .terraform.lock.hcl
+
+artifact:
+	terraform show -no-color .tfstate.plan > .tfstate.plan.txt
+	terraform show -json .tfstate.plan | jq '[.resource_changes[] | select(.change.actions[0] != "no-op")] | length' > .tfstate.plan.changes
+	terraform show -json .tfstate.plan | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > .tfstate.plan.json
+
 init:
 	terraform init 
-    
+
 migrate:
 	terraform init \
 	-migrate-state
@@ -32,9 +40,9 @@ reconfigure:
 	-reconfigure
 
 validate: init
-	terraform fmt --recursive
+	terraform fmt -recursive -diff -check
 
-plan: init
+_planonly:
 	terraform plan \
 	-lock=true \
 	-input=false \
@@ -45,12 +53,16 @@ plan: init
 	-var gitlab_token="${GL_PASSWORD}" \
 	-out=.tfstate.plan
 
-apply: plan
+plan: init _planonly artifact
+
+_applyonly:
 	terraform apply \
 	-input=false \
 	-auto-approve=true \
 	-lock=true \
 	.tfstate.plan
+
+apply: init _planonly _applyonly artifact
 
 destroy: init
 	terraform destroy \

@@ -13,3 +13,7 @@ output "project_data_with_mirrors" {
 output "unique_groups_for_management_map" {
   value = local.unique_groups_for_management_map
 }
+
+output "git_flow_projects_with_branch_defaults" {
+  value = local.git_flow_projects_with_branch_defaults
+}

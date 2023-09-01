@@ -2,7 +2,7 @@
 *.terraform/
 *.tfstate*
 *.tfvars
-*plan.txt
+*.tfstate.plan*
 *.tfplan
 *.terraform-version
 *.terraform.lock.hcl
