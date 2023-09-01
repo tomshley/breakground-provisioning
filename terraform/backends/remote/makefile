@@ -94,7 +94,7 @@ _planonly:
 	-var state_remote_host="${TF_HOST}" \
 	-out=.tfstate.plan
 
-plan: clean init _plan artifact
+plan: clean init _planonly artifact
 
 _applyonly:
 	terraform apply \
@@ -103,7 +103,7 @@ _applyonly:
 	-lock=true \
 	.tfstate.plan
 
-apply: clean init _plan _applyonly artifact
+apply: clean init _planonly _applyonly artifact
 
 destroy: init
 	terraform destroy \
