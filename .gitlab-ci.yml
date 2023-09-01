@@ -19,6 +19,17 @@
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:latest"
 
+.artifacts.tfstate.plan:
+  artifacts:
+    name: .tfstate.plan
+    paths:
+      - .tfstate.plan
+      - .tfstate.plan.txt
+      - .tfstate.plan.changes
+    reports:
+      terraform:
+        - .tfstate.plan.json
+
 stages:
   - promote-build-feature-merge-request
   - validate-all
@@ -29,6 +40,7 @@ stages:
   - apply-remote-backend
 
 validate-all:
+  extends: .artifacts.tfstate.plan
   tags:
     - saas-linux-xlarge-amd64
   services:
@@ -41,11 +53,16 @@ validate-all:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
+  artifacts:
+    expire_in: 8 hours
 
 plan-remote-backend:
+  extends: .artifacts.tfstate.plan
   stage: plan-remote-backend
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
+  artifacts:
+    expire_in: 8 hours
 
 promote-build-start:
   tags:
@@ -81,6 +98,7 @@ promote-build-feature-merge-request:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
 apply-remote-backend:
+  extends: .artifacts.tfstate.plan
   tags:
     - saas-linux-2xlarge-amd64
   services:

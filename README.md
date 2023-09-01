@@ -2,6 +2,8 @@
 This repository is the seed for the infrastructure and gitops tenancy of tomshley
 
 ```shell
+brew install jq
+
 cd ./cd terraform/backends/local/
 
 # to initialize terraform. this will initialize with a local backend to bootstrap gitlab remote
