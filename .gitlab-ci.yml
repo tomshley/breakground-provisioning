@@ -99,6 +99,7 @@ promote-build-feature-merge-request:
 
 apply-remote-backend:
   extends: .artifacts.tfstate.plan
+  environment: production
   tags:
     - saas-linux-2xlarge-amd64
   services:
