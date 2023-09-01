@@ -50,6 +50,30 @@ locals {
 
   project_data = merge(local.project_data_with_mirrors, local.project_data_no_mirrors)
 
+  git_flow_projects_with_branch_defaults_prep = flatten([
+    for flow_branch_type, branch_name_list in var.git_flow_structure :
+      [
+        for branch_name in branch_name_list : [
+        for project_name, project_meta in local.project_data :
+        {
+          flow_branch_type = flow_branch_type
+          branch_name      = branch_name
+          project_name     = project_name
+        }
+      ]
+      ]
+
+  ])
+
+  git_flow_projects_with_branch_defaults = {
+    for prep_output_obj in local.git_flow_projects_with_branch_defaults_prep :
+    replace(
+      "${prep_output_obj["flow_branch_type"]}${prep_output_obj["branch_name"]}${prep_output_obj["project_name"]}",
+      "/",
+      "-"
+    ) => prep_output_obj
+  }
+
   unique_groups_for_management = distinct([
     for pt in var.git_projects_with_parent : trimsuffix(pt[1], "/") if pt[2] == ""
   ])

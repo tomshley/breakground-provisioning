@@ -20,45 +20,53 @@ env ?= .tfstate.env
 include $(env)
 export $(shell sed 's/=.*//' $(env))
 
+clean:
+	rm -rf .terraform .terraform.lock.hcl
+
+artifact:
+	terraform show -no-color .tfstate.plan > .tfstate.plan.txt
+	terraform show -json .tfstate.plan | jq '[.resource_changes[] | select(.change.actions[0] != "no-op")] | length' > .tfstate.plan.changes
+	terraform show -json .tfstate.plan | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > .tfstate.plan.json
+
 init:
 	terraform init \
-    -backend-config=address=${TF_ADDRESS} \
-    -backend-config=lock_address=${TF_ADDRESS}/lock \
-    -backend-config=unlock_address=${TF_ADDRESS}/lock \
-    -backend-config=username=${TF_USERNAME} \
-    -backend-config=password=${TF_PASSWORD} \
-    -backend-config=lock_method=POST \
-    -backend-config=unlock_method=DELETE \
-    -backend-config=retry_wait_min=5
+	-backend-config=address=${TF_ADDRESS} \
+	-backend-config=lock_address=${TF_ADDRESS}/lock \
+	-backend-config=unlock_address=${TF_ADDRESS}/lock \
+	-backend-config=username=${TF_USERNAME} \
+	-backend-config=password=${TF_PASSWORD} \
+	-backend-config=lock_method=POST \
+	-backend-config=unlock_method=DELETE \
+	-backend-config=retry_wait_min=5
 
 migrate:
 	terraform init \
 	-migrate-state \
-    -backend-config=address=${TF_ADDRESS} \
-    -backend-config=lock_address=${TF_ADDRESS}/lock \
-    -backend-config=unlock_address=${TF_ADDRESS}/lock \
-    -backend-config=username=${TF_USERNAME} \
-    -backend-config=password=${TF_PASSWORD} \
-    -backend-config=lock_method=POST \
-    -backend-config=unlock_method=DELETE \
-    -backend-config=retry_wait_min=5
+	-backend-config=address=${TF_ADDRESS} \
+	-backend-config=lock_address=${TF_ADDRESS}/lock \
+	-backend-config=unlock_address=${TF_ADDRESS}/lock \
+	-backend-config=username=${TF_USERNAME} \
+	-backend-config=password=${TF_PASSWORD} \
+	-backend-config=lock_method=POST \
+	-backend-config=unlock_method=DELETE \
+	-backend-config=retry_wait_min=5
 
 reconfigure:
 	terraform init \
 	-reconfigure \
-    -backend-config=address=${TF_ADDRESS} \
-    -backend-config=lock_address=${TF_ADDRESS}/lock \
-    -backend-config=unlock_address=${TF_ADDRESS}/lock \
-    -backend-config=username=${TF_USERNAME} \
-    -backend-config=password=${TF_PASSWORD} \
-    -backend-config=lock_method=POST \
-    -backend-config=unlock_method=DELETE \
-    -backend-config=retry_wait_min=5
+	-backend-config=address=${TF_ADDRESS} \
+	-backend-config=lock_address=${TF_ADDRESS}/lock \
+	-backend-config=unlock_address=${TF_ADDRESS}/lock \
+	-backend-config=username=${TF_USERNAME} \
+	-backend-config=password=${TF_PASSWORD} \
+	-backend-config=lock_method=POST \
+	-backend-config=unlock_method=DELETE \
+	-backend-config=retry_wait_min=5
 
 validate: init
-	terraform fmt --recursive
+	terraform fmt -recursive -diff -check
 
-plan-no-lock: init
+plan-no-lock: clean init
 	terraform plan \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
@@ -72,7 +80,7 @@ plan-no-lock: init
 	-out=.tfstate.plan
 
 # nb: https://developer.godaddy.com/keys?hbi_code=1
-plan: init
+_planonly:
 	terraform plan \
 	-lock=true \
 	-input=false \
@@ -86,12 +94,16 @@ plan: init
 	-var state_remote_host="${TF_HOST}" \
 	-out=.tfstate.plan
 
-apply: plan
+plan: clean init _plan artifact
+
+_applyonly:
 	terraform apply \
 	-input=false \
 	-auto-approve=true \
 	-lock=true \
 	.tfstate.plan
+
+apply: clean init _plan _applyonly artifact
 
 destroy: init
 	terraform destroy \

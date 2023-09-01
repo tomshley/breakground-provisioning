@@ -19,14 +19,14 @@
 module "tware-breakground-provision-organization-github" {
   source                   = "../tware-breakground-provision-organization-github"
   git_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "tomshley", "public"])
+    (["breakground-provisioning", "tomshley", "tomshley", "public"]),
   ]
 }
 
 module "tware-hexagonal-gitlab" {
   source = "../tware-breakground-provision-organization-gitlab"
   git_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "64355277", "private"])
+    (["breakground-provisioning", "tomshley", "64355277", "private"]),
   ]
   github_mirror_token = var.github_mirror_token
 
@@ -34,4 +34,3 @@ module "tware-hexagonal-gitlab" {
     (["breakground-provisioning", module.tware-breakground-provision-organization-github.gh_repositories["breakground-provisioning"].http_clone_url])
   ]
 }
-

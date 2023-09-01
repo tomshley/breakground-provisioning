@@ -50,23 +50,19 @@ module "tware-git-project-with-parent" {
   git_projects_with_parent = var.git_projects_with_parent
 }
 
+
 resource "github_repository" "repositories" {
   for_each   = module.tware-git-project-with-parent.project_data
   name       = replace(each.key, "/", "-")
   visibility = each.value["visibility"]
   auto_init  = false
-  #  full_name = replace(each.value["parent_path"], "/", "-")
 }
 
-# if initialized:
-#resource "github_branch_default" "main"{
-#  for_each = github_repository.repositories
-#  repository = each.value.name
-#  branch     = "main"
-#}
-#
-#resource "github_branch" "develop"{
-#  for_each = github_repository.repositories
-#  repository = each.value.name
-#  branch     = "develop"
-#}
+resource "github_branch_default" "repositories_protected_branches" {
+  for_each  = {
+    for k, v in module.tware-git-project-with-parent.git_flow_projects_with_branch_defaults : k => v
+    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration")
+  }
+  repository = each.value["project_name"]
+  branch     = each.value["branch_name"]
+}

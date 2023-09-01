@@ -7,3 +7,24 @@ variable "git_project_mirrors" {
   description = "<required:repo-name>, <required:repo-url>"
   default     = []
 }
+variable "git_flow_structure" {
+  type = object(
+    {
+      production  = list(string)
+      integration = list(string)
+      feature     = list(string)
+      release     = list(string)
+      hotfix      = list(string)
+      support     = list(string)
+    }
+  )
+  default = {
+    production     = ["main"]
+    integration    = ["develop"]
+    feature        = ["feature/"]
+    release        = ["release/"]
+    hotfix         = ["hotfix/"]
+    support        = ["support/"]
+    version_prefix = ["v"]
+  }
+}
