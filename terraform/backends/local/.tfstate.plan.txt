@@ -1,0 +1,14 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.terraform_data.gitlab_project_cleanup will be destroyed
+  # (because terraform_data.gitlab_project_cleanup is not in configuration)
+  - resource "terraform_data" "gitlab_project_cleanup" {
+      - id = "0c9b6985-c1ae-d2e8-0439-2dcfa54b43c4" -> null
+    }
+
+Plan: 0 to add, 0 to change, 1 to destroy.
