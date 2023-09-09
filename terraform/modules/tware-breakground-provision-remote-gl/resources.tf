@@ -65,7 +65,8 @@ module "tware-breakground-provision-organization-github" {
      (["paste-js-lib", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
      (["paste-pageperf-gevent2", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
      (["paste-sdk-scala", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"])
+     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
+     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "72615114", "private"])
    ]
    git_project_mirrors = [
      (["gateway-scala", module.tware-breakground-provision-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
