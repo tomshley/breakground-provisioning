@@ -1,14 +1,71 @@
 
 Terraform used the selected providers to generate the following execution
 plan. Resource actions are indicated with the following symbols:
-  - destroy
+  + create
+  ~ update in-place
+ <= read (data resources)
 
 Terraform will perform the following actions:
 
-  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.terraform_data.gitlab_project_cleanup will be destroyed
-  # (because terraform_data.gitlab_project_cleanup is not in configuration)
-  - resource "terraform_data" "gitlab_project_cleanup" {
-      - id = "0c9b6985-c1ae-d2e8-0439-2dcfa54b43c4" -> null
+  # module.tware-breakground-provision-local-gl.module.tware-breakground-provision-organization-github.github_repository.repositories["breakground-provisioning"] will be created
+  + resource "github_repository" "repositories" {
+      + allow_auto_merge            = false
+      + allow_merge_commit          = true
+      + allow_rebase_merge          = true
+      + allow_squash_merge          = true
+      + archived                    = false
+      + auto_init                   = false
+      + default_branch              = (known after apply)
+      + delete_branch_on_merge      = false
+      + etag                        = (known after apply)
+      + full_name                   = (known after apply)
+      + git_clone_url               = (known after apply)
+      + html_url                    = (known after apply)
+      + http_clone_url              = (known after apply)
+      + id                          = (known after apply)
+      + merge_commit_message        = "PR_TITLE"
+      + merge_commit_title          = "MERGE_MESSAGE"
+      + name                        = "breakground-provisioning"
+      + node_id                     = (known after apply)
+      + private                     = (known after apply)
+      + repo_id                     = (known after apply)
+      + squash_merge_commit_message = "COMMIT_MESSAGES"
+      + squash_merge_commit_title   = "COMMIT_OR_PR_TITLE"
+      + ssh_clone_url               = (known after apply)
+      + svn_url                     = (known after apply)
+      + visibility                  = "public"
     }
 
-Plan: 0 to add, 0 to change, 1 to destroy.
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.data.gitlab_project_branches.group_projects_branch_production_exists_data["breakground-provisioning"] will be read during apply
+  # (depends on a resource or a module with changes pending)
+ <= data "gitlab_project_branches" "group_projects_branch_production_exists_data" {
+      + branches = (known after apply)
+      + id       = (known after apply)
+      + project  = "49211371"
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project.group_projects["breakground-provisioning"] will be updated in-place
+  ~ resource "gitlab_project" "group_projects" {
+        id                                               = "49211371"
+      + import_url                                       = (known after apply)
+      + import_url_password                              = (sensitive value)
+      + import_url_username                              = "sgoggles"
+        name                                             = "breakground-provisioning"
+        tags                                             = []
+        # (68 unchanged attributes hidden)
+
+        # (2 unchanged blocks hidden)
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project_mirror.group_projects_mirrors["breakground-provisioning"] will be created
+  + resource "gitlab_project_mirror" "group_projects_mirrors" {
+      + enabled                 = true
+      + id                      = (known after apply)
+      + keep_divergent_refs     = false
+      + mirror_id               = (known after apply)
+      + only_protected_branches = true
+      + project                 = "49211371"
+      + url                     = (sensitive value)
+    }
+
+Plan: 2 to add, 1 to change, 0 to destroy.
