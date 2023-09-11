@@ -26,7 +26,7 @@ module "tware-breakground-provision-organization-github" {
     (["paste-sdk-py", "tomshley", "tomshley", "private"]),
     (["paste-templating-akkahttp", "tomshley", "tomshley", "private"]),
     (["paste-jammer-py", "tomshley", "tomshley", "private"]),
-    (["paste-js-lib", "tomshley", "tomshley", "private"]),
+    (["paste-js-lib", "tomshley", "tomshley", "public"]),
     (["paste-pageperf-gevent2", "tomshley", "tomshley", "private"]),
     (["paste-sdk-scala", "tomshley", "tomshley", "private"]),
     (["paste-templating-jinja", "tomshley", "tomshley", "private"])
