@@ -96,3 +96,7 @@ module "tware-breakground-provision-organization-github" {
    ]
    github_mirror_token = var.github_mirror_token
  }
+# For Debug:
+#output "groups" {
+#  value = module.tware-breakground-provision-organization-gitlab.groups
+#}
