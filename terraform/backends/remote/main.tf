@@ -56,3 +56,7 @@ module "tware-breakground-provision-remote-gl" {
   source              = "../../modules/tware-breakground-provision-remote-gl"
   github_mirror_token = var.github_mirror_token
 }
+# For Debug:
+#output "groups" {
+#  value = module.tware-breakground-provision-remote-gl.groups
+#}

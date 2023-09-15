@@ -93,11 +93,73 @@ locals {
     for pt in var.git_projects_with_parent : trimsuffix(pt[1], "/") if pt[2] == ""
   ])
 
+  unique_groups_known_parent = distinct([
+    for pt in var.git_projects_with_parent : trimsuffix(pt[1], "/") if pt[2] != ""
+  ])
+
+  unique_groups_known_parent_map = {
+    for ug in local.unique_groups_known_parent : replace(ug, "/", "-") => {
+      name   = element(split("/", trimsuffix(ug, "/")), length(split("/", trimsuffix(ug, "/"))) - 1)
+      path   = ug
+      parent = null
+    }
+  }
+
   unique_groups_for_management_map = {
     for ug in local.unique_groups_for_management : replace(ug, "/", "-") => {
       name   = element(split("/", trimsuffix(ug, "/")), length(split("/", trimsuffix(ug, "/"))) - 1)
       path   = ug
       parent = element(split("/", trimsuffix(ug, "/")), length(split("/", trimsuffix(ug, "/"))) - 2)
     }
+  }
+
+  parent_map_structure = {
+    parent_path = null
+    parent_key  = null
+    group_key   = null
+    group_path  = null
+    group_name  = null
+  }
+  required_group_to_parent_path = {
+    for k, v in local.unique_groups_for_management_map : k =>
+    join("/", slice(split("/", v["path"]), 0, length(split("/", v["path"])) - 1))
+  }
+  distinct_parent_paths = distinct(flatten([
+    for k, v in local.required_group_to_parent_path : v
+  ]))
+  flattened_parents_with_parent_map = flatten([
+    for v1 in local.distinct_parent_paths : [
+      for v2 in split("/", v1) : merge(local.parent_map_structure, {
+        parent_key  = replace(trimsuffix(element(split(v2, v1), 0), "/"), "/", "-")
+        parent_path = trimsuffix(element(split(v2, v1), 0), "/")
+        group_name  = v2
+        group_path  = v1
+        group_key   = "${replace(trimsuffix(element(split(v2, v1), 0), "/"), "/", "-")}-${v2}"
+      })
+      if element(split(v2, v1), 0) != ""
+    ]
+  ])
+  flattened_required_groups_with_parent_map = flatten([
+    for k, v in local.required_group_to_parent_path : merge(local.parent_map_structure, {
+      parent_key  = replace(trimsuffix(v, "/"), "/", "-")
+      parent_path = v
+      group_key   = k
+      group_path  = lookup(local.unique_groups_for_management_map, k, {
+        path = null
+      })[
+      "path"
+      ]
+      group_name = lookup(local.unique_groups_for_management_map, k, {
+        name = null
+      })[
+      "name"
+      ]
+    })
+  ])
+
+  groups_map = {
+    for v in concat(local.flattened_required_groups_with_parent_map, local.flattened_parents_with_parent_map) :
+    v["group_key"] =>
+    v
   }
 }
