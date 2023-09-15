@@ -15,7 +15,7 @@ data "gitlab_group" "groups" {
   depends_on = [
     module.tware-hydrator-git-repositories-with-parents
   ]
-  for_each  = module.tware-hydrator-git-repositories-with-parents.unique_groups_for_management_map
+  for_each = module.tware-hydrator-git-repositories-with-parents.unique_groups_known_parent_map
   full_path = each.value["path"]
 }
 
@@ -58,13 +58,71 @@ module "tware-hydrator-git-repositories-with-branches" {
   git_flow_projects_with_branch_defaults_grouped = module.tware-hydrator-git-repositories-with-parents.git_flow_projects_with_branch_defaults_grouped
 }
 
+locals {
+  groups = [
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : merge(v, {
+      group_key = k
+    })
+  ]
+}
+
+# For Debug:
+#output "groups" {
+  # ~ groups = [
+  #   + {
+  #   + group_key   = "tomshley-g1"
+  #   + group_name  = "g1"
+  #   + group_path  = "tomshley/g1/g2"
+  #   + parent_key  = "tomshley"
+  #   + parent_path = "tomshley"
+  #   },
+  #   + {
+  #   + group_key   = "tomshley-g1-g2"
+  #   + group_name  = "g2"
+  #   + group_path  = "tomshley/g1/g2"
+  #   + parent_key  = "tomshley-g1"
+  #   + parent_path = "tomshley/g1"
+  #   },
+  #   + {
+  #   + group_key   = "tomshley-g1-g2-g3"
+  #   + group_name  = "g3"
+  #   + group_path  = "tomshley/g1/g2/g3"
+  #   + parent_key  = "tomshley-g1-g2"
+  #   + parent_path = "tomshley/g1/g2"
+  #   },
+  # ]
+
+  #  value = module.tware-hydrator-git-repositories-with-parents.groups_map
+  #  value = one([for i, v in local.groups : i if v["parent_path"] == each.value["parent_path"]])
+  #  value = [for i, v in local.groups : v ]
+#  value = {}
+#}
+
+resource "gitlab_group" "groups" {
+  # Example:
+  # tomshley-brands-global-tware-tech-products-tuuid        = {
+  #   + group_key   = "tomshley-brands-global-tware-tech-products-tuuid"
+  #   + group_name  = "tuuid"
+  #   + group_path  = "tomshley/brands/global/tware/tech/products/tuuid"
+  #   + parent_key  = "tomshley-brands-global-tware-tech-products"
+  #   + parent_path = "tomshley/brands/global/tware/tech/products"
+  # }
+
+  count = length(local.groups)
+  name = element(local.groups, count.index)["group_name"]
+  path = element(local.groups, count.index)["group_path"]
+  parent_id = gitlab_group.groups[one([for k, v in local.groups : k if v["group_key"] == element(local.groups, count.index)["group_key"]])].id
+}
+
 resource "gitlab_project" "group_projects" {
   depends_on = [
     data.gitlab_group.groups
   ]
   for_each            = module.tware-hydrator-git-repositories-with-parents.project_data
   name                = replace(each.key, "/", "-")
-  namespace_id        = each.value["parent_id"] == "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : each.value["parent_id"]
+  namespace_id        = each.value["parent_id"] != "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : one([
+    for i, v in local.groups : i if v["parent_path"] == each.value["parent_path"]
+  ])
   path                = replace(each.key, "/", "-")
   visibility_level    = "private"
   import_url_password = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[1] : ""
