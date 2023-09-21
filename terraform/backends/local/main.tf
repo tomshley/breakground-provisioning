@@ -52,3 +52,7 @@ module "tware-breakground-provision-deploy-containers" {
   depends_on = [module.tware-breakground-provision-local-gl]
   source     = "../../modules/tware-breakground-provision-deploy-containers"
 }
+# For Debug:
+#output "groups" {
+#  value = module.tware-breakground-provision-local-gl.groups
+#}
