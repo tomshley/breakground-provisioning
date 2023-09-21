@@ -11,3 +11,7 @@ variable "github_mirror_token" {
   type    = string
   default = ""
 }
+
+variable "github_owner_group_path" {
+  type = string
+}

@@ -43,8 +43,9 @@ module "tware-breakground-provision-local-gl" {
     gitlab = gitlab
     github = github
   }
-  source              = "../../modules/tware-breakground-provision-local-gl"
-  github_mirror_token = var.github_mirror_token
+  source                  = "../../modules/tware-breakground-provision-local-gl"
+  github_mirror_token     = var.github_mirror_token
+  github_owner_group_path = var.github_owner_org
 }
 
 module "tware-breakground-provision-deploy-containers" {
