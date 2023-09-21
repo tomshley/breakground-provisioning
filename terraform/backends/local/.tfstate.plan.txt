@@ -1,7 +1,7 @@
 
 Terraform used the selected providers to generate the following execution
 plan. Resource actions are indicated with the following symbols:
-  ~ update in-place
+  - destroy
  <= read (data resources)
 
 Terraform will perform the following actions:
@@ -14,15 +14,564 @@ Terraform will perform the following actions:
       + project  = "49211371"
     }
 
-  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project.group_projects["breakground-provisioning"] will be updated in-place
-  ~ resource "gitlab_project" "group_projects" {
-        id                                               = "49211371"
-      ~ import_url_password                              = (sensitive value)
-        name                                             = "breakground-provisioning"
-        tags                                             = []
-        # (70 unchanged attributes hidden)
-
-        # (2 unchanged blocks hidden)
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch.group_projects_branch_integration["integrationdevelopbreakground-provisioning1"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning1"] is not in for_each map)
+  - resource "gitlab_branch" "group_projects_branch_integration" {
+      - can_push            = true -> null
+      - commit              = [
+          - {
+              - author_email    = "gitlab.comsgogglespm.coil197@passmail.net"
+              - author_name     = "Tom Schena"
+              - authored_date   = "2023-09-21T15:29:21Z"
+              - committed_date  = "2023-09-21T15:29:21Z"
+              - committer_email = "gitlab.comsgogglespm.coil197@passmail.net"
+              - committer_name  = "Tom Schena"
+              - id              = "7cb01f3229bc0311558c7ff70e5ec23d3bae1570"
+              - message         = "Add README.md"
+              - parent_ids      = []
+              - short_id        = "7cb01f32"
+              - title           = "Add README.md"
+            },
+        ] -> null
+      - default             = false -> null
+      - developer_can_merge = false -> null
+      - developer_can_push  = false -> null
+      - id                  = "50597457:develop" -> null
+      - merged              = false -> null
+      - name                = "develop" -> null
+      - project             = "50597457" -> null
+      - protected           = true -> null
+      - ref                 = "main" -> null
+      - web_url             = "https://gitlab.com/tomshley/breakground-provisioning1/-/tree/develop" -> null
     }
 
-Plan: 0 to add, 1 to change, 0 to destroy.
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch.group_projects_branch_integration["integrationdevelopbreakground-provisioning2"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning2"] is not in for_each map)
+  - resource "gitlab_branch" "group_projects_branch_integration" {
+      - can_push            = true -> null
+      - commit              = [
+          - {
+              - author_email    = "gitlab.comsgogglespm.coil197@passmail.net"
+              - author_name     = "Tom Schena"
+              - authored_date   = "2023-09-21T15:33:07Z"
+              - committed_date  = "2023-09-21T15:33:07Z"
+              - committer_email = "gitlab.comsgogglespm.coil197@passmail.net"
+              - committer_name  = "Tom Schena"
+              - id              = "9c7315cd3765438f22ab82ecb8f6bd21bbdfcebc"
+              - message         = "Add README.md"
+              - parent_ids      = []
+              - short_id        = "9c7315cd"
+              - title           = "Add README.md"
+            },
+        ] -> null
+      - default             = false -> null
+      - developer_can_merge = false -> null
+      - developer_can_push  = false -> null
+      - id                  = "50597556:develop" -> null
+      - merged              = false -> null
+      - name                = "develop" -> null
+      - project             = "50597556" -> null
+      - protected           = true -> null
+      - ref                 = "main" -> null
+      - web_url             = "https://gitlab.com/tomshley/nested1/breakground-provisioning2/-/tree/develop" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch.group_projects_branch_integration["integrationdevelopbreakground-provisioning3"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning3"] is not in for_each map)
+  - resource "gitlab_branch" "group_projects_branch_integration" {
+      - can_push            = true -> null
+      - commit              = [
+          - {
+              - author_email    = "gitlab.comsgogglespm.coil197@passmail.net"
+              - author_name     = "Tom Schena"
+              - authored_date   = "2023-09-21T16:03:52Z"
+              - committed_date  = "2023-09-21T16:03:52Z"
+              - committer_email = "gitlab.comsgogglespm.coil197@passmail.net"
+              - committer_name  = "Tom Schena"
+              - id              = "3899b2bee191c0d1ccb9490be1e8b08628d5fce6"
+              - message         = "Add README.md"
+              - parent_ids      = []
+              - short_id        = "3899b2be"
+              - title           = "Add README.md"
+            },
+        ] -> null
+      - default             = false -> null
+      - developer_can_merge = false -> null
+      - developer_can_push  = false -> null
+      - id                  = "50598729:develop" -> null
+      - merged              = false -> null
+      - name                = "develop" -> null
+      - project             = "50598729" -> null
+      - protected           = true -> null
+      - ref                 = "main" -> null
+      - web_url             = "https://gitlab.com/tomshley/nested2/nested21/breakground-provisioning3/-/tree/develop" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["integrationdevelopbreakground-provisioning1"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning1"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "develop" -> null
+      - branch_protection_id         = 78459278 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50597457:develop" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50597457" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["integrationdevelopbreakground-provisioning2"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning2"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "develop" -> null
+      - branch_protection_id         = 78459446 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50597556:develop" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50597556" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["integrationdevelopbreakground-provisioning3"] will be destroyed
+  # (because key ["integrationdevelopbreakground-provisioning3"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "develop" -> null
+      - branch_protection_id         = 78461182 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50598729:develop" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50598729" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["productionmainbreakground-provisioning1"] will be destroyed
+  # (because key ["productionmainbreakground-provisioning1"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "main" -> null
+      - branch_protection_id         = 78459280 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50597457:main" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50597457" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["productionmainbreakground-provisioning2"] will be destroyed
+  # (because key ["productionmainbreakground-provisioning2"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "main" -> null
+      - branch_protection_id         = 78459445 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50597556:main" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50597556" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_branch_protection.group_projects_protected_branches["productionmainbreakground-provisioning3"] will be destroyed
+  # (because key ["productionmainbreakground-provisioning3"] is not in for_each map)
+  - resource "gitlab_branch_protection" "group_projects_protected_branches" {
+      - allow_force_push             = false -> null
+      - branch                       = "main" -> null
+      - branch_protection_id         = 78461185 -> null
+      - code_owner_approval_required = false -> null
+      - id                           = "50598729:main" -> null
+      - merge_access_level           = "maintainer" -> null
+      - project                      = "50598729" -> null
+      - push_access_level            = "maintainer" -> null
+      - unprotect_access_level       = "maintainer" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_group.groups_map_level_1["tomshley-nested1"] will be destroyed
+  # (because key ["tomshley-nested1"] is not in for_each map)
+  - resource "gitlab_group" "groups_map_level_1" {
+      - auto_devops_enabled                = false -> null
+      - default_branch_protection          = 2 -> null
+      - description                        = "nested1" -> null
+      - emails_disabled                    = false -> null
+      - extra_shared_runners_minutes_limit = 0 -> null
+      - full_name                          = "tomshley / nested1" -> null
+      - full_path                          = "tomshley/nested1" -> null
+      - id                                 = "74234319" -> null
+      - ip_restriction_ranges              = [] -> null
+      - lfs_enabled                        = true -> null
+      - membership_lock                    = false -> null
+      - mentions_disabled                  = false -> null
+      - name                               = "nested1" -> null
+      - parent_id                          = 64355277 -> null
+      - path                               = "nested1" -> null
+      - prevent_forking_outside_group      = true -> null
+      - project_creation_level             = "developer" -> null
+      - request_access_enabled             = true -> null
+      - require_two_factor_authentication  = false -> null
+      - runners_token                      = (sensitive value) -> null
+      - share_with_group_lock              = true -> null
+      - shared_runners_minutes_limit       = 0 -> null
+      - subgroup_creation_level            = "maintainer" -> null
+      - two_factor_grace_period            = 48 -> null
+      - visibility_level                   = "private" -> null
+      - web_url                            = "https://gitlab.com/groups/tomshley/nested1" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_group.groups_map_level_1["tomshley-nested2"] will be destroyed
+  # (because key ["tomshley-nested2"] is not in for_each map)
+  - resource "gitlab_group" "groups_map_level_1" {
+      - auto_devops_enabled                = false -> null
+      - default_branch_protection          = 2 -> null
+      - description                        = "nested2" -> null
+      - emails_disabled                    = false -> null
+      - extra_shared_runners_minutes_limit = 0 -> null
+      - full_name                          = "tomshley / nested2" -> null
+      - full_path                          = "tomshley/nested2" -> null
+      - id                                 = "74236042" -> null
+      - ip_restriction_ranges              = [] -> null
+      - lfs_enabled                        = true -> null
+      - membership_lock                    = true -> null
+      - mentions_disabled                  = false -> null
+      - name                               = "nested2" -> null
+      - parent_id                          = 64355277 -> null
+      - path                               = "nested2" -> null
+      - prevent_forking_outside_group      = true -> null
+      - project_creation_level             = "developer" -> null
+      - request_access_enabled             = true -> null
+      - require_two_factor_authentication  = false -> null
+      - runners_token                      = (sensitive value) -> null
+      - share_with_group_lock              = true -> null
+      - shared_runners_minutes_limit       = 0 -> null
+      - subgroup_creation_level            = "maintainer" -> null
+      - two_factor_grace_period            = 48 -> null
+      - visibility_level                   = "private" -> null
+      - web_url                            = "https://gitlab.com/groups/tomshley/nested2" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_group.groups_map_level_2["tomshley-nested2-nested21"] will be destroyed
+  # (because key ["tomshley-nested2-nested21"] is not in for_each map)
+  - resource "gitlab_group" "groups_map_level_2" {
+      - auto_devops_enabled                = false -> null
+      - default_branch_protection          = 2 -> null
+      - description                        = "nested21" -> null
+      - emails_disabled                    = false -> null
+      - extra_shared_runners_minutes_limit = 0 -> null
+      - full_name                          = "tomshley / nested2 / nested21" -> null
+      - full_path                          = "tomshley/nested2/nested21" -> null
+      - id                                 = "74236054" -> null
+      - ip_restriction_ranges              = [] -> null
+      - lfs_enabled                        = true -> null
+      - membership_lock                    = true -> null
+      - mentions_disabled                  = false -> null
+      - name                               = "nested21" -> null
+      - parent_id                          = 74236042 -> null
+      - path                               = "nested21" -> null
+      - prevent_forking_outside_group      = true -> null
+      - project_creation_level             = "developer" -> null
+      - request_access_enabled             = true -> null
+      - require_two_factor_authentication  = false -> null
+      - runners_token                      = (sensitive value) -> null
+      - share_with_group_lock              = true -> null
+      - shared_runners_minutes_limit       = 0 -> null
+      - subgroup_creation_level            = "maintainer" -> null
+      - two_factor_grace_period            = 48 -> null
+      - visibility_level                   = "private" -> null
+      - web_url                            = "https://gitlab.com/groups/tomshley/nested2/nested21" -> null
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project.group_projects["breakground-provisioning1"] will be destroyed
+  # (because key ["breakground-provisioning1"] is not in for_each map)
+  - resource "gitlab_project" "group_projects" {
+      - allow_merge_on_skipped_pipeline                  = false -> null
+      - analytics_access_level                           = "enabled" -> null
+      - approvals_before_merge                           = 0 -> null
+      - archived                                         = false -> null
+      - auto_cancel_pending_pipelines                    = "enabled" -> null
+      - auto_devops_deploy_strategy                      = "continuous" -> null
+      - auto_devops_enabled                              = false -> null
+      - autoclose_referenced_issues                      = true -> null
+      - build_git_strategy                               = "fetch" -> null
+      - build_timeout                                    = 3600 -> null
+      - builds_access_level                              = "enabled" -> null
+      - ci_default_git_depth                             = 20 -> null
+      - ci_forward_deployment_enabled                    = true -> null
+      - ci_separated_caches                              = true -> null
+      - container_registry_access_level                  = "enabled" -> null
+      - container_registry_enabled                       = true -> null
+      - default_branch                                   = "main" -> null
+      - emails_disabled                                  = false -> null
+      - environments_access_level                        = "enabled" -> null
+      - feature_flags_access_level                       = "enabled" -> null
+      - forked_from_project_id                           = 0 -> null
+      - forking_access_level                             = "enabled" -> null
+      - http_url_to_repo                                 = "https://gitlab.com/tomshley/breakground-provisioning1.git" -> null
+      - id                                               = "50597457" -> null
+      - infrastructure_access_level                      = "enabled" -> null
+      - issues_access_level                              = "enabled" -> null
+      - issues_enabled                                   = true -> null
+      - keep_latest_artifact                             = true -> null
+      - lfs_enabled                                      = true -> null
+      - merge_method                                     = "merge" -> null
+      - merge_pipelines_enabled                          = false -> null
+      - merge_requests_access_level                      = "enabled" -> null
+      - merge_requests_enabled                           = true -> null
+      - merge_trains_enabled                             = false -> null
+      - mirror                                           = false -> null
+      - mirror_overwrites_diverged_branches              = false -> null
+      - mirror_trigger_builds                            = false -> null
+      - monitor_access_level                             = "enabled" -> null
+      - mr_default_target_self                           = false -> null
+      - name                                             = "breakground-provisioning1" -> null
+      - namespace_id                                     = 64355277 -> null
+      - only_allow_merge_if_all_discussions_are_resolved = false -> null
+      - only_allow_merge_if_pipeline_succeeds            = false -> null
+      - only_mirror_protected_branches                   = false -> null
+      - packages_enabled                                 = true -> null
+      - pages_access_level                               = "private" -> null
+      - path                                             = "breakground-provisioning1" -> null
+      - path_with_namespace                              = "tomshley/breakground-provisioning1" -> null
+      - pipelines_enabled                                = true -> null
+      - printing_merge_request_link_enabled              = true -> null
+      - public_builds                                    = true -> null
+      - releases_access_level                            = "enabled" -> null
+      - remove_source_branch_after_merge                 = true -> null
+      - repository_access_level                          = "enabled" -> null
+      - request_access_enabled                           = true -> null
+      - requirements_access_level                        = "enabled" -> null
+      - resolve_outdated_diff_discussions                = false -> null
+      - restrict_user_defined_variables                  = false -> null
+      - runners_token                                    = (sensitive value) -> null
+      - security_and_compliance_access_level             = "private" -> null
+      - shared_runners_enabled                           = true -> null
+      - snippets_access_level                            = "enabled" -> null
+      - snippets_enabled                                 = true -> null
+      - squash_option                                    = "default_off" -> null
+      - ssh_url_to_repo                                  = "git@gitlab.com:tomshley/breakground-provisioning1.git" -> null
+      - tags                                             = [] -> null
+      - topics                                           = [] -> null
+      - visibility_level                                 = "private" -> null
+      - web_url                                          = "https://gitlab.com/tomshley/breakground-provisioning1" -> null
+      - wiki_access_level                                = "enabled" -> null
+      - wiki_enabled                                     = true -> null
+
+      - container_expiration_policy {
+          - cadence           = "1d" -> null
+          - enabled           = false -> null
+          - keep_n            = 10 -> null
+          - name_regex        = ".*" -> null
+          - name_regex_delete = ".*" -> null
+          - next_run_at       = "2023-09-22T15:29:19Z" -> null
+          - older_than        = "90d" -> null
+        }
+
+      - push_rules {
+          - commit_committer_check  = false -> null
+          - deny_delete_tag         = false -> null
+          - max_file_size           = 0 -> null
+          - member_check            = false -> null
+          - prevent_secrets         = false -> null
+          - reject_unsigned_commits = false -> null
+        }
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project.group_projects["breakground-provisioning2"] will be destroyed
+  # (because key ["breakground-provisioning2"] is not in for_each map)
+  - resource "gitlab_project" "group_projects" {
+      - allow_merge_on_skipped_pipeline                  = false -> null
+      - analytics_access_level                           = "enabled" -> null
+      - approvals_before_merge                           = 0 -> null
+      - archived                                         = false -> null
+      - auto_cancel_pending_pipelines                    = "enabled" -> null
+      - auto_devops_deploy_strategy                      = "continuous" -> null
+      - auto_devops_enabled                              = false -> null
+      - autoclose_referenced_issues                      = true -> null
+      - build_git_strategy                               = "fetch" -> null
+      - build_timeout                                    = 3600 -> null
+      - builds_access_level                              = "enabled" -> null
+      - ci_default_git_depth                             = 20 -> null
+      - ci_forward_deployment_enabled                    = true -> null
+      - ci_separated_caches                              = true -> null
+      - container_registry_access_level                  = "enabled" -> null
+      - container_registry_enabled                       = true -> null
+      - default_branch                                   = "main" -> null
+      - emails_disabled                                  = false -> null
+      - environments_access_level                        = "enabled" -> null
+      - feature_flags_access_level                       = "enabled" -> null
+      - forked_from_project_id                           = 0 -> null
+      - forking_access_level                             = "enabled" -> null
+      - http_url_to_repo                                 = "https://gitlab.com/tomshley/nested1/breakground-provisioning2.git" -> null
+      - id                                               = "50597556" -> null
+      - infrastructure_access_level                      = "enabled" -> null
+      - issues_access_level                              = "enabled" -> null
+      - issues_enabled                                   = true -> null
+      - keep_latest_artifact                             = true -> null
+      - lfs_enabled                                      = true -> null
+      - merge_method                                     = "merge" -> null
+      - merge_pipelines_enabled                          = false -> null
+      - merge_requests_access_level                      = "enabled" -> null
+      - merge_requests_enabled                           = true -> null
+      - merge_trains_enabled                             = false -> null
+      - mirror                                           = false -> null
+      - mirror_overwrites_diverged_branches              = false -> null
+      - mirror_trigger_builds                            = false -> null
+      - monitor_access_level                             = "enabled" -> null
+      - mr_default_target_self                           = false -> null
+      - name                                             = "breakground-provisioning2" -> null
+      - namespace_id                                     = 74234319 -> null
+      - only_allow_merge_if_all_discussions_are_resolved = false -> null
+      - only_allow_merge_if_pipeline_succeeds            = false -> null
+      - only_mirror_protected_branches                   = false -> null
+      - packages_enabled                                 = true -> null
+      - pages_access_level                               = "private" -> null
+      - path                                             = "breakground-provisioning2" -> null
+      - path_with_namespace                              = "tomshley/nested1/breakground-provisioning2" -> null
+      - pipelines_enabled                                = true -> null
+      - printing_merge_request_link_enabled              = true -> null
+      - public_builds                                    = true -> null
+      - releases_access_level                            = "enabled" -> null
+      - remove_source_branch_after_merge                 = true -> null
+      - repository_access_level                          = "enabled" -> null
+      - request_access_enabled                           = true -> null
+      - requirements_access_level                        = "enabled" -> null
+      - resolve_outdated_diff_discussions                = false -> null
+      - restrict_user_defined_variables                  = false -> null
+      - runners_token                                    = (sensitive value) -> null
+      - security_and_compliance_access_level             = "private" -> null
+      - shared_runners_enabled                           = true -> null
+      - snippets_access_level                            = "enabled" -> null
+      - snippets_enabled                                 = true -> null
+      - squash_option                                    = "default_off" -> null
+      - ssh_url_to_repo                                  = "git@gitlab.com:tomshley/nested1/breakground-provisioning2.git" -> null
+      - tags                                             = [] -> null
+      - topics                                           = [] -> null
+      - visibility_level                                 = "private" -> null
+      - web_url                                          = "https://gitlab.com/tomshley/nested1/breakground-provisioning2" -> null
+      - wiki_access_level                                = "enabled" -> null
+      - wiki_enabled                                     = true -> null
+
+      - container_expiration_policy {
+          - cadence           = "1d" -> null
+          - enabled           = false -> null
+          - keep_n            = 10 -> null
+          - name_regex        = ".*" -> null
+          - name_regex_delete = ".*" -> null
+          - next_run_at       = "2023-09-22T15:33:04Z" -> null
+          - older_than        = "90d" -> null
+        }
+
+      - push_rules {
+          - commit_committer_check  = false -> null
+          - deny_delete_tag         = false -> null
+          - max_file_size           = 0 -> null
+          - member_check            = false -> null
+          - prevent_secrets         = false -> null
+          - reject_unsigned_commits = false -> null
+        }
+    }
+
+  # module.tware-breakground-provision-local-gl.module.tware-hexagonal-gitlab.gitlab_project.group_projects["breakground-provisioning3"] will be destroyed
+  # (because key ["breakground-provisioning3"] is not in for_each map)
+  - resource "gitlab_project" "group_projects" {
+      - allow_merge_on_skipped_pipeline                  = false -> null
+      - analytics_access_level                           = "enabled" -> null
+      - approvals_before_merge                           = 0 -> null
+      - archived                                         = false -> null
+      - auto_cancel_pending_pipelines                    = "enabled" -> null
+      - auto_devops_deploy_strategy                      = "continuous" -> null
+      - auto_devops_enabled                              = false -> null
+      - autoclose_referenced_issues                      = true -> null
+      - build_git_strategy                               = "fetch" -> null
+      - build_timeout                                    = 3600 -> null
+      - builds_access_level                              = "enabled" -> null
+      - ci_default_git_depth                             = 20 -> null
+      - ci_forward_deployment_enabled                    = true -> null
+      - ci_separated_caches                              = true -> null
+      - container_registry_access_level                  = "enabled" -> null
+      - container_registry_enabled                       = true -> null
+      - default_branch                                   = "main" -> null
+      - emails_disabled                                  = false -> null
+      - environments_access_level                        = "enabled" -> null
+      - feature_flags_access_level                       = "enabled" -> null
+      - forked_from_project_id                           = 0 -> null
+      - forking_access_level                             = "enabled" -> null
+      - http_url_to_repo                                 = "https://gitlab.com/tomshley/nested2/nested21/breakground-provisioning3.git" -> null
+      - id                                               = "50598729" -> null
+      - infrastructure_access_level                      = "enabled" -> null
+      - issues_access_level                              = "enabled" -> null
+      - issues_enabled                                   = true -> null
+      - keep_latest_artifact                             = true -> null
+      - lfs_enabled                                      = true -> null
+      - merge_method                                     = "merge" -> null
+      - merge_pipelines_enabled                          = false -> null
+      - merge_requests_access_level                      = "enabled" -> null
+      - merge_requests_enabled                           = true -> null
+      - merge_trains_enabled                             = false -> null
+      - mirror                                           = false -> null
+      - mirror_overwrites_diverged_branches              = false -> null
+      - mirror_trigger_builds                            = false -> null
+      - monitor_access_level                             = "enabled" -> null
+      - mr_default_target_self                           = false -> null
+      - name                                             = "breakground-provisioning3" -> null
+      - namespace_id                                     = 74236054 -> null
+      - only_allow_merge_if_all_discussions_are_resolved = false -> null
+      - only_allow_merge_if_pipeline_succeeds            = false -> null
+      - only_mirror_protected_branches                   = false -> null
+      - packages_enabled                                 = true -> null
+      - pages_access_level                               = "private" -> null
+      - path                                             = "breakground-provisioning3" -> null
+      - path_with_namespace                              = "tomshley/nested2/nested21/breakground-provisioning3" -> null
+      - pipelines_enabled                                = true -> null
+      - printing_merge_request_link_enabled              = true -> null
+      - public_builds                                    = true -> null
+      - releases_access_level                            = "enabled" -> null
+      - remove_source_branch_after_merge                 = true -> null
+      - repository_access_level                          = "enabled" -> null
+      - request_access_enabled                           = true -> null
+      - requirements_access_level                        = "enabled" -> null
+      - resolve_outdated_diff_discussions                = false -> null
+      - restrict_user_defined_variables                  = false -> null
+      - runners_token                                    = (sensitive value) -> null
+      - security_and_compliance_access_level             = "private" -> null
+      - shared_runners_enabled                           = true -> null
+      - snippets_access_level                            = "enabled" -> null
+      - snippets_enabled                                 = true -> null
+      - squash_option                                    = "default_off" -> null
+      - ssh_url_to_repo                                  = "git@gitlab.com:tomshley/nested2/nested21/breakground-provisioning3.git" -> null
+      - tags                                             = [] -> null
+      - topics                                           = [] -> null
+      - visibility_level                                 = "private" -> null
+      - web_url                                          = "https://gitlab.com/tomshley/nested2/nested21/breakground-provisioning3" -> null
+      - wiki_access_level                                = "enabled" -> null
+      - wiki_enabled                                     = true -> null
+
+      - container_expiration_policy {
+          - cadence           = "1d" -> null
+          - enabled           = false -> null
+          - keep_n            = 10 -> null
+          - name_regex        = ".*" -> null
+          - name_regex_delete = ".*" -> null
+          - next_run_at       = "2023-09-22T16:03:50Z" -> null
+          - older_than        = "90d" -> null
+        }
+
+      - push_rules {
+          - commit_committer_check  = false -> null
+          - deny_delete_tag         = false -> null
+          - max_file_size           = 0 -> null
+          - member_check            = false -> null
+          - prevent_secrets         = false -> null
+          - reject_unsigned_commits = false -> null
+        }
+    }
+
+Plan: 0 to add, 0 to change, 15 to destroy.
+
+Changes to Outputs:
+  - groups = {
+      - id = "64355277"
+    } -> null

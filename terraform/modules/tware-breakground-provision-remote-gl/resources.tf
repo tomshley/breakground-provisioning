@@ -95,6 +95,7 @@ module "tware-breakground-provision-organization-github" {
      (["paste-templating-jinja", module.tware-breakground-provision-organization-github.gh_repositories["paste-templating-jinja"].http_clone_url]),
    ]
    github_mirror_token = var.github_mirror_token
+   github_owner_group_path = var.github_owner_group_path
  }
 # For Debug:
 #output "groups" {
