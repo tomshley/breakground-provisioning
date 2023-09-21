@@ -11,6 +11,10 @@ module "tware-hydrator-git-repositories-with-parents" {
 #   path     = each.value["path"]
 # }
 
+data "gitlab_group" "owner_group" {
+  full_path = var.github_owner_group_path
+}
+
 data "gitlab_group" "groups" {
   depends_on = [
     module.tware-hydrator-git-repositories-with-parents
@@ -59,11 +63,72 @@ module "tware-hydrator-git-repositories-with-branches" {
 }
 
 locals {
-  groups = [
+  groups_flattened_list = [
     for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : merge(v, {
       group_key = k
     })
   ]
+
+  # this is stupid, but since git lab allows for seemingly unlimited subgroup nodes then one would expect that could
+  # be created dynamically. it can't. the parent id of each level must be known. some may suggest dynamically created
+  # terraform, but this seems straightforward enough. so if you update one of these filters, update the rest
+  #  groups_map_level_0 = {
+  #    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+  #    if length(split("/", v["parent_path"])) == 0
+  #  }
+  groups_map_level_1 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 1
+  }
+  groups_map_level_2 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 2
+  }
+  groups_map_level_3 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 3
+  }
+  groups_map_level_4 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 4
+  }
+  groups_map_level_5 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 5
+  }
+  groups_map_level_6 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 6
+  }
+  groups_map_level_7 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 7
+  }
+  groups_map_level_8 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 8
+  }
+  groups_map_level_9 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 9
+  }
+  groups_map_level_10 = {
+    for k, v in module.tware-hydrator-git-repositories-with-parents.groups_map : k => v
+    if length(split("/", v["parent_path"])) == 10
+  }
+
+  groups_resources_merged = merge(
+    gitlab_group.groups_map_level_1,
+    gitlab_group.groups_map_level_2,
+    gitlab_group.groups_map_level_3,
+    gitlab_group.groups_map_level_4,
+    gitlab_group.groups_map_level_5,
+    gitlab_group.groups_map_level_6,
+    gitlab_group.groups_map_level_7,
+    gitlab_group.groups_map_level_8,
+    gitlab_group.groups_map_level_9,
+    gitlab_group.groups_map_level_10
+  )
 }
 
 # For Debug:
@@ -98,20 +163,112 @@ locals {
 #  value = {}
 #}
 
-resource "gitlab_group" "groups" {
-  # Example:
-  # tomshley-brands-global-tware-tech-products-tuuid        = {
-  #   + group_key   = "tomshley-brands-global-tware-tech-products-tuuid"
-  #   + group_name  = "tuuid"
-  #   + group_path  = "tomshley/brands/global/tware/tech/products/tuuid"
-  #   + parent_key  = "tomshley-brands-global-tware-tech-products"
-  #   + parent_path = "tomshley/brands/global/tware/tech/products"
-  # }
+#resource "gitlab_group" "groups" {
+#  # Example:
+#  # tomshley-brands-global-tware-tech-products-tuuid        = {
+#  #   + group_key   = "tomshley-brands-global-tware-tech-products-tuuid"
+#  #   + group_name  = "tuuid"
+#  #   + group_path  = "tomshley/brands/global/tware/tech/products/tuuid"
+#  #   + parent_key  = "tomshley-brands-global-tware-tech-products"
+#  #   + parent_path = "tomshley/brands/global/tware/tech/products"
+#  # }
+#
+#  count = length(local.groups_flattened_list)
+#  name = element(local.groups_flattened_list, count.index)["group_name"]
+#  path = element(local.groups_flattened_list, count.index)["group_path"]
+#  parent_id = gitlab_group.groups[
+#  one([
+#    for k, v in local.groups_flattened_list : k
+#    if v["group_key"] == element(local.groups_flattened_list, count.index)["group_key"]
+#  ])
+#  ].id
+#}
 
-  count = length(local.groups)
-  name = element(local.groups, count.index)["group_name"]
-  path = element(local.groups, count.index)["group_path"]
-  parent_id = gitlab_group.groups[one([for k, v in local.groups : k if v["group_key"] == element(local.groups, count.index)["group_key"]])].id
+# GL doesn't support dynamic subgroups
+#resource "gitlab_group" "groups_map_level_0" {
+#  for_each = local.groups_map_level_0
+#  name = each.value["group_name"]
+#  path = each.value["group_path"]
+#}
+
+resource "gitlab_group" "groups_map_level_1" {
+  for_each    = local.groups_map_level_1
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = data.gitlab_group.owner_group.id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_2" {
+  for_each    = local.groups_map_level_2
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_1[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_3" {
+  for_each    = local.groups_map_level_3
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_2[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_4" {
+  for_each    = local.groups_map_level_4
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_3[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_5" {
+  for_each    = local.groups_map_level_5
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_4[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_6" {
+  for_each    = local.groups_map_level_6
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_5[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+}
+resource "gitlab_group" "groups_map_level_7" {
+  for_each    = local.groups_map_level_7
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_6[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_8" {
+  for_each    = local.groups_map_level_8
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_7[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_9" {
+  for_each    = local.groups_map_level_9
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_8[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
+}
+resource "gitlab_group" "groups_map_level_10" {
+  for_each    = local.groups_map_level_10
+  name        = each.value["group_name"]
+  path        = each.value["group_name"]
+  parent_id   = lookup(data.gitlab_group.groups, each.value["parent_key"], gitlab_group.groups_map_level_9[each.value["parent_key"]]).id
+  description = each.value["group_name"]
+
 }
 
 resource "gitlab_project" "group_projects" {
@@ -120,10 +277,9 @@ resource "gitlab_project" "group_projects" {
   ]
   for_each            = module.tware-hydrator-git-repositories-with-parents.project_data
   name                = replace(each.key, "/", "-")
-  namespace_id        = each.value["parent_id"] != "" ? data.gitlab_group.groups[replace(each.value["parent_path"], "/", "-")].id : one([
-    for i, v in local.groups : i if v["parent_path"] == each.value["parent_path"]
-  ])
-  path                = replace(each.key, "/", "-")
+  namespace_id        = lookup(local.groups_resources_merged, replace(each.value["parent_path"], "/", "-"), lookup(data.gitlab_group.groups, replace(each.value["parent_path"], "/", "-"), {
+    id = data.gitlab_group.owner_group.id
+  })).id
   visibility_level    = "private"
   import_url_password = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[1] : ""
   import_url_username = contains(keys(module.tware-hydrator-git-repositories-with-parents.project_data_with_mirrors), each.key) ? split(":", var.github_mirror_token)[0] : ""
