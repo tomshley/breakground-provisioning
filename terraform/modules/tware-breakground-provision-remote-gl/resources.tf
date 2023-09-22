@@ -42,31 +42,31 @@ module "tware-breakground-provision-organization-github" {
    depends_on = [module.tware-breakground-provision-organization-github]
    source = "../tware-breakground-provision-organization-gitlab"
    git_projects_with_parent = [
-     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "71640761", "private"]), # path, parent, existing id
-     (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "71640761", "private"]), # path, parent, existing id
-     (["hexagonal-lib-jvm", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-sdk-kotlin", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-sdk-python", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-lib-py", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-sdk-java", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["hexagonal-sdk-scala", "tomshley/brands/global/tware/tech/products/hexagonal", "71640765", "private"]),
-     (["telemetry-aggregator-scala", "tomshley/brands/global/tware/tech/products/telemetry", "71640773", "private"]),
-     (["tuuid-scala", "tomshley/brands/global/tware/tech/products/tuuid", "71640783", "private"]),
-     (["module-lib-tf", "tomshley/brands/global/tware/tech/products/provisioning", "71640772", "private"]),
-     (["cicd-lib-docker", "tomshley/brands/global/tware/tech/products/provisioning", "71640772", "private"]),
-     (["microcontainer-lib-docker", "tomshley/brands/global/tware/tech/products/provisioning", "71640772", "private"]),
-     (["paste-css-lib-less", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-jammer-scala", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-pageperf-akkahttp", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-sdk-py", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-templating-akkahttp", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-jammer-py", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-js-lib", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-pageperf-gevent2", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-sdk-scala", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "71640769", "private"]),
-     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "72615114", "private"])
+     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]), # path, parent, existing id
+     (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]), # path, parent, existing id
+     (["hexagonal-lib-jvm", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-plugin-sbt", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-sdk-kotlin", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-sdk-python", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-lib-py", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-sdk-java", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["hexagonal-sdk-scala", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+     (["telemetry-aggregator-scala", "tomshley/brands/global/tware/tech/products/telemetry", "", "private"]),
+     (["tuuid-scala", "tomshley/brands/global/tware/tech/products/tuuid", "", "private"]),
+     (["module-lib-tf", "tomshley/brands/global/tware/tech/products/provisioning", "", "private"]),
+     (["cicd-lib-docker", "tomshley/brands/global/tware/tech/products/provisioning", "", "private"]),
+     (["microcontainer-lib-docker", "tomshley/brands/global/tware/tech/products/provisioning", "", "private"]),
+     (["paste-css-lib-less", "tomshley/brands/global/tware/tech/products/paste", "", ""]),
+     (["paste-jammer-scala", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-pageperf-akkahttp", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-sdk-py", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-templating-akkahttp", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-jammer-py", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-js-lib", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-pageperf-gevent2", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-sdk-scala", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
+     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"])
    ]
    git_project_mirrors = [
      (["gateway-scala", module.tware-breakground-provision-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
