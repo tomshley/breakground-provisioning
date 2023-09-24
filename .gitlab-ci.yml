@@ -1,0 +1,115 @@
+#
+# Copyright 2023 Tomshley LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, softomshley_breakground
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
+#
+
+image:
+  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:latest"
+
+.artifacts.tfstate.plan:
+  artifacts:
+    name: "terraform/backends/remote/.tfstate.plan"
+    paths:
+      - "terraform/backends/remote/.tfstate.plan"
+      - "terraform/backends/remote/.tfstate.plan.txt"
+      - "terraform/backends/remote/.tfstate.plan.changes"
+    reports:
+      terraform:
+        - "terraform/backends/remote/.tfstate.plan.json"
+
+stages:
+  - promote-build-feature-merge-request
+  - validate-all
+  - plan-remote-backend
+  - promote-build-start
+  - promote-build-release-publish
+  - promote-build-release-finish
+  - apply-remote-backend
+
+validate-all:
+  extends: .artifacts.tfstate.plan
+  tags:
+    - saas-linux-xlarge-amd64
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
+  except:
+    - tags
+  stage: validate-all
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
+  artifacts:
+    expire_in: 8 hours
+
+plan-remote-backend:
+  extends: .artifacts.tfstate.plan
+  stage: plan-remote-backend
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
+  artifacts:
+    expire_in: 8 hours
+
+promote-build-start:
+  tags:
+    - saas-linux-xlarge-amd64
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
+  stage: promote-build-start
+  only:
+    - develop
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
+
+promote-build-release-publish:
+  stage: promote-build-release-publish
+  only:
+    - /^release\/.*$/
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
+
+promote-build-release-finish:
+  stage: promote-build-release-finish
+  only:
+    - /^release\/.*$/
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
+
+promote-build-feature-merge-request:
+  stage: promote-build-feature-merge-request
+  only:
+    - /^feature\/.*$/
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
+
+apply-remote-backend:
+  extends: .artifacts.tfstate.plan
+  environment: production
+  tags:
+    - saas-linux-2xlarge-amd64
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
+  only:
+    - tags
+  except:
+    - branches
+  stage: apply-remote-backend
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-push.sh
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
