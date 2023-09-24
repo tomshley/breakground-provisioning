@@ -35,6 +35,7 @@ module "tware-hexagonal-gitlab" {
   git_project_mirrors = [
     (["breakground-provisioning", module.tware-breakground-provision-organization-github.gh_repositories["breakground-provisioning"].http_clone_url])
   ]
+  github_owner_group_path = var.github_owner_group_path
 }
 # For Debug:
 #output "groups" {
