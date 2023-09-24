@@ -46,7 +46,7 @@
 #}
 
 module "tware-git-project-with-parent" {
-  source = "../tware-hydrator-git-repositories-with-parents"
+  source = "../entities-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
 }
 

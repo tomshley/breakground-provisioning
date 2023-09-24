@@ -1,5 +1,5 @@
 module "tware-hydrator-git-repositories-with-parents" {
-  source                   = "../tware-hydrator-git-repositories-with-parents"
+  source                   = "../entities-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
   git_project_mirrors      = var.git_project_mirrors
 }
@@ -29,7 +29,7 @@ data gitlab_project_branches "group_projects_branch_production_exists_data" {
 }
 
 module "tware-hydrator-git-repositories-with-branches" {
-  source                     = "../tware-hydrator-git-repositories-with-branches"
+  source                     = "../entities-git-repositories-with-branches"
   #  existing_projects_branches = [
   #    {
   #      project_name = ""
