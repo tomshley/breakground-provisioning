@@ -46,14 +46,14 @@ provider "github" {
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
-module "tware-breakground-provision-remote-gl" {
+module "provisioning-backends-remote-gl" {
   providers = {
     random = random
     local  = local
     gitlab = gitlab
     github = github
   }
-  source                  = "../../modules/tware-breakground-provision-remote-gl"
+  source                  = "../../modules/provisioning-backends-remote-gl"
   github_mirror_token     = var.github_mirror_token
   github_owner_group_path = var.github_owner_org
 }

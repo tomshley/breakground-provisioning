@@ -38,21 +38,21 @@ provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
 
-module "tware-breakground-provision-local-gl" {
+module "provisioning-backends-local-gl" {
   providers = {
     gitlab = gitlab
     github = github
   }
-  source                  = "../../modules/tware-breakground-provision-local-gl"
+  source                  = "../../modules/provisioning-backends-local-gl"
   github_mirror_token     = var.github_mirror_token
   github_owner_group_path = var.github_owner_org
 }
 
-module "tware-breakground-provision-deploy-containers" {
-  depends_on = [module.tware-breakground-provision-local-gl]
-  source     = "../../modules/tware-breakground-provision-deploy-containers"
+module "provisioning-generic-deploy-containers" {
+  depends_on = [module.provisioning-backends-local-gl]
+  source     = "../../modules/provisioning-generic-deploy-containers"
 }
 # For Debug:
 #output "groups" {
-#  value = module.tware-breakground-provision-local-gl.groups
+#  value = module.provisioning-backends-local-gl.groups
 #}
