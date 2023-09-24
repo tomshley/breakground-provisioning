@@ -105,7 +105,6 @@ job-flow-feature-start:
   stage: .pre
   only:
     - /^feature\/.*$/
-    - pushes
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
