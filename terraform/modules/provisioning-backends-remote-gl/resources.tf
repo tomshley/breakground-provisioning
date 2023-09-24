@@ -1,10 +1,10 @@
-module "tware-breakground-provision-organization-github" {
+module "provisioning-generic-organization-github" {
   providers = {
     local  = local
     random  = random
     github  = github
   }
-  source = "../tware-breakground-provision-organization-github"
+  source = "../provisioning-generic-organization-github"
   git_projects_with_parent=[
     (["gateway-scala", "tomshley", "tomshley", "private"]),
     (["gateway-sdk-scala", "tomshley", "tomshley", "private"]),
@@ -33,14 +33,14 @@ module "tware-breakground-provision-organization-github" {
   ]
 }
 
- module "tware-breakground-provision-organization-gitlab" {
+ module "provisioning-generic-organization-gitlab" {
    providers = {
      local  = local
      random  = random
      gitlab  = gitlab
    }
-   depends_on = [module.tware-breakground-provision-organization-github]
-   source = "../tware-breakground-provision-organization-gitlab"
+   depends_on = [module.provisioning-generic-organization-github]
+   source = "../provisioning-generic-organization-gitlab"
    git_projects_with_parent = [
      (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]), # path, parent, existing id
      (["gateway-sdk-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]), # path, parent, existing id
@@ -69,35 +69,35 @@ module "tware-breakground-provision-organization-github" {
      (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"])
    ]
    git_project_mirrors = [
-     (["gateway-scala", module.tware-breakground-provision-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
-     (["gateway-sdk-scala", module.tware-breakground-provision-organization-github.gh_repositories["gateway-sdk-scala"].http_clone_url]),
-     (["hexagonal-lib-jvm", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-lib-jvm"].http_clone_url]),
-     (["hexagonal-plugin-sbt", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url]),
-     (["hexagonal-sdk-kotlin", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-sdk-kotlin"].http_clone_url]),
-     (["hexagonal-sdk-python", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-sdk-python"].http_clone_url]),
-     (["hexagonal-lib-py", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-lib-py"].http_clone_url]),
-     (["hexagonal-sdk-java", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-sdk-java"].http_clone_url]),
-     (["hexagonal-sdk-scala", module.tware-breakground-provision-organization-github.gh_repositories["hexagonal-sdk-scala"].http_clone_url]),
-     (["telemetry-aggregator-scala", module.tware-breakground-provision-organization-github.gh_repositories["telemetry-aggregator-scala"].http_clone_url]),
-     (["tuuid-scala", module.tware-breakground-provision-organization-github.gh_repositories["tuuid-scala"].http_clone_url]),
-     (["module-lib-tf", module.tware-breakground-provision-organization-github.gh_repositories["module-lib-tf"].http_clone_url]),
-     (["cicd-lib-docker", module.tware-breakground-provision-organization-github.gh_repositories["cicd-lib-docker"].http_clone_url]),
-     (["microcontainer-lib-docker", module.tware-breakground-provision-organization-github.gh_repositories["microcontainer-lib-docker"].http_clone_url]),
-     (["paste-css-lib-less", module.tware-breakground-provision-organization-github.gh_repositories["paste-css-lib-less"].http_clone_url]),
-     (["paste-jammer-scala", module.tware-breakground-provision-organization-github.gh_repositories["paste-jammer-scala"].http_clone_url]),
-     (["paste-pageperf-akkahttp", module.tware-breakground-provision-organization-github.gh_repositories["paste-pageperf-akkahttp"].http_clone_url]),
-     (["paste-sdk-py", module.tware-breakground-provision-organization-github.gh_repositories["paste-sdk-py"].http_clone_url]),
-     (["paste-templating-akkahttp", module.tware-breakground-provision-organization-github.gh_repositories["paste-templating-akkahttp"].http_clone_url]),
-     (["paste-jammer-py", module.tware-breakground-provision-organization-github.gh_repositories["paste-jammer-py"].http_clone_url]),
-     (["paste-js-lib", module.tware-breakground-provision-organization-github.gh_repositories["paste-js-lib"].http_clone_url]),
-     (["paste-pageperf-gevent2", module.tware-breakground-provision-organization-github.gh_repositories["paste-pageperf-gevent2"].http_clone_url]),
-     (["paste-sdk-scala", module.tware-breakground-provision-organization-github.gh_repositories["paste-sdk-scala"].http_clone_url]),
-     (["paste-templating-jinja", module.tware-breakground-provision-organization-github.gh_repositories["paste-templating-jinja"].http_clone_url]),
+     (["gateway-scala", module.provisioning-generic-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
+     (["gateway-sdk-scala", module.provisioning-generic-organization-github.gh_repositories["gateway-sdk-scala"].http_clone_url]),
+     (["hexagonal-lib-jvm", module.provisioning-generic-organization-github.gh_repositories["hexagonal-lib-jvm"].http_clone_url]),
+     (["hexagonal-plugin-sbt", module.provisioning-generic-organization-github.gh_repositories["hexagonal-plugin-sbt"].http_clone_url]),
+     (["hexagonal-sdk-kotlin", module.provisioning-generic-organization-github.gh_repositories["hexagonal-sdk-kotlin"].http_clone_url]),
+     (["hexagonal-sdk-python", module.provisioning-generic-organization-github.gh_repositories["hexagonal-sdk-python"].http_clone_url]),
+     (["hexagonal-lib-py", module.provisioning-generic-organization-github.gh_repositories["hexagonal-lib-py"].http_clone_url]),
+     (["hexagonal-sdk-java", module.provisioning-generic-organization-github.gh_repositories["hexagonal-sdk-java"].http_clone_url]),
+     (["hexagonal-sdk-scala", module.provisioning-generic-organization-github.gh_repositories["hexagonal-sdk-scala"].http_clone_url]),
+     (["telemetry-aggregator-scala", module.provisioning-generic-organization-github.gh_repositories["telemetry-aggregator-scala"].http_clone_url]),
+     (["tuuid-scala", module.provisioning-generic-organization-github.gh_repositories["tuuid-scala"].http_clone_url]),
+     (["module-lib-tf", module.provisioning-generic-organization-github.gh_repositories["module-lib-tf"].http_clone_url]),
+     (["cicd-lib-docker", module.provisioning-generic-organization-github.gh_repositories["cicd-lib-docker"].http_clone_url]),
+     (["microcontainer-lib-docker", module.provisioning-generic-organization-github.gh_repositories["microcontainer-lib-docker"].http_clone_url]),
+     (["paste-css-lib-less", module.provisioning-generic-organization-github.gh_repositories["paste-css-lib-less"].http_clone_url]),
+     (["paste-jammer-scala", module.provisioning-generic-organization-github.gh_repositories["paste-jammer-scala"].http_clone_url]),
+     (["paste-pageperf-akkahttp", module.provisioning-generic-organization-github.gh_repositories["paste-pageperf-akkahttp"].http_clone_url]),
+     (["paste-sdk-py", module.provisioning-generic-organization-github.gh_repositories["paste-sdk-py"].http_clone_url]),
+     (["paste-templating-akkahttp", module.provisioning-generic-organization-github.gh_repositories["paste-templating-akkahttp"].http_clone_url]),
+     (["paste-jammer-py", module.provisioning-generic-organization-github.gh_repositories["paste-jammer-py"].http_clone_url]),
+     (["paste-js-lib", module.provisioning-generic-organization-github.gh_repositories["paste-js-lib"].http_clone_url]),
+     (["paste-pageperf-gevent2", module.provisioning-generic-organization-github.gh_repositories["paste-pageperf-gevent2"].http_clone_url]),
+     (["paste-sdk-scala", module.provisioning-generic-organization-github.gh_repositories["paste-sdk-scala"].http_clone_url]),
+     (["paste-templating-jinja", module.provisioning-generic-organization-github.gh_repositories["paste-templating-jinja"].http_clone_url]),
    ]
    github_mirror_token = var.github_mirror_token
    github_owner_group_path = var.github_owner_group_path
  }
 # For Debug:
 #output "groups" {
-#  value = module.tware-breakground-provision-organization-gitlab.groups
+#  value = module.provisioning-generic-organization-gitlab.groups
 #}
