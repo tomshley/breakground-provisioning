@@ -30,16 +30,22 @@ image:
       terraform:
         - "terraform/backends/remote/.tfstate.plan.json"
 
+#
+#     - promote-build-feature-merge-request
+#     - test
+#     - build
+#     - promote-build-start
+#     - promote-build-release-publish
+#     - promote-build-release-finish
+#     - deploy
 stages:
-  - promote-build-feature-merge-request
-  - validate-all
-  - plan-remote-backend
-  - promote-build-start
-  - promote-build-release-publish
-  - promote-build-release-finish
-  - apply-remote-backend
+  - .pre
+  - test
+  - build
+  - deploy
+  - .post
 
-validate-all:
+test:
   extends: .artifacts.tfstate.plan
   tags:
     - saas-linux-xlarge-amd64
@@ -48,7 +54,7 @@ validate-all:
       alias: dockerdaemon
   except:
     - tags
-  stage: validate-all
+  stage: test
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
@@ -56,48 +62,54 @@ validate-all:
   artifacts:
     expire_in: 8 hours
 
-plan-remote-backend:
+build:
   extends: .artifacts.tfstate.plan
-  stage: plan-remote-backend
+  stage: build
+  services:
+    - name: docker:24.0.5-dind-alpine3.18
+      alias: dockerdaemon
   script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
   artifacts:
     expire_in: 8 hours
 
-promote-build-start:
+job-flow-release-start:
+  stage: .post
   tags:
     - saas-linux-xlarge-amd64
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
-  stage: promote-build-start
   only:
     - develop
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
+  when: manual
 
-promote-build-release-publish:
-  stage: promote-build-release-publish
+job-flow-release-publish:
+  stage: deploy
   only:
     - /^release\/.*$/
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
 
-promote-build-release-finish:
-  stage: promote-build-release-finish
+job-flow-release-finish:
+  stage: .post
   only:
     - /^release\/.*$/
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 
-promote-build-feature-merge-request:
-  stage: promote-build-feature-merge-request
+job-flow-feature-start:
+  stage: .pre
   only:
     - /^feature\/.*$/
+    - pushes
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
-apply-remote-backend:
+deploy:
   extends: .artifacts.tfstate.plan
   environment: production
   tags:
@@ -109,7 +121,7 @@ apply-remote-backend:
     - tags
   except:
     - branches
-  stage: apply-remote-backend
+  stage: deploy
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-push.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh

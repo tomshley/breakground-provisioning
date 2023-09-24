@@ -33,6 +33,7 @@ COPY files/cicd-dockers-build-push.sh /opt/tomshley/breakground-provisioning/cic
 COPY files/cicd-dockers-build.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
 COPY files/cicd-exports.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh
 COPY files/cicd-flow-feature-gitlab-merge-request.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
+COPY files/cicd-flow-feature-update.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-merge-upstream.sh
 COPY files/cicd-flow-feature-update.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-update.sh
 COPY files/cicd-flow-release-finish.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 COPY files/cicd-flow-release-publish.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
@@ -55,6 +56,7 @@ RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
+RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-merge-upstream.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-update.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
