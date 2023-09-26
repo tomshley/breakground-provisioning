@@ -100,6 +100,7 @@ job-flow-release-finish:
     - /^release\/.*$/
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
+  when: manual
 
 job-flow-feature-start:
   stage: .pre
