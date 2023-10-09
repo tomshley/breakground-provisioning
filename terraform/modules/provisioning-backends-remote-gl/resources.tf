@@ -69,7 +69,7 @@ module "provisioning-generic-organization-github" {
      (["paste-sdk-scala", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
      (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
      (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"]),
-     (["dbflags-java", "tomshley/brands/global/tware/tech/examples/data", "", "private"]),
+     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
    ]
    git_project_mirrors = [
      (["gateway-scala", module.provisioning-generic-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
