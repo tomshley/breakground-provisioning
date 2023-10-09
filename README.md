@@ -3,7 +3,7 @@ This repository is the seed for the infrastructure and gitops tenancy of tomshle
 
 #### Step 1 - create an access token for gitlab and github
 - https://github.com/settings/tokens
-- https://gitlab.com/-/profile/personal_access_tokens
+- https://gitlab.com/-/profile/personal_access_tokens or https://gitlab.com/groups/tomshley/-/settings/access_tokens
 
 #### Step 2 - copy the owner group in gitlab
 
