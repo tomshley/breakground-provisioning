@@ -1,6 +1,6 @@
 locals {
   project_data_prep_with_mirror_urls = {
-    for mp in var.git_project_mirrors : mp[0] =>  {
+    for mp in var.git_project_mirrors : mp[0] => {
       mirror_https_clone_address = mp[1]
     }
   }
@@ -13,10 +13,10 @@ locals {
 
   project_data_mapped = {
     for pt in var.git_projects_with_parent : pt[0] => {
-      parent_id                  = pt[2]
-      parent_path                = trimsuffix(pt[1], "/")
-      parent_name                = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/"))) - 1)
-      visibility                 = length(pt) > 3 ? (pt[3] != "" ? pt[3] : "private") : "private"
+      parent_id   = pt[2]
+      parent_path = trimsuffix(pt[1], "/")
+      parent_name = element(split("/", trimsuffix(pt[1], "/")), length(split("/", trimsuffix(pt[1], "/"))) - 1)
+      visibility  = length(pt) > 3 ? (pt[3] != "" ? pt[3] : "private") : "private"
       repository_files_default = {
         gitignore = {
           filename = ".gitignore"
@@ -52,8 +52,8 @@ locals {
 
   git_flow_projects_with_branch_defaults_prep = flatten([
     for flow_branch_type, branch_name_list in var.git_flow_structure :
-      [
-        for branch_name in branch_name_list : [
+    [
+      for branch_name in branch_name_list : [
         for project_name, project_meta in local.project_data :
         {
           flow_branch_type = flow_branch_type
@@ -61,7 +61,7 @@ locals {
           project_name     = project_name
         }
       ]
-      ]
+    ]
 
   ])
 
@@ -69,13 +69,13 @@ locals {
     for flow_branch_type, branch_name_list in var.git_flow_structure :
     [
       for branch_name in branch_name_list : {
-      for project_name, project_meta in local.project_data : flow_branch_type =>
-    {
-      flow_branch_type = flow_branch_type
-      branch_name      = branch_name
-      project_name     = project_name
-    }...
-    }
+        for project_name, project_meta in local.project_data : flow_branch_type =>
+        {
+          flow_branch_type = flow_branch_type
+          branch_name      = branch_name
+          project_name     = project_name
+        }...
+      }
     ]
 
   ])
@@ -133,7 +133,7 @@ locals {
         parent_key  = replace(trimsuffix(element(split(v2, v1), 0), "/"), "/", "-")
         parent_path = trimsuffix(element(split(v2, v1), 0), "/")
         group_name  = v2
-        group_path  = v1
+        group_path  = "${trimsuffix(element(split(v2, v1), 0), "/")}/${v2}"
         group_key   = "${replace(trimsuffix(element(split(v2, v1), 0), "/"), "/", "-")}-${v2}"
       })
       if element(split(v2, v1), 0) != ""
@@ -144,22 +144,27 @@ locals {
       parent_key  = replace(trimsuffix(v, "/"), "/", "-")
       parent_path = v
       group_key   = k
-      group_path  = lookup(local.unique_groups_for_management_map, k, {
+      group_path = lookup(local.unique_groups_for_management_map, k, {
         path = null
-      })[
-      "path"
+        })[
+        "path"
       ]
       group_name = lookup(local.unique_groups_for_management_map, k, {
         name = null
-      })[
-      "name"
+        })[
+        "name"
       ]
     })
   ])
 
-  groups_map = {
+  groups_map_concat_by_group_key = {
     for v in concat(local.flattened_required_groups_with_parent_map, local.flattened_parents_with_parent_map) :
     v["group_key"] =>
-    v
+    v...
+  }
+
+  groups_map = {
+    for k, v in local.groups_map_concat_by_group_key :
+    k => element(v, 0)
   }
 }

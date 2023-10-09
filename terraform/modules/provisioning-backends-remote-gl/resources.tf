@@ -29,7 +29,8 @@ module "provisioning-generic-organization-github" {
     (["paste-js-lib", "tomshley", "tomshley", "public"]),
     (["paste-pageperf-gevent2", "tomshley", "tomshley", "private"]),
     (["paste-sdk-scala", "tomshley", "tomshley", "private"]),
-    (["paste-templating-jinja", "tomshley", "tomshley", "private"])
+    (["paste-templating-jinja", "tomshley", "tomshley", "private"]),
+    (["dbflags-java-example", "tomshley", "tomshley", "private"]),
   ]
 }
 
@@ -67,7 +68,8 @@ module "provisioning-generic-organization-github" {
      (["paste-pageperf-gevent2", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
      (["paste-sdk-scala", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
      (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
-     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"])
+     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"]),
+     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
    ]
    git_project_mirrors = [
      (["gateway-scala", module.provisioning-generic-organization-github.gh_repositories["gateway-scala"].http_clone_url]),
@@ -94,11 +96,8 @@ module "provisioning-generic-organization-github" {
      (["paste-pageperf-gevent2", module.provisioning-generic-organization-github.gh_repositories["paste-pageperf-gevent2"].http_clone_url]),
      (["paste-sdk-scala", module.provisioning-generic-organization-github.gh_repositories["paste-sdk-scala"].http_clone_url]),
      (["paste-templating-jinja", module.provisioning-generic-organization-github.gh_repositories["paste-templating-jinja"].http_clone_url]),
+     (["dbflags-java", module.provisioning-generic-organization-github.gh_repositories["dbflags-java-example"].http_clone_url]),
    ]
    github_mirror_token = var.github_mirror_token
    github_owner_group_path = var.github_owner_group_path
  }
-# For Debug:
-#output "groups" {
-#  value = module.provisioning-generic-organization-gitlab.groups
-#}
