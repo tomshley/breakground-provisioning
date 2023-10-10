@@ -30,7 +30,7 @@ module "provisioning-generic-organization-github" {
     (["paste-pageperf-gevent2", "tomshley", "tomshley", "private"]),
     (["paste-sdk-scala", "tomshley", "tomshley", "private"]),
     (["paste-templating-jinja", "tomshley", "tomshley", "private"]),
-    (["dbflags-java-example", "tomshley", "tomshley", "private"]),
+    (["dbflags-java-example", "tomshley", "tomshley", "public"]),
   ]
 }
 
