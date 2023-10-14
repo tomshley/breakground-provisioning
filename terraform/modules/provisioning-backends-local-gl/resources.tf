@@ -17,21 +17,29 @@
 #
 
 module "provisioning-generic-organization-github" {
-  source                   = "../provisioning-generic-organization-github"
-  git_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "tomshley", "public"]),
-  ]
+  source = "../provisioning-generic-organization-github"
+
+  git_projects_with_parent = var.github_projects_with_parent
+  #  Example:
+  #  git_projects_with_parent = [
+  #    (["breakground-provisioning", "tomshley", "tomshley", "public"]),
+  #  ]
 }
 
 module "provisioning-generic-organization-gitlab" {
-  source = "../provisioning-generic-organization-gitlab"
-  git_projects_with_parent = [
-    (["breakground-provisioning", "tomshley", "64355277", "private"]),
-  ]
-  github_mirror_token = var.github_mirror_token
+  source                   = "../provisioning-generic-organization-gitlab"
+  git_projects_with_parent = var.gitlab_projects_with_parent
+  #  Example:
+  #  git_projects_with_parent = [
+  #    (["breakground-provisioning", "tomshley", "64355277", "private"]),
+  #  ]
+  github_mirror_token      = var.github_mirror_token
 
   git_project_mirrors = [
-    (["breakground-provisioning", module.provisioning-generic-organization-github.gh_repositories["breakground-provisioning"].http_clone_url])
+    for t in distinct(var.gitlab_project_mirrors) : [
+      t[0],
+      module.provisioning-generic-organization-github.gh_repositories[t[1] == "" ? t[0] : t[1]].http_clone_url
+    ] if contains(keys(module.provisioning-generic-organization-github.gh_repositories), t[1] == "" ? t[0] : t[1])
   ]
   github_owner_group_path = var.github_owner_group_path
 }

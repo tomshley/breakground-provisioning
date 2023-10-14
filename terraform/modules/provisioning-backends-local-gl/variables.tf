@@ -19,7 +19,17 @@
 variable "github_mirror_token" {
   type = string
 }
-
 variable "github_owner_group_path" {
   type = string
+}
+variable "github_projects_with_parent" {
+  type = list(tuple([string, string, string, string]))
+}
+variable "gitlab_projects_with_parent" {
+  type = list(tuple([string, string, string, string]))
+}
+variable "gitlab_project_mirrors" {
+  type        = list(tuple([string, string]))
+  description = "<required:target-name>, <required:mirror-name>"
+  default     = []
 }
