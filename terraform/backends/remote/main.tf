@@ -59,7 +59,7 @@ module "provisioning-backends-remote-gl" {
   github_projects_with_parent = [
     (["gateway-scala", "tomshley", "tomshley", "private"]),
     (["gateway-sdk-scala", "tomshley", "tomshley", "private"]),
-    (["hexagonal-lib-jvm", "tomshley", "tomshley", "private"]),
+    (["hexagonal-lib-jvm", "tomshley", "tomshley", "public"]),
     (["hexagonal-plugins-sbt", "tomshley", "tomshley", "public"]),
     (["hexagonal-sdk-kotlin", "tomshley", "tomshley", "private"]),
     (["hexagonal-sdk-python", "tomshley", "tomshley", "private"]),
