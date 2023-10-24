@@ -21,19 +21,27 @@
 
 cd "${CI_PROJECT_DIR}" || exit
 
-
-# set the -sbt- build to release not, snapshot
-echo "release script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
+. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh"
 
-git fetch
-git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
-
+# Step 1: Bump the version and commit. Assume on hotfix branch
 echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${TOMSHLEY_PROJECT_VERSION_SRC}"
-
 git add "${TOMSHLEY_PROJECT_VERSION_SRC}"
-
 git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+git push --set-upstream origin "${GITLAB_CI_BRANCH}"
 
-git push --set-upstream origin "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+# Step 2: run the git flow sequence for hotfix and tag
+export GIT_MERGE_AUTOEDIT=no
+git checkout main
+git pull origin main --rebase --prune
+git merge --no-ff --no-edit "${GITLAB_CI_BRANCH}" -m "${TOMSHLEY_FLOW_HOTFIX_FINISH_MESSAGE} | main"
+git tag -a ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT} -m "${TOMSHLEY_FLOW_HOTFIX_FINISH_MESSAGE}"
+git checkout develop
+git pull origin develop --rebase --prune
+git merge --no-ff --no-edit "${GITLAB_CI_BRANCH}" -m "${TOMSHLEY_FLOW_HOTFIX_FINISH_MESSAGE} | develop | [skip ci]"; \
+git branch -d "${GITLAB_CI_BRANCH}"
+git push origin main
+git push origin develop
+git push origin --tags
+git push origin :"${GITLAB_CI_BRANCH}"
+unset GIT_MERGE_AUTOEDIT
