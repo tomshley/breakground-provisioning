@@ -22,9 +22,8 @@
 cd "${CI_PROJECT_DIR}" || exit
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
-. "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish-prep.sh"
 
-echo "--Starting Hotfix Finish Task--"
+echo "Running Hotfix Finish"
 # Step 1: Bump the version and commit. Assume on hotfix branch
 echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${TOMSHLEY_PROJECT_VERSION_SRC}"
 git add "${TOMSHLEY_PROJECT_VERSION_SRC}"
