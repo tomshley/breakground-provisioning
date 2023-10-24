@@ -81,6 +81,7 @@ job-flow-hotfix-finish:
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-hotfix-finish.sh
   when: manual
+  allow_failure: false
 
 job-flow-release-start:
   stage: .post
@@ -94,6 +95,7 @@ job-flow-release-start:
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
   when: manual
+  allow_failure: false
 
 job-flow-release-publish:
   stage: deploy
@@ -109,6 +111,7 @@ job-flow-release-finish:
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
   when: manual
+  allow_failure: false
 
 job-flow-feature-start:
   stage: .pre
