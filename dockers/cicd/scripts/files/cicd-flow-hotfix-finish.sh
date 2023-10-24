@@ -23,14 +23,27 @@ cd "${CI_PROJECT_DIR}" || exit
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
 
+# Step 1: Checkout a branch we can commit to
 echo "Running Hotfix Finish"
-# Step 1: Bump the version and commit. Assume on hotfix branch
+echo "Running Hotfix Finish: fetch"
+git fetch
+echo "Running Hotfix Finish: checkout"
+git checkout "${GITLAB_CI_BRANCH}"
+echo "Running Hotfix Finish: branch"
+git branch --set-upstream-to origin/"${GITLAB_CI_BRANCH}"
+echo "Running Hotfix Finish: pull"
+git pull origin "${GITLAB_CI_BRANCH}" --rebase --prune
+
+# Step 2: Bump the version and commit. Assume on hotfix branch
 echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${TOMSHLEY_PROJECT_VERSION_SRC}"
+echo "Running Hotfix Finish: add to git"
 git add "${TOMSHLEY_PROJECT_VERSION_SRC}"
+echo "Running Hotfix Finish: commit"
 git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
+echo "Running Hotfix Finish: push"
 git push --set-upstream origin "${GITLAB_CI_BRANCH}"
 
-# Step 2: run the git flow sequence for hotfix and tag
+# Step 3: run the git flow sequence for hotfix and tag
 export GIT_MERGE_AUTOEDIT=no
 git checkout main
 git pull origin main --rebase --prune
