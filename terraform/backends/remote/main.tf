@@ -111,6 +111,7 @@ module "provisioning-backends-remote-gl" {
     (["paste-templating-jinja", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"]),
     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
+    (["www-tomshley-com", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
   ]
   gitlab_project_mirrors = [
     (["gateway-scala", ""]),
