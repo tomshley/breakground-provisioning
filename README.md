@@ -1,6 +1,8 @@
 # Tomshley LLC Breakground Provisioning
 This repository is the seed for the infrastructure and gitops tenancy of tomshley
 
+[![wakatime](https://wakatime.com/badge/gitlab/tomshley/breakground-provisioning.svg)](https://wakatime.com/badge/gitlab/tomshley/breakground-provisioning)
+
 #### Step 1 - create an access token for gitlab and github
 - https://github.com/settings/tokens
 - https://gitlab.com/-/profile/personal_access_tokens or https://gitlab.com/groups/tomshley/-/settings/access_tokens
