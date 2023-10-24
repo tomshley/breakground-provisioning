@@ -62,7 +62,7 @@ resource "github_repository" "repositories" {
 resource "github_branch_protection" "repositories_protected_branches" {
   for_each = {
     for k, v in module.tware-git-project-with-parent.git_flow_projects_with_branch_defaults : k => v
-    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration") # GH likes one protected branch
+    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration") && github_repository.repositories[v["project_name"]].visibility == true # GH likes one protected branch
   }
   repository_id = github_repository.repositories[each.value["project_name"]].id
   pattern     = each.value["branch_name"]
