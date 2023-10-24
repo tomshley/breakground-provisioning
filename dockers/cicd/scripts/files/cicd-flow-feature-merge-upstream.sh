@@ -23,16 +23,14 @@ cd "${CI_PROJECT_DIR}" || exit
 
 
 # set the -sbt- build to release not, snapshot
-tomshley_project_version_src="${CI_PROJECT_DIR}/VERSION"
 echo "integration script running ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh"
 
-tomshley_integration_message=" Merge branch 'develop' into '${GITLAB_CI_BRANCH}'"
 
 export GIT_MERGE_AUTOEDIT=no
 git checkout develop
 git pull origin develop --rebase --prune
 git checkout "${GITLAB_CI_BRANCH}"
-git merge --no-ff --no-edit develop -m "${tomshley_release_finish_message}"
+git merge --no-ff --no-edit develop -m "${TOMSHLEY_MERGE_INTEGRATION_MESSAGE}"
 git push origin "${GITLAB_CI_BRANCH}"

@@ -74,6 +74,14 @@ build:
   artifacts:
     expire_in: 8 hours
 
+job-flow-hotfix-finish:
+  stage: .post
+  only:
+    - /^hotfix\/.*$/
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-hotfix-finish.sh
+  when: manual
+
 job-flow-release-start:
   stage: .post
   tags:

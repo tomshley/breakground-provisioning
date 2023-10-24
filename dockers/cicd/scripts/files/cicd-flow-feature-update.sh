@@ -24,8 +24,8 @@ cd "${CI_PROJECT_DIR}" || exit
 git fetch
 git checkout -b "release/${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" develop
 
-echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${tomshley_project_version_src}"
+echo "${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}" > "${TOMSHLEY_PROJECT_VERSION_SRC}"
 
-git add "${tomshley_project_version_src}"
+git add "${TOMSHLEY_PROJECT_VERSION_SRC}"
 
 git commit -m "$(git log --format='%B' -n 1) | bumping version to ${TOMSHLEY_BREAKGROUND_BUILD_VERSION_NEXT}"
