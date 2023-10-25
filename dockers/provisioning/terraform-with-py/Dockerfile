@@ -20,7 +20,7 @@ FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisio
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 ARG VERSION_JQ=1.6-r3
-ARG VERSION_OPENSSL=3.1.3-r0
+ARG VERSION_OPENSSL=3.1.4-r0
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
