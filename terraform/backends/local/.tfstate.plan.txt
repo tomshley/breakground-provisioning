@@ -1,38 +1,5 @@
 
-Terraform used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  + create
+No changes. Your infrastructure matches the configuration.
 
-Terraform will perform the following actions:
-
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_branch_protection.repositories_protected_branches["integrationdevelopbreakground-provisioning"] will be created
-  + resource "github_branch_protection" "repositories_protected_branches" {
-      + allows_deletions                = false
-      + allows_force_pushes             = false
-      + blocks_creations                = false
-      + enforce_admins                  = true
-      + id                              = (known after apply)
-      + lock_branch                     = false
-      + pattern                         = "develop"
-      + repository_id                   = "breakground-provisioning"
-      + require_conversation_resolution = false
-      + require_signed_commits          = false
-      + required_linear_history         = false
-    }
-
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_branch_protection.repositories_protected_branches["productionmainbreakground-provisioning"] will be created
-  + resource "github_branch_protection" "repositories_protected_branches" {
-      + allows_deletions                = false
-      + allows_force_pushes             = false
-      + blocks_creations                = false
-      + enforce_admins                  = true
-      + id                              = (known after apply)
-      + lock_branch                     = false
-      + pattern                         = "main"
-      + repository_id                   = "breakground-provisioning"
-      + require_conversation_resolution = false
-      + require_signed_commits          = false
-      + required_linear_history         = false
-    }
-
-Plan: 2 to add, 0 to change, 0 to destroy.
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
