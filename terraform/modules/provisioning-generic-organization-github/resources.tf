@@ -45,6 +45,20 @@
 #   secret_scanning_push_protection_enabled_for_new_repositories = false
 # }
 
+locals {
+  all_branches_to_protect = {
+    for k, v in module.tware-git-project-with-parent.git_flow_projects_with_branch_defaults : k => v
+    if contains(keys(github_repository.repositories), v["project_name"])
+  }
+  public_only_branches_to_protect = {
+    for k, v in local.all_branches_to_protect : k => v
+    if github_repository.repositories[v["project_name"]].visibility == "public"
+  }
+  public_only_prod_int_branches_to_protect = {
+    for k, v in local.public_only_branches_to_protect : k => v
+    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration")
+  }
+}
 module "tware-git-project-with-parent" {
   source = "../entities-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
@@ -60,10 +74,7 @@ resource "github_repository" "repositories" {
 }
 
 resource "github_branch_protection" "repositories_protected_branches" {
-  for_each = {
-    for k, v in module.tware-git-project-with-parent.git_flow_projects_with_branch_defaults : k => v
-    if (v["flow_branch_type"] == "production" || v["flow_branch_type"] == "integration") && github_repository.repositories[v["project_name"]].visibility == true # GH likes one protected branch
-  }
+  for_each = local.public_only_prod_int_branches_to_protect
   repository_id = github_repository.repositories[each.value["project_name"]].id
   pattern     = each.value["branch_name"]
   enforce_admins   = true
