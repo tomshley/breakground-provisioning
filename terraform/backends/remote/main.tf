@@ -71,10 +71,7 @@ module "provisioning-backends-remote-gl" {
     (["module-lib-tf", "tomshley", "tomshley", "private"]),
     (["cicd-lib-docker", "tomshley", "tomshley", "private"]),
     (["microcontainer-lib-docker", "tomshley", "tomshley", "private"]),
-    (["paste-common-scala", "tomshley", "tomshley", "private"]),
-    (["paste-jammer-akkahttp", "tomshley", "tomshley", "private"]),
-    (["paste-resources-sbt", "tomshley", "tomshley", "public"]),
-    (["paste-templating-scala", "tomshley", "tomshley", "private"]),
+    (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "public"]),
     (["dbflags-java-example", "tomshley", "tomshley", "public"]),
   ]
   gitlab_projects_with_parent = [
@@ -100,6 +97,7 @@ module "provisioning-backends-remote-gl" {
     (["paste-templating", "tomshley/brands/global/tware/tech/products/paste", "", "private"]),
     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"]),
     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
+    (["aws-gen-ai-builder-session-20231101", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["www-tomshley-com", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
   ]
   gitlab_project_mirrors = [
@@ -121,6 +119,7 @@ module "provisioning-backends-remote-gl" {
     (["paste-jammer", "paste-jammer-akkahttp"]),
     (["paste-resources", "paste-resources-sbt"]),
     (["paste-templating", "paste-templating-scala"]),
+    (["dbflaaws-gen-ai-builder-session-20231101", ""]),
     (["dbflags-java", "dbflags-java-example"]),
   ]
 }
