@@ -73,7 +73,7 @@ module "provisioning-backends-remote-gl" {
     (["microcontainer-lib-docker", "tomshley", "tomshley", "private"]),
     (["paste-common-scala", "tomshley", "tomshley", "private"]),
     (["paste-jammer-akkahttp", "tomshley", "tomshley", "private"]),
-    (["paste-resources-sbt", "tomshley", "tomshley", "public"]),
+    (["paste-lib", "tomshley", "tomshley", "public"]),
     (["paste-templating-scala", "tomshley", "tomshley", "private"]),
     (["paste-tests-scala", "tomshley", "tomshley", "private"]),
     (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "public"]),
@@ -125,6 +125,7 @@ module "provisioning-backends-remote-gl" {
     (["paste-jammer", "paste-jammer-akkahttp"]),
     (["paste-resources", "paste-lib"]),
     (["paste-templating", "paste-templating-scala"]),
+    (["paste-tests", "paste-tests-scala"]),
     (["dbflaaws-gen-ai-builder-session-20231101", ""]),
     (["dbflags-java", "dbflags-java-example"]),
   ]
