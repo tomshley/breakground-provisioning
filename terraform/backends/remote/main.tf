@@ -123,7 +123,7 @@ module "provisioning-backends-remote-gl" {
     (["microcontainer-lib-docker", ""]),
     (["paste-common", "paste-common-scala"]),
     (["paste-jammer", "paste-jammer-akkahttp"]),
-    (["paste-resources", "paste-resources-sbt"]),
+    (["paste-resources", "paste-lib"]),
     (["paste-templating", "paste-templating-scala"]),
     (["dbflaaws-gen-ai-builder-session-20231101", ""]),
     (["dbflags-java", "dbflags-java-example"]),
