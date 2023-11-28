@@ -128,7 +128,7 @@ module "provisioning-backends-remote-gl" {
     (["paste-resources", "paste-lib"]),
     (["paste-templating", "paste-templating-scala"]),
     (["paste-tests", "paste-tests-scala"]),
-    (["dbflaaws-gen-ai-builder-session-20231101", ""]),
+    (["aws-gen-ai-builder-session-20231101", ""]),
     (["aws-reinvent-2023", ""]),
     (["dbflags-java", "dbflags-java-example"]),
   ]
