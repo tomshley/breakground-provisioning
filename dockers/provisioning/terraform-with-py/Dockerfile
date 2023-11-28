@@ -20,24 +20,31 @@ FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisio
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
 ARG VERSION_JQ=1.6-r3
-ARG VERSION_OPENSSL=3.1.4-r0
+ARG VERSION_OPENSSL=3.1.4-r1
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
 ARG VERSION_OPENSSH=9.3_p2-r0
 ARG VERSION_CURL=8.4.0-r0
 ARG VERSION_GITFLOW=1.12.3-r1
-ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r6
-ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.17.3-r7
-ARG VERSION_ALPINE_EDGE_DOCKER_BUILDX=0.11.2-r3
-ARG VERSION_ALPINE_EDGE_TERRAFORM=1.5.7-r1
+ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r7
+ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.17.3-r8
+ARG VERSION_ALPINE_EDGE_DOCKER_BUILDX=0.10.4-r10
+ARG VERSION_ALPINE_EDGE_TERRAFORM=1.4.6-r5
 ARG VERSION_PYTHON3=3.11.6-r0
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
-RUN apk add --no-cache \
+RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
+        apk add \
+          --no-cache \
+          terraform@edge-community==${VERSION_ALPINE_EDGE_TERRAFORM} \
+          docker@edge-community==${VERSION_ALPINE_EDGE_DOCKER} \
+          docker-cli-buildx@edge-community==${VERSION_ALPINE_EDGE_DOCKER_BUILDX} \
+          docker-cli-compose@edge-community==${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
+    apk add --no-cache \
       git-flow==${VERSION_GITFLOW} \
       jq==${VERSION_JQ} \
       openssl==${VERSION_OPENSSL} \
@@ -47,13 +54,6 @@ RUN apk add --no-cache \
       openssh==${VERSION_OPENSSH} \
       python3==${VERSION_PYTHON3} \
       gcompat==${VERSION_GCOMPAT} && \
-    echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-    apk add \
-      --no-cache \
-      terraform@edge-community==${VERSION_ALPINE_EDGE_TERRAFORM} \
-      docker@edge-community==${VERSION_ALPINE_EDGE_DOCKER} \
-      docker-cli-buildx@edge-community==${VERSION_ALPINE_EDGE_DOCKER_BUILDX} \
-      docker-cli-compose@edge-community==${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \
