@@ -71,12 +71,13 @@ module "provisioning-backends-remote-gl" {
     (["module-lib-tf", "tomshley", "tomshley", "private"]),
     (["cicd-lib-docker", "tomshley", "tomshley", "private"]),
     (["microcontainer-lib-docker", "tomshley", "tomshley", "private"]),
-    (["paste-common-scala", "tomshley", "tomshley", "private"]),
+    (["paste-core-scala", "tomshley", "tomshley", "public"]),
     (["paste-jammer-akkahttp", "tomshley", "tomshley", "private"]),
-    (["paste-resources-sbt", "tomshley", "tomshley", "public"]),
+    (["paste-lib", "tomshley", "tomshley", "public"]),
     (["paste-templating-scala", "tomshley", "tomshley", "private"]),
     (["paste-tests-scala", "tomshley", "tomshley", "private"]),
-    (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "public"]),
+    (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "private"]),
+    (["aws-reinvent-2023", "tomshley", "tomshley", "private"]),
     (["dbflags-java-example", "tomshley", "tomshley", "public"]),
   ]
   gitlab_projects_with_parent = [
@@ -104,6 +105,7 @@ module "provisioning-backends-remote-gl" {
     (["hotsourcer-npm", "tomshley/brands/global/tware/tech/products/hotsource", "", "private"]),
     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
     (["aws-gen-ai-builder-session-20231101", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
+    (["aws-reinvent-2023", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["www-tomshley-com", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
   ]
   gitlab_project_mirrors = [
@@ -121,11 +123,13 @@ module "provisioning-backends-remote-gl" {
     (["module-lib-tf", ""]),
     (["cicd-lib-docker", ""]),
     (["microcontainer-lib-docker", ""]),
-    (["paste-common", "paste-common-scala"]),
+    (["paste-common", "paste-core-scala"]),
     (["paste-jammer", "paste-jammer-akkahttp"]),
     (["paste-resources", "paste-lib"]),
     (["paste-templating", "paste-templating-scala"]),
+    (["paste-tests", "paste-tests-scala"]),
     (["dbflaaws-gen-ai-builder-session-20231101", ""]),
+    (["aws-reinvent-2023", ""]),
     (["dbflags-java", "dbflags-java-example"]),
   ]
 }
