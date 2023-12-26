@@ -24,36 +24,43 @@ ARG VERSION_OPENSSL=3.1.4-r1
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
-ARG VERSION_OPENSSH=9.3_p2-r0
+ARG VERSION_OPENSSH=9.3_p2-r1
 ARG VERSION_CURL=8.4.0-r0
 ARG VERSION_GITFLOW=1.12.3-r1
-ARG VERSION_ALPINE_EDGE_DOCKER=23.0.6-r7
-ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.17.3-r8
-ARG VERSION_ALPINE_EDGE_DOCKER_BUILDX=0.10.4-r10
-ARG VERSION_ALPINE_EDGE_TERRAFORM=1.4.6-r5
+ARG VERSION_ALPINE_EDGE_DOCKER=24.0.7-r0
+ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.23.3-r0
+ARG VERSION_ALPINE_EDGE_DOCKER_BUILDX=0.12.0-r0
+ARG VERSION_ALPINE_EDGE_TESTING_OPENTOFU=1.6.0_rc1-r0
+ARG VERSION_ALPINE_EDGE_IPTABLES=1.8.10-r3
+ARG VERSION_ALPINE_EDGE_LIBSECOMP=2.5.5-r0
 ARG VERSION_PYTHON3=3.11.6-r0
+ARG REPO_EDGE_MAIN=https://dl-cdn.alpinelinux.org/alpine/edge/main/
+ARG REPO_EDGE_COMMUNITY=https://dl-cdn.alpinelinux.org/alpine/edge/community/
+ARG REPO_EDGE_TEST=https://dl-cdn.alpinelinux.org/alpine/edge/testing/
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
-RUN echo "@edge-community https://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-        apk add \
-          --no-cache \
-          terraform@edge-community==${VERSION_ALPINE_EDGE_TERRAFORM} \
-          docker@edge-community==${VERSION_ALPINE_EDGE_DOCKER} \
-          docker-cli-buildx@edge-community==${VERSION_ALPINE_EDGE_DOCKER_BUILDX} \
-          docker-cli-compose@edge-community==${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
+RUN apk add --no-cache --repository=${REPO_EDGE_MAIN} \
+      iptables==${VERSION_ALPINE_EDGE_IPTABLES} \
+      libseccomp==${VERSION_ALPINE_EDGE_LIBSECOMP} && \
     apk add --no-cache \
-      git-flow==${VERSION_GITFLOW} \
       jq==${VERSION_JQ} \
       openssl==${VERSION_OPENSSL} \
-      git==${VERSION_GIT} \
       make==${VERSION_MAKE} \
       curl==${VERSION_CURL} \
       openssh==${VERSION_OPENSSH} \
-      python3==${VERSION_PYTHON3} \
-      gcompat==${VERSION_GCOMPAT} && \
+      gcompat==${VERSION_GCOMPAT} \
+      git-flow==${VERSION_GITFLOW} \
+      git==${VERSION_GIT}  \
+      python3==${VERSION_PYTHON3} && \
+    apk add --no-cache --repository=${REPO_EDGE_COMMUNITY} \
+      docker==${VERSION_ALPINE_EDGE_DOCKER} \
+      docker-cli-buildx==${VERSION_ALPINE_EDGE_DOCKER_BUILDX} \
+      docker-cli-compose==${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
+    apk add --no-cache --repository=${REPO_EDGE_TEST} \
+      opentofu==${VERSION_ALPINE_EDGE_TESTING_OPENTOFU} && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \
