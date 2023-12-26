@@ -34,6 +34,8 @@ ARTIFACTORY_ACCESS_TOKEN=asdtqw4t3hbsgdbew54t35t
 ```shell
 brew install jq
 
+brew install opentofu
+
 cd ./cd terraform/backends/local/
 
 # to initialize terraform. this will initialize with a local backend to bootstrap gitlab remote

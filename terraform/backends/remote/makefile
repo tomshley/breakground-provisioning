@@ -24,12 +24,12 @@ clean:
 	rm -rf .terraform .terraform.lock.hcl
 
 artifact:
-	terraform show -no-color .tfstate.plan > .tfstate.plan.txt
-	terraform show -json .tfstate.plan | jq '[.resource_changes[] | select(.change.actions[0] != "no-op")] | length' > .tfstate.plan.changes
-	terraform show -json .tfstate.plan | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > .tfstate.plan.json
+	tofu show -no-color .tfstate.plan > .tfstate.plan.txt
+	tofu show -json .tfstate.plan | jq '[.resource_changes[] | select(.change.actions[0] != "no-op")] | length' > .tfstate.plan.changes
+	tofu show -json .tfstate.plan | jq -r '([.resource_changes[].change.actions?]|flatten)|{"create":(map(select(.=="create"))|length),"update":(map(select(.=="update"))|length),"delete":(map(select(.=="delete"))|length)}' > .tfstate.plan.json
 
 init:
-	terraform init \
+	tofu init \
 	-backend-config=address=${TF_ADDRESS} \
 	-backend-config=lock_address=${TF_ADDRESS}/lock \
 	-backend-config=unlock_address=${TF_ADDRESS}/lock \
@@ -40,7 +40,7 @@ init:
 	-backend-config=retry_wait_min=5
 
 migrate:
-	terraform init \
+	tofu init \
 	-migrate-state \
 	-backend-config=address=${TF_ADDRESS} \
 	-backend-config=lock_address=${TF_ADDRESS}/lock \
@@ -52,7 +52,7 @@ migrate:
 	-backend-config=retry_wait_min=5
 
 reconfigure:
-	terraform init \
+	tofu init \
 	-reconfigure \
 	-backend-config=address=${TF_ADDRESS} \
 	-backend-config=lock_address=${TF_ADDRESS}/lock \
@@ -64,10 +64,10 @@ reconfigure:
 	-backend-config=retry_wait_min=5
 
 validate: init
-	terraform fmt -recursive -diff -check
+	tofu fmt -recursive -diff -check
 
 plan-no-lock: clean init
-	terraform plan \
+	tofu plan \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
 	-var github_token="${GH_PASSWORD}" \
@@ -81,7 +81,7 @@ plan-no-lock: clean init
 
 # nb: https://developer.godaddy.com/keys?hbi_code=1
 _planonly:
-	terraform plan \
+	tofu plan \
 	-lock=true \
 	-input=false \
 	-var github_user="${GH_USERNAME}" \
@@ -97,7 +97,7 @@ _planonly:
 plan: clean init _planonly artifact
 
 _applyonly:
-	terraform apply \
+	tofu apply \
 	-input=false \
 	-auto-approve=true \
 	-lock=true \
@@ -106,7 +106,7 @@ _applyonly:
 apply: clean init _planonly _applyonly artifact
 
 destroy: init
-	terraform destroy \
+	tofu destroy \
 	-lock=true \
 	-var github_user="${GH_USERNAME}" \
 	-var github_token="${GH_PASSWORD}" \
