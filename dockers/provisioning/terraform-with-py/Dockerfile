@@ -19,13 +19,13 @@ FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:latest as cicd-scripts
 FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
 
-ARG VERSION_JQ=1.6-r3
+ARG VERSION_JQ=1.6-r4
 ARG VERSION_OPENSSL=3.1.4-r1
 ARG VERSION_GIT=2.40.1-r0
 ARG VERSION_MAKE=4.4.1-r1
 ARG VERSION_GCOMPAT=1.1.0-r1
 ARG VERSION_OPENSSH=9.3_p2-r1
-ARG VERSION_CURL=8.4.0-r0
+ARG VERSION_CURL=8.5.0-r0
 ARG VERSION_GITFLOW=1.12.3-r1
 ARG VERSION_ALPINE_EDGE_DOCKER=24.0.7-r0
 ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.23.3-r0
