@@ -22,15 +22,15 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
+      version = "~> 3.5.1"
     }
     local = {
       source  = "hashicorp/local"
-      version = "2.4.0"
+      version = "~> 2.4.0"
     }
     gitlab = {
       source  = "gitlabhq/gitlab"
-      version = "15.11.0"
+      version = "~> 16.6.0"
     }
     github = {
       source  = "integrations/github"
@@ -68,17 +68,19 @@ module "provisioning-backends-remote-gl" {
     (["hexagonal-sdk-scala", "tomshley", "tomshley", "private"]),
     (["telemetry-aggregator-scala", "tomshley", "tomshley", "private"]),
     (["tuuid-scala", "tomshley", "tomshley", "private"]),
-    (["module-lib-tf", "tomshley", "tomshley", "private"]),
+    (["module-lib-tf", "tomshley", "tomshley", "public"]),
     (["cicd-lib-docker", "tomshley", "tomshley", "private"]),
     (["microcontainer-lib-docker", "tomshley", "tomshley", "private"]),
     (["paste-core-scala", "tomshley", "tomshley", "public"]),
-    (["paste-jammer-akkahttp", "tomshley", "tomshley", "private"]),
+    (["paste-jammer-akkahttp", "tomshley", "tomshley", "public"]),
     (["paste-lib", "tomshley", "tomshley", "public"]),
     (["paste-templating-scala", "tomshley", "tomshley", "private"]),
     (["paste-tests-scala", "tomshley", "tomshley", "private"]),
-    (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "private"]),
-    (["aws-reinvent-2023", "tomshley", "tomshley", "private"]),
-    (["dbflags-java-example", "tomshley", "tomshley", "public"]),
+    (["aws-gen-ai-builder-session-20231101", "tomshley", "tomshley", "public"]),
+    (["aws-reinvent-2023", "tomshley", "tomshley", "public"]),
+    (["dbflags-java-example", "tomshley", "tomshley", "private"]),
+    (["eda-example", "tomshley", "tomshley", "public"]),
+    (["eda-example-infra-tf", "tomshley", "tomshley", "public"]),
   ]
   gitlab_projects_with_parent = [
     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]),     # path, parent, existing
@@ -106,6 +108,8 @@ module "provisioning-backends-remote-gl" {
     (["dbflags-java", "tomshley/brands/global/tware/tech/products/examples/data", "", "private"]),
     (["aws-gen-ai-builder-session-20231101", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["aws-reinvent-2023", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
+    (["eda-scala-pulsar", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
+    (["eda-pulsar-aws-tf", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["www-tomshley-com", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
   ]
   gitlab_project_mirrors = [
@@ -128,8 +132,10 @@ module "provisioning-backends-remote-gl" {
     (["paste-resources", "paste-lib"]),
     (["paste-templating", "paste-templating-scala"]),
     (["paste-tests", "paste-tests-scala"]),
-    (["dbflaaws-gen-ai-builder-session-20231101", ""]),
+    (["aws-gen-ai-builder-session-20231101", ""]),
     (["aws-reinvent-2023", ""]),
     (["dbflags-java", "dbflags-java-example"]),
+    (["eda-scala-pulsar", "eda-example"]),
+    (["eda-pulsar-aws-tf", "eda-example-infra-tf"]),
   ]
 }
