@@ -20,15 +20,15 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "3.5.1"
+      version = "~> 3.6.0"
     }
     local = {
       source  = "hashicorp/local"
-      version = "2.4.0"
+      version = "~> 2.4.1"
     }
     github = {
       source  = "integrations/github"
-      version = "~> 5.0"
+      version = "~> 5.45.0"
     }
   }
 }
