@@ -22,19 +22,19 @@ terraform {
   required_providers {
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.5.1"
+      version = "3.6.0"
     }
     local = {
       source  = "hashicorp/local"
-      version = "~> 2.4.0"
+      version = "2.4.1"
     }
     gitlab = {
       source  = "gitlabhq/gitlab"
-      version = "~> 16.6.0"
+      version = "16.8.1"
     }
     github = {
       source  = "integrations/github"
-      version = "~> 5.0"
+      version = "5.45.0"
     }
   }
 }
@@ -68,11 +68,11 @@ module "provisioning-backends-remote-gl" {
     (["hexagonal-sdk-scala", "tomshley", "tomshley", "private"]),
     (["telemetry-aggregator-scala", "tomshley", "tomshley", "private"]),
     (["tuuid-scala", "tomshley", "tomshley", "private"]),
-    (["module-lib-tf", "tomshley", "tomshley", "public"]),
+    (["module-lib-tf", "tomshley", "tomshley", "private"]),
     (["cicd-lib-docker", "tomshley", "tomshley", "private"]),
     (["microcontainer-lib-docker", "tomshley", "tomshley", "private"]),
     (["paste-core-scala", "tomshley", "tomshley", "public"]),
-    (["paste-jammer-akkahttp", "tomshley", "tomshley", "public"]),
+    (["paste-jammer-akkahttp", "tomshley", "tomshley", "private"]),
     (["paste-lib", "tomshley", "tomshley", "public"]),
     (["paste-templating-scala", "tomshley", "tomshley", "private"]),
     (["paste-tests-scala", "tomshley", "tomshley", "private"]),
@@ -80,6 +80,7 @@ module "provisioning-backends-remote-gl" {
     (["aws-reinvent-2023", "tomshley", "tomshley", "public"]),
     (["dbflags-java-example", "tomshley", "tomshley", "private"]),
     (["eda-example", "tomshley", "tomshley", "public"]),
+    (["eda-person-org-concept", "tomshley", "tomshley", "public"]),
     (["eda-example-infra-tf", "tomshley", "tomshley", "public"]),
   ]
   gitlab_projects_with_parent = [
@@ -109,6 +110,7 @@ module "provisioning-backends-remote-gl" {
     (["aws-gen-ai-builder-session-20231101", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["aws-reinvent-2023", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["eda-scala-pulsar", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
+    (["eda-person-org-concept", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["eda-pulsar-aws-tf", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["www-tomshley-com", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
   ]
@@ -136,6 +138,7 @@ module "provisioning-backends-remote-gl" {
     (["aws-reinvent-2023", ""]),
     (["dbflags-java", "dbflags-java-example"]),
     (["eda-scala-pulsar", "eda-example"]),
+    (["eda-person-org-concept", "eda-person-org-concept"]),
     (["eda-pulsar-aws-tf", "eda-example-infra-tf"]),
   ]
 }
