@@ -18,6 +18,6 @@
 #
 
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh"
-
 echo "DOCKERS BUILD: make build"
+echo "TOMSHLEY_DOCKERS_BUILD_REF=${TOMSHLEY_DOCKERS_BUILD_REF}"
 make build
