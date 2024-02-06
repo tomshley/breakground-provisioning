@@ -15,52 +15,41 @@
 #
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
+ARG TOMSHLEY_DOCKERS_BUILD_REF
 FROM --platform=$BUILDPLATFORM docker/buildx-bin:v0.11 as buildx-bin
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/cicd_scripts:latest as cicd-scripts
-FROM --platform=$BUILDPLATFORM registry.gitlab.com/tomshley/breakground-provisioning/os_alpine:3.16
+FROM --platform=$BUILDPLATFORM cicd_scripts_docker_build_ref as cicd-scripts
+FROM --platform=$BUILDPLATFORM os_alpine_docker_build_ref
 
-ARG VERSION_JQ=1.6-r4
-ARG VERSION_OPENSSL=3.1.4-r4
-ARG VERSION_GIT=2.40.1-r0
-ARG VERSION_MAKE=4.4.1-r1
-ARG VERSION_GCOMPAT=1.1.0-r1
-ARG VERSION_OPENSSH=9.3_p2-r1
-ARG VERSION_CURL=8.5.0-r0
-ARG VERSION_GITFLOW=1.12.3-r1
-ARG VERSION_ALPINE_EDGE_DOCKER=25.0.1-r0
-ARG VERSION_ALPINE_EDGE_DOCKER_COMPOSE=2.24.2-r0
-ARG VERSION_ALPINE_EDGE_DOCKER_BUILDX=0.12.1-r0
-ARG VERSION_ALPINE_EDGE_TESTING_OPENTOFU=1.6.0-r0
-ARG VERSION_ALPINE_EDGE_IPTABLES=1.8.10-r3
-ARG VERSION_ALPINE_EDGE_LIBSECOMP=2.5.5-r0
-ARG VERSION_PYTHON3=3.11.6-r0
-ARG REPO_EDGE_MAIN=https://dl-cdn.alpinelinux.org/alpine/edge/main/
-ARG REPO_EDGE_COMMUNITY=https://dl-cdn.alpinelinux.org/alpine/edge/community/
-ARG REPO_EDGE_TEST=https://dl-cdn.alpinelinux.org/alpine/edge/testing/
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=cicd-scripts /opt/tomshley/breakground-provisioning/cicd/bin/. /opt/tomshley/breakground-provisioning/cicd/bin/
 
-RUN apk add --no-cache --repository=${REPO_EDGE_MAIN} \
-      iptables==${VERSION_ALPINE_EDGE_IPTABLES} \
-      libseccomp==${VERSION_ALPINE_EDGE_LIBSECOMP} && \
+RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+      echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+      echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+      apk update && \
+      apk upgrade && \
+      apk add --no-cache \
+      iptables@edge \
+      libseccomp@edge && \
     apk add --no-cache \
-      jq==${VERSION_JQ} \
-      openssl==${VERSION_OPENSSL} \
-      make==${VERSION_MAKE} \
-      curl==${VERSION_CURL} \
-      openssh==${VERSION_OPENSSH} \
-      gcompat==${VERSION_GCOMPAT} \
-      git-flow==${VERSION_GITFLOW} \
-      git==${VERSION_GIT}  \
-      python3==${VERSION_PYTHON3} && \
-    apk add --no-cache --repository=${REPO_EDGE_COMMUNITY} \
-      docker==${VERSION_ALPINE_EDGE_DOCKER} \
-      docker-cli-buildx==${VERSION_ALPINE_EDGE_DOCKER_BUILDX} \
-      docker-cli-compose==${VERSION_ALPINE_EDGE_DOCKER_COMPOSE} && \
-    apk add --no-cache --repository=${REPO_EDGE_TEST} \
-      opentofu==${VERSION_ALPINE_EDGE_TESTING_OPENTOFU} && \
+      bash \
+      jq \
+      openssl \
+      make \
+      curl \
+      openssh \
+      gcompat \
+      git-flow \
+      git  \
+      python3 && \
+    apk add --no-cache \
+      docker@community \
+      docker-cli-buildx@community \
+      docker-cli-compose@community && \
+    apk add --no-cache \
+      opentofu@testing && \
     rm -rf /var/cache/* && \
     mkdir /var/cache/apk -p && \
     cd /usr/local/bin && \
