@@ -31,12 +31,12 @@ export TOMSHLEY_DOCKERS_BUILD_REF ?= $(build_version_tag)
 ifeq ($(TOMSHLEY_DOCKERS_BUILD_REF),$(build_version_tag))
     export TOMSHLEY_DOCKERS_BUILD_REF_LATEST ?= latest
 else
-    export TOMSHLEY_DOCKERS_BUILD_REF_LATEST ?= $(TOMSHLEY_DOCKERS_BUILD_REF)-latest
+    export TOMSHLEY_DOCKERS_BUILD_REF_LATEST ?= latest-$(TOMSHLEY_DOCKERS_BUILD_REF)
 endif
 
 check_cli = type "$(1)" >/dev/null 2>&1 || { echo "Error: command '$(1)' required but not found. Exiting." ; exit 1 ; }
 check_image = make --silent list | grep -w '$(1)' >/dev/null 2>&1 || { echo "Error: the image '$(1)' does not exist in manifest for the platform 'linux/$(ARCH)'. Please check the output of 'make list'. Exiting." ; exit 1 ; }
-bake_base_cli := docker buildx bake -f docker-bake.hcl
+bake_use := docker buildx bake -f docker-bake.hcl
 
 check-reqs:
 	@$(call check_cli,bash)
@@ -46,16 +46,19 @@ check-reqs:
 
 setup:
 	export DOCKER_CLI_EXPERIMENTAL=enabled && \
-	export DOCKER_BUILDKIT=1
+	export DOCKER_BUILDKIT=1 && \
+    export TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION} && \
+    echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
 
 build: setup check-reqs
-	@set -x; $(bake_base_cli) $(shell make --silent list)
-
-build-load: setup check-reqs
-	@set -x; $(bake_base_cli) --load $(shell make --silent list)
+	docker buildx bake "os" && \
+	docker buildx bake "cicd" && \
+	docker buildx bake "provisioning"
 
 push: setup check-reqs
-	@set -x; $(bake_base_cli) --push $(shell make --silent list)
+	docker buildx bake "os" --push && \
+	docker buildx bake "cicd" --push && \
+	docker buildx bake "provisioning" --push
 
 publish-core: build-core push-core
 build-all: build-core build-bootstrap
