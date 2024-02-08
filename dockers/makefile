@@ -36,7 +36,7 @@ endif
 
 check_cli = type "$(1)" >/dev/null 2>&1 || { echo "Error: command '$(1)' required but not found. Exiting." ; exit 1 ; }
 check_image = make --silent list | grep -w '$(1)' >/dev/null 2>&1 || { echo "Error: the image '$(1)' does not exist in manifest for the platform 'linux/$(ARCH)'. Please check the output of 'make list'. Exiting." ; exit 1 ; }
-bake_use := docker buildx bake -f docker-bake.hcl
+bake_base_cli := docker buildx bake -f docker-bake.hcl
 
 check-reqs:
 	@$(call check_cli,bash)
@@ -44,22 +44,14 @@ check-reqs:
 	@$(call check_cli,docker)
 	@docker info | grep 'buildx:' >/dev/null 2>&1 || { echo "Error: Docker BuildX plugin required but not found. Exiting." ; exit 1 ; }
 
-setup:
-	export DOCKER_CLI_EXPERIMENTAL=enabled && \
-	export DOCKER_BUILDKIT=1 && \
-    export TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION} && \
-    echo "TOMSHLEY_BREAKGROUND_BUILD_VERSION=${TOMSHLEY_BREAKGROUND_BUILD_VERSION}"
+build-local: check-reqs
+	@set -x; $(bake_base_cli) --set '*.platform=linux/$(ARCH)' $(shell make --silent list)
 
-build: setup check-reqs
-	docker buildx bake "os" && \
-	docker buildx bake "cicd" && \
-	docker buildx bake "provisioning"
+build-load: check-reqs
+	@set -x; $(bake_base_cli) --load
 
-push: setup check-reqs
-	docker buildx bake "os" --push && \
-	docker buildx bake "cicd" --push && \
-	docker buildx bake "provisioning" --push
+build: check-reqs
+	@set -x; $(bake_base_cli)
 
-publish-core: build-core push-core
-build-all: build-core build-bootstrap
-deploy-all: push-core push-bootstrap
+push: check-reqs
+	@set -x; $(bake_base_cli) --push
