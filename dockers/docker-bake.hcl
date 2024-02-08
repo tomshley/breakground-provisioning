@@ -44,7 +44,7 @@ group "provisioning" {
 
 # region REGISTRIES
 variable "REGISTRY" {
-  default = "registry.gitlab.com/tomshley/breakground-provisioning"
+  default = "registry.gitlab.com/tomshley/${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}"
 }
 variable "OS_ALPINE" {
   default = "os_alpine"
@@ -74,7 +74,7 @@ target "os_alpine" {
   }
   tags       = [
     "${REGISTRY}/${OS_ALPINE}:3.19",
-    "${REGISTRY}/${OS_ALPINE}:${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}-${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${OS_ALPINE}:${TOMSHLEY_DOCKERS_BUILD_REF}",
     "${REGISTRY}/${OS_ALPINE}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 
@@ -99,7 +99,7 @@ target "provisioning_terraform_with_py" {
     TOMSHLEY_DOCKERS_BUILD_REF = "${TOMSHLEY_DOCKERS_BUILD_REF}"
   }
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}-${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_DOCKERS_BUILD_REF}",
     "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 
@@ -123,7 +123,7 @@ target "cicd_scripts" {
     TOMSHLEY_DOCKERS_BUILD_REF = "${TOMSHLEY_DOCKERS_BUILD_REF}"
   }
   tags       = [
-    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}-${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_DOCKERS_BUILD_REF}",
     "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 

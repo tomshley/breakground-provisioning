@@ -63,12 +63,12 @@ stages:
     - echo ".flow-generic-build-containers"
 
 .flow-generic-build-provisioning:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-build-provisioning"
 
 .flow-generic-build-finalize:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-build-finalize"
 
@@ -81,12 +81,12 @@ stages:
     - echo ".flow-generic-deploy-containers"
 
 .flow-generic-deploy-provisioning:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-deploy-provisioning"
 
 .flow-generic-deploy-finalize:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_PROJECT_NAME}-${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-deploy-finalize"
 
