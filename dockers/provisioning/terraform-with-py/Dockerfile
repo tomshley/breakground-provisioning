@@ -42,7 +42,8 @@ RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/reposito
       openssh \
       gcompat \
       git-flow \
-      git  \
+      git-lfs \
+      git \
       python3 && \
     apk add --no-cache \
       docker@community \
