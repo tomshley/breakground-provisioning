@@ -81,12 +81,12 @@ stages:
     - echo ".flow-generic-deploy-containers"
 
 .flow-generic-deploy-provisioning:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_TAG}
   script:
     - echo ".flow-generic-deploy-provisioning"
 
 .flow-generic-deploy-finalize:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_TAG}}
   script:
     - echo ".flow-generic-deploy-finalize"
 
@@ -156,6 +156,8 @@ build.breakground:
     - .flow-generic-artifacts
     - .flow-generic-build-breakground
   stage: build.breakground
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -167,6 +169,8 @@ build.containers:
     - .flow-generic-artifacts
     - .flow-generic-build-containers
   stage: build.containers
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -178,6 +182,8 @@ build.provisioning:
     - .flow-generic-artifacts
     - .flow-generic-build-provisioning
   stage: build.provisioning
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -189,6 +195,8 @@ build.finalize:
     - .flow-generic-artifacts
     - .flow-generic-build-finalize
   stage: build.finalize
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
