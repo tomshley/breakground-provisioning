@@ -231,14 +231,26 @@ job-flow-release-publish:
   only:
     - /^release\/.*$/
   script:
+    - echo "DEBUGGING"
+    - git status
+    - git log
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
+    - echo "DEBUGGING2"
+    - git status
+    - git log
 
 job-flow-release-finish:
   stage: .post
   only:
     - /^release\/.*$/
   script:
+    - echo "DEBUGGING"
+    - git status
+    - git log
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
+    - echo "DEBUGGING2"
+    - git status
+    - git log
   when: manual
   allow_failure: false
 
