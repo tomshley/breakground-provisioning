@@ -18,6 +18,7 @@
 
 image:
   name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:latest"
+  # Example: name: "${CI_REGISTRY}/${CI_PROJECT_PATH}/provisioning_terraform_with_py:latest"
 
 stages:
   - .pre
@@ -34,6 +35,12 @@ stages:
   - deploy.provisioning
   - deploy.finalize
   - .post
+
+.flow-generic-variables:
+  before_script:
+    - if [ -n "${CI_COMMIT_TAG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF="${CI_COMMIT_REF_SLUG}"; elif [ -n "${CI_COMMIT_REF_SLUG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF=${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}; fi
+    - echo "CI_COMMIT_TAG (Deploy Containers) = ${CI_COMMIT_TAG}"
+    - echo "TOMSHLEY_DOCKERS_BUILD_REF  (Deploy Containers) = ${TOMSHLEY_DOCKERS_BUILD_REF}"
 
 .flow-generic-artifacts:
   artifacts: ~
@@ -81,18 +88,19 @@ stages:
     - echo ".flow-generic-deploy-containers"
 
 .flow-generic-deploy-provisioning:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_TAG}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-deploy-provisioning"
 
 .flow-generic-deploy-finalize:
-  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_TAG}}
+  image: registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}
   script:
     - echo ".flow-generic-deploy-finalize"
 
 
 test.breakground:
   extends: 
+    - .flow-generic-variables 
     - .flow-generic-artifacts
     - .flow-generic-test-breakground
   tags:
@@ -107,7 +115,8 @@ test.breakground:
     expire_in: 8 hours
 
 test.containers:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-test-containers
   tags:
@@ -122,7 +131,8 @@ test.containers:
     expire_in: 8 hours
 
 test.provisioning:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-test-provisioning
   tags:
@@ -137,7 +147,8 @@ test.provisioning:
     expire_in: 8 hours
 
 test.finalize:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-test-finalize
   tags:
@@ -152,10 +163,13 @@ test.finalize:
     expire_in: 8 hours
 
 build.breakground:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-build-breakground
   stage: build.breakground
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -163,10 +177,13 @@ build.breakground:
     expire_in: 8 hours
 
 build.containers:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-build-containers
   stage: build.containers
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -174,10 +191,13 @@ build.containers:
     expire_in: 8 hours
 
 build.provisioning:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-build-provisioning
   stage: build.provisioning
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -185,10 +205,13 @@ build.provisioning:
     expire_in: 8 hours
 
 build.finalize:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-build-finalize
   stage: build.finalize
+  except:
+    - tags
   services:
     - name: docker:24.0.5-dind-alpine3.18
       alias: dockerdaemon
@@ -224,13 +247,14 @@ job-flow-release-publish:
     - /^release\/.*$/
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
-
+    
 job-flow-release-finish:
   stage: .post
   only:
     - /^release\/.*$/
   script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
+    
   when: manual
   allow_failure: false
 
@@ -242,7 +266,8 @@ job-flow-feature-start:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
 
 deploy-breakground:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-deploy-breakground
   environment: production
@@ -258,7 +283,8 @@ deploy-breakground:
   stage: deploy.breakground
 
 deploy.containers:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-deploy-containers
   environment: production
@@ -274,7 +300,8 @@ deploy.containers:
   stage: deploy.containers
 
 deploy.provisioning:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-deploy-provisioning
   environment: production
@@ -290,7 +317,8 @@ deploy.provisioning:
   stage: deploy.provisioning
 
 deploy.finalize:
-  extends:
+  extends: 
+    - .flow-generic-variables
     - .flow-generic-artifacts
     - .flow-generic-deploy-finalize
   environment: production
