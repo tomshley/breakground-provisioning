@@ -19,7 +19,6 @@
 group "default" {
   targets = [
     "os",
-    "builders",
     "cicd",
     "provisioning"
   ]
@@ -28,24 +27,24 @@ group "default" {
 # region GROUPS
 group "os" {
   targets = [
-    "os_alpine_3_16"
+    "os_alpine"
   ]
 }
 group "cicd" {
   targets = [
-    "cicd_scripts_latest"
+    "cicd_scripts"
   ]
 }
 group "provisioning" {
   targets = [
-    "provisioning_terraform_with_py_latest"
+    "provisioning_terraform_with_py"
   ]
 }
 # endregion
 
 # region REGISTRIES
 variable "REGISTRY" {
-  default = "registry.gitlab.com/tomshley/breakground-provisioning"
+  default = "registry.gitlab.com/tomshley/${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}"
 }
 variable "OS_ALPINE" {
   default = "os_alpine"
@@ -56,17 +55,27 @@ variable "CICD_SCRIPTS" {
 variable "PROVISIONING_TERRAFORM_WITH_PY" {
   default = "provisioning_terraform_with_py"
 }
-variable "TOMSHLEY_BREAKGROUND_BUILD_VERSION" {
-  default = "v0.0.0-DEV"
+variable "TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME" {
+  default = "PROJECTNAME"
+}
+variable "TOMSHLEY_DOCKERS_BUILD_REF" {
+  default = "BUILDSLUG"
+}
+variable "TOMSHLEY_DOCKERS_BUILD_REF_LATEST" {
+  default = "latest"
 }
 # endregion
 
-target "os_alpine_3_16" {
+target "os_alpine" {
   dockerfile = "Dockerfile"
-  context    = "./os/alpine/3.16"
+  context    = "./os/alpine"
+  args = {
+    TOMSHLEY_DOCKERS_BUILD_REF = "${TOMSHLEY_DOCKERS_BUILD_REF}"
+  }
   tags       = [
-    "${REGISTRY}/${OS_ALPINE}:3.16",
-    "${REGISTRY}/${OS_ALPINE}:latest"
+    "${REGISTRY}/${OS_ALPINE}:3.19",
+    "${REGISTRY}/${OS_ALPINE}:${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${OS_ALPINE}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 
   platforms = [
@@ -79,12 +88,19 @@ target "os_alpine_3_16" {
     "linux/s390x"
   ]
 }
-target "provisioning_terraform_with_py_latest" {
+target "provisioning_terraform_with_py" {
   dockerfile = "Dockerfile"
   context    = "./provisioning/terraform-with-py"
+  contexts = {
+    cicd_scripts_docker_build_ref = "target:cicd_scripts"
+    os_alpine_docker_build_ref = "target:os_alpine"
+  }
+  args = {
+    TOMSHLEY_DOCKERS_BUILD_REF = "${TOMSHLEY_DOCKERS_BUILD_REF}"
+  }
   tags       = [
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
-    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:latest"
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${PROVISIONING_TERRAFORM_WITH_PY}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 
   platforms = [
@@ -97,12 +113,18 @@ target "provisioning_terraform_with_py_latest" {
     "linux/s390x"
   ]
 }
-target "cicd_scripts_latest" {
+target "cicd_scripts" {
   dockerfile = "Dockerfile"
   context    = "./cicd/scripts"
+  contexts = {
+    os_alpine_docker_build_ref = "target:os_alpine"
+  }
+  args = {
+    TOMSHLEY_DOCKERS_BUILD_REF = "${TOMSHLEY_DOCKERS_BUILD_REF}"
+  }
   tags       = [
-    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_BREAKGROUND_BUILD_VERSION}",
-    "${REGISTRY}/${CICD_SCRIPTS}:latest"
+    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_DOCKERS_BUILD_REF}",
+    "${REGISTRY}/${CICD_SCRIPTS}:${TOMSHLEY_DOCKERS_BUILD_REF_LATEST}"
   ]
 
   platforms = [

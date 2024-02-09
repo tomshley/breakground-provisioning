@@ -16,10 +16,10 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-image:
-  name: "registry.gitlab.com/tomshley/breakground-provisioning/provisioning_terraform_with_py:latest"
+include:
+  - '/templates/.flow-generic.yml'
 
-.artifacts.tfstate.plan:
+.flow-generic-artifacts:
   artifacts:
     name: "terraform/backends/remote/.tfstate.plan"
     paths:
@@ -30,109 +30,39 @@ image:
       terraform:
         - "terraform/backends/remote/.tfstate.plan.json"
 
-#
-#     - promote-build-feature-merge-request
-#     - test
-#     - build
-#     - promote-build-start
-#     - promote-build-release-publish
-#     - promote-build-release-finish
-#     - deploy
-stages:
-  - .pre
-  - test
-  - build
-  - deploy
-  - .post
-
-test:
-  extends: .artifacts.tfstate.plan
-  tags:
-    - saas-linux-xlarge-amd64
-  services:
-    - name: docker:24.0.5-dind-alpine3.18
-      alias: dockerdaemon
-  except:
-    - tags
-  stage: test
+.flow-generic-test-breakground:
   script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-local-validate.sh
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
-  artifacts:
-    expire_in: 8 hours
 
-build:
-  extends: .artifacts.tfstate.plan
-  stage: build
-  services:
-    - name: docker:24.0.5-dind-alpine3.18
-      alias: dockerdaemon
+.flow-generic-test-containers:
   script:
+    - if [ -n "${CI_COMMIT_TAG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF="${CI_COMMIT_REF_SLUG}"; elif [ -n "${CI_COMMIT_REF_SLUG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF=${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}; fi
+    - echo "CI_COMMIT_TAG (Test Containers) = ${CI_COMMIT_TAG}"
+    - echo "TOMSHLEY_DOCKERS_BUILD_REF (Test Containers) = ${TOMSHLEY_DOCKERS_BUILD_REF}"
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build.sh
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
-  artifacts:
-    expire_in: 8 hours
 
-job-flow-hotfix-finish:
-  stage: .post
-  only:
-    - /^hotfix\/.*$/
+.flow-generic-test-provisioning:
   script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-hotfix-finish.sh
-  when: manual
-  allow_failure: false
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 
-job-flow-release-start:
-  stage: .post
-  tags:
-    - saas-linux-xlarge-amd64
-  services:
-    - name: docker:24.0.5-dind-alpine3.18
-      alias: dockerdaemon
-  only:
-    - develop
+.flow-generic-build-containers:
   script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-start.sh
-  when: manual
-  allow_failure: false
-
-job-flow-release-publish:
-  stage: deploy
-  only:
-    - /^release\/.*$/
-  script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-publish.sh
-
-job-flow-release-finish:
-  stage: .post
-  only:
-    - /^release\/.*$/
-  script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-release-finish.sh
-  when: manual
-  allow_failure: false
-
-job-flow-feature-start:
-  stage: .pre
-  only:
-    - /^feature\/.*$/
-  script:
-    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-flow-feature-gitlab-merge-request.sh
-
-deploy:
-  extends: .artifacts.tfstate.plan
-  environment: production
-  tags:
-    - saas-linux-2xlarge-amd64
-  services:
-    - name: docker:24.0.5-dind-alpine3.18
-      alias: dockerdaemon
-  only:
-    - tags
-  except:
-    - branches
-  stage: deploy
-  script:
+    - if [ -n "${CI_COMMIT_TAG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF="${CI_COMMIT_REF_SLUG}"; elif [ -n "${CI_COMMIT_REF_SLUG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF=${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}; fi
+    - echo "CI_COMMIT_TAG (Build Containers) = ${CI_COMMIT_TAG}"
+    - echo "TOMSHLEY_DOCKERS_BUILD_REF (Build Containers) = ${TOMSHLEY_DOCKERS_BUILD_REF}"
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-push.sh
+
+.flow-generic-build-provisioning:
+  script:
+    - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-no-lock.sh
+
+.flow-generic-deploy-containers:
+  script:
+     - if [ -n "${CI_COMMIT_TAG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF="${CI_COMMIT_REF_SLUG}"; elif [ -n "${CI_COMMIT_REF_SLUG-}" ]; then export TOMSHLEY_DOCKERS_BUILD_REF=${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}; fi
+     - echo "CI_COMMIT_TAG (Deploy Containers) = ${CI_COMMIT_TAG}"
+     - echo "TOMSHLEY_DOCKERS_BUILD_REF  (Deploy Containers) = ${TOMSHLEY_DOCKERS_BUILD_REF}"
+     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-dockers-build-push.sh
+
+.flow-generic-deploy-provisioning:
+  script:
     - source /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-plan-apply.sh
