@@ -24,6 +24,7 @@ COPY files/cicd-backends-remote-plan-no-lock.sh /opt/tomshley/breakground-provis
 COPY files/cicd-backends-remote-validate.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 COPY files/cicd-bootstrap-envvars-gitlab.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 COPY files/cicd-bootstrap-gitconfig.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
+COPY files/cicd-bootstrap-gitlfs.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlfs.sh
 COPY files/cicd-bootstrap-gitlab-dockers.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh
 COPY files/cicd-bootstrap-gitlab-gitconfig.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh
 COPY files/cicd-bootstrap-gitlab-tf-backends-local.sh /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
@@ -48,6 +49,7 @@ RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remot
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-backends-remote-validate.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-envvars-gitlab.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitconfig.sh
+RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlfs.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-dockers.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-gitconfig.sh
 RUN chmod +x /opt/tomshley/breakground-provisioning/cicd/bin/cicd-bootstrap-gitlab-tf-backends-local.sh
