@@ -20,11 +20,7 @@
 . "/opt/tomshley/breakground-provisioning/cicd/bin/cicd-exports.sh"
 
 if git grep -q filter=lfs -- .gitattributes '**/.gitattributes'
-then git rm --cached -r .
-     git reset --hard
-     git rm .gitattributes
-     git reset .
-     git checkout .
+then
      git lfs install
 else git lfs uinstall
 fi
