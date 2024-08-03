@@ -112,7 +112,7 @@ module "provisioning-backends-remote-gl" {
     (["eda-scala-pulsar", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["eda-person-org-concept", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
     (["eda-pulsar-aws-tf", "tomshley/brands/global/tware/tech/products/examples", "", "private"]),
-    (["www-tomshley-com-monolith", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
+    (["www-tomshley-com-monorepo", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-acceptance", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-avro", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-proto", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
