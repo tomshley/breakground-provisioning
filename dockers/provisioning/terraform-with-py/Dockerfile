@@ -35,7 +35,6 @@ RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/reposito
       libseccomp@edge && \
     apk add --no-cache \
       bash \
-      gawk \
       jq \
       openssl \
       make \
