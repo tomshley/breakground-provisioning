@@ -3,47 +3,29 @@ OpenTofu used the selected providers to generate the following execution
 plan. Resource actions are indicated with the following symbols:
   + create
   ~ update in-place
+ <= read (data resources)
 
 OpenTofu will perform the following actions:
 
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_branch_protection.repositories_protected_branches["integrationdevelopbreakground-provisioning"] will be created
-  + resource "github_branch_protection" "repositories_protected_branches" {
-      + allows_deletions                = false
-      + allows_force_pushes             = false
-      + blocks_creations                = false
-      + enforce_admins                  = true
-      + id                              = (known after apply)
-      + lock_branch                     = false
-      + pattern                         = "develop"
-      + repository_id                   = "breakground-provisioning"
-      + require_conversation_resolution = false
-      + require_signed_commits          = false
-      + required_linear_history         = false
+  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-gitlab.data.gitlab_project_branches.group_projects_branch_production_exists_data["breakground-provisioning"] will be read during apply
+  # (depends on a resource or a module with changes pending)
+ <= data "gitlab_project_branches" "group_projects_branch_production_exists_data" {
+      + branches = (known after apply)
+      + id       = (known after apply)
+      + project  = "50663307"
     }
 
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_branch_protection.repositories_protected_branches["productionmainbreakground-provisioning"] will be created
-  + resource "github_branch_protection" "repositories_protected_branches" {
-      + allows_deletions                = false
-      + allows_force_pushes             = false
-      + blocks_creations                = false
-      + enforce_admins                  = true
-      + id                              = (known after apply)
-      + lock_branch                     = false
-      + pattern                         = "main"
-      + repository_id                   = "breakground-provisioning"
-      + require_conversation_resolution = false
-      + require_signed_commits          = false
-      + required_linear_history         = false
-    }
+  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-gitlab.gitlab_project.group_projects["breakground-provisioning"] will be updated in-place
+  ~ resource "gitlab_project" "group_projects" {
+        id                                               = "50663307"
+      + import_url                                       = "https://github.com/tomshley/breakground-provisioning.git"
+      + import_url_password                              = (sensitive value)
+      + import_url_username                              = "tomshley"
+        name                                             = "breakground-provisioning"
+        tags                                             = []
+        # (70 unchanged attributes hidden)
 
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_repository.repositories["breakground-provisioning"] will be updated in-place
-  ~ resource "github_repository" "repositories" {
-        id                          = "breakground-provisioning"
-        name                        = "breakground-provisioning"
-      - vulnerability_alerts        = true -> null
-        # (32 unchanged attributes hidden)
-
-        # (1 unchanged block hidden)
+        # (2 unchanged blocks hidden)
     }
 
   # module.provisioning-backends-local-gl.module.provisioning-generic-organization-gitlab.gitlab_project_mirror.group_projects_mirrors["breakground-provisioning"] will be created
@@ -57,4 +39,4 @@ OpenTofu will perform the following actions:
       + url                     = (sensitive value)
     }
 
-Plan: 3 to add, 1 to change, 0 to destroy.
+Plan: 1 to add, 1 to change, 0 to destroy.

@@ -82,6 +82,10 @@ module "provisioning-backends-remote-gl" {
     (["eda-example", "tomshley", "tomshley", "public"]),
     (["eda-person-org-concept", "tomshley", "tomshley", "public"]),
     (["eda-example-infra-tf", "tomshley", "tomshley", "public"]),
+    (["www-tomshley-com-monorepo", "tomshley", "tomshley", "public"]),
+    (["www-tomshley-com-proto", "tomshley", "tomshley", "public"]),
+    (["www-tomshley-com-contact-service", "tomshley", "tomshley", "public"]),
+    (["www-tomshley-com-web", "tomshley", "tomshley", "public"]),
   ]
   gitlab_projects_with_parent = [
     (["gateway-scala", "tomshley/brands/global/tware/tech/products/gateway", "", "private"]),     # path, parent, existing
@@ -117,6 +121,7 @@ module "provisioning-backends-remote-gl" {
     (["www-tomshley-com-avro", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-proto", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-gatling", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
+    (["www-tomshley-com-user-service", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-contact-service", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-web", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["functionals-reactive-example", "tomshley/brands/global/docs/architecture/execution/functional", "", "private"]),
@@ -159,5 +164,9 @@ module "provisioning-backends-remote-gl" {
     (["eda-scala-pulsar", "eda-example"]),
     (["eda-person-org-concept", "eda-person-org-concept"]),
     (["eda-pulsar-aws-tf", "eda-example-infra-tf"]),
+    (["www-tomshley-com-monorepo", ""]),
+    (["www-tomshley-com-proto", ""]),
+    (["www-tomshley-com-contact-service", ""]),
+    (["www-tomshley-com-web", ""]),
   ]
 }
