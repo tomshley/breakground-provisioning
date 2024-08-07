@@ -60,22 +60,37 @@ locals {
   }
 }
 module "tware-git-project-with-parent" {
-  source = "../entities-git-repositories-with-parents"
+  source                   = "../entities-git-repositories-with-parents"
   git_projects_with_parent = var.git_projects_with_parent
 }
 
 
 resource "github_repository" "repositories" {
-  for_each   = module.tware-git-project-with-parent.project_data
-  name       = replace(each.key, "/", "-")
+  for_each  = module.tware-git-project-with-parent.project_data
+  name = replace(each.key, "/", "-")
+  #   Note: You may want to disable this this until if you are having trouble playing nice
+  #   with the new settings in GH that come along with visibility
   visibility = each.value["visibility"]
-  auto_init  = false
+  auto_init = false
 
+  security_and_analysis {
+    #   Note: this is an example of how to include scanning settings
+    #     secret_scanning_push_protection {
+    #       status = "disabled"
+    #     }
+    #     secret_scanning {
+    #       status = "disabled"
+    #     }
+    #     Note: this is used if advanced security is purchased
+    #     advanced_security {
+    #       status = "disabled"
+    #     }
+  }
 }
 
 resource "github_branch_protection" "repositories_protected_branches" {
-  for_each = local.public_only_prod_int_branches_to_protect
-  repository_id = github_repository.repositories[each.value["project_name"]].id
-  pattern     = each.value["branch_name"]
-  enforce_admins   = true
+  for_each       = local.public_only_prod_int_branches_to_protect
+  repository_id  = github_repository.repositories[each.value["project_name"]].id
+  pattern        = each.value["branch_name"]
+  enforce_admins = true
 }
