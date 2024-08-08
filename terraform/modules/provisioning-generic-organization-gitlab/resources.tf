@@ -359,7 +359,7 @@ resource "gitlab_branch_protection" "group_projects_protected_branches" {
 }
 
 # https://github.com/settings/tokens
-resource "gitlab_project_mirror" "group_projects_mirrors" {
+resource "gitlab_project_mirror" "group_projects_mirrors_push" {
   for_each = {
     for k, v in gitlab_project.group_projects : k=>v
     if contains(
@@ -375,6 +375,6 @@ resource "gitlab_project_mirror" "group_projects_mirrors" {
   #     url     = "https://${var.github_mirror_token}@${trimprefix(module.tware-git-project-with-parent.project_data[each.key]["mirror_https_clone_address"], "https://")}"
   url                     = "https://${var.github_mirror_token}@${trimprefix(module.tware-hydrator-git-repositories-with-parents.project_data[each.key]["mirror_https_clone_address"], "https://")}"
   enabled                 = true
-  keep_divergent_refs     = false
+  keep_divergent_refs     = true
   only_protected_branches = true
 }
