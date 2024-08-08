@@ -27,7 +27,9 @@ variable "github_owner_org" {
 }
 variable "github_token" {
   type = string
+  sensitive = true
 }
 variable "github_mirror_token" {
   type = string
+  sensitive = true
 }

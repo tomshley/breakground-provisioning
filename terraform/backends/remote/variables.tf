@@ -21,15 +21,18 @@ variable "github_user" {
 }
 variable "github_token" {
   type = string
+  sensitive = true
 }
 variable "github_owner_org" {
   type = string
 }
 variable "github_mirror_token" {
   type = string
+  sensitive = true
 }
 variable "gitlab_token" {
   type = string
+  sensitive = true
 }
 variable "state_identifier" {
   type = string
