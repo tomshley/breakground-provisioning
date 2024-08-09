@@ -26,6 +26,10 @@ terraform {
       source  = "integrations/github"
       version = "5.45.0"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = "2.4.1"
+    }
   }
 }
 
@@ -58,10 +62,14 @@ module "provisioning-backends-local-gl" {
 }
 
 module "provisioning-generic-deploy-containers" {
-  depends_on = [module.provisioning-backends-local-gl]
+  providers = {
+    local = local
+  }
+  depends_on         = [module.provisioning-backends-local-gl]
   source             = "../../modules/provisioning-generic-deploy-containers"
-  dockers_group_name = var.dockers_group_name
+  dockers_group_name = "tomshley"
 }
+
 # For Debug:
 #output "groups" {
 #  value = module.provisioning-backends-local-gl.groups

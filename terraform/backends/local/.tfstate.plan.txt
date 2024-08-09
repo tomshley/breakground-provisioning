@@ -1,24 +1,5 @@
 
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  ~ update in-place
+No changes. Your infrastructure matches the configuration.
 
-OpenTofu will perform the following actions:
-
-  # module.provisioning-backends-local-gl.module.provisioning-generic-organization-github.github_repository.repositories["breakground-provisioning"] will be updated in-place
-  ~ resource "github_repository" "repositories" {
-        id                          = "breakground-provisioning"
-        name                        = "breakground-provisioning"
-        # (34 unchanged attributes hidden)
-
-      ~ security_and_analysis {
-          - secret_scanning {
-              - status = "disabled" -> null
-            }
-          - secret_scanning_push_protection {
-              - status = "disabled" -> null
-            }
-        }
-    }
-
-Plan: 0 to add, 1 to change, 0 to destroy.
+OpenTofu has compared your real infrastructure against your configuration and
+found no differences, so no changes are needed.

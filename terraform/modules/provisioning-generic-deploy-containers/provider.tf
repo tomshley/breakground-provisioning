@@ -16,18 +16,11 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-GROUP_NAME=yourgroupname
-DOCKERS_GROUPNAME=${GROUP_NAME}
-GL_PROJECT_ID=800880808
-TF_PROJECT_ID=${GL_PROJECT_ID}
-GH_USERNAME=yourusername
-GH_PASSWORD=github_00wqeurt9uihkjglfhgl;asdjf
-GH_OWNER_ORG=${GROUP_NAME}
-GH_MIRROR_TOKEN=${GROUP_NAME}:tokenasdfasldfhalsdjhflasdkjf
-GL_USERNAME=glusername
-GL_PASSWORD=glpat-asdljfhasldjflaskdjf
-TF_USERNAME=${GL_USERNAME}
-TF_PASSWORD=${GL_PASSWORD}
-TF_HOST=https://gitlab.com
-TF_ADDRESS=${TF_HOST}/api/v4/projects/${TF_PROJECT_ID}/terraform/state/breakground-provisioning
-ARTIFACTORY_ACCESS_TOKEN=al;sdfhoasudhfals.,dasfdjlasjfdlasdfj
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.4.1"
+    }
+  }
+}
