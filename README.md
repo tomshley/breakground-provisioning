@@ -18,8 +18,59 @@ git remote -v
 git pull public-upstream-fork-sync
 git branch --track public-upstream-fork-sync-main public-upstream-fork-sync/main
 git checkout public-upstream-fork-sync-main
-git checkout -b main
-git push -u origin main
+git lfs pull public-upstream-fork-sync
+git checkout -b main-bootstrap
+cd terraform/backends/local
+rm -rf .terraform* .tfstate.plan*
+
+```
+
+Edit you repo config
+```terraform
+module "provisioning-backends-local-gl" {
+  providers = {
+    gitlab = gitlab
+    github = github
+  }
+  source                  = "../../modules/provisioning-backends-local-gl"
+  github_mirror_token     = var.github_mirror_token
+  github_owner_group_path = var.github_owner_org
+  github_projects_with_parent = [
+    (["breakground-provisioning", "<mycompanyname>", "<mycompanyname>", "private"]),
+  ]
+  gitlab_projects_with_parent = [
+    (["breakground-provisioning", "<mycompanyname>", "<group_id>", "private"]),
+  ]
+  gitlab_project_mirrors = [
+    (["breakground-provisioning", ""])
+  ]
+}
+```
+```shell
+cd terraform/backends/local
+
+make plan
+
+make apply
+
+git add -f .terraform.lock.hcl .tfstate.plan* .tfstate.plan.json main.tf
+
+git commit -m "Initial breakground provision" 
+
+git checkout --track origin/main
+
+git fetch
+
+git checkout main
+
+git merge --allow-unrelated-histories main-bootstrap 
+
+
+```
+
+
+
+git push -u origin main-bootstrap
 ```
 
 #### Step 1 - create an access token for gitlab and github
