@@ -16,12 +16,11 @@
 # @author Thomas Schena @sgoggles <https://github.com/sgoggles> | <https://gitlab.com/sgoggles>
 #
 
-resource "terraform_data" "dockers" {
-  provisioner "local-exec" {
-    command     = <<-EOT
-    export TOMSHLEY_BREAKGROUND_DOCKERS_GROUPNAME=${var.dockers_group_name}; \
-    make push
-    EOT
-    working_dir = "../../../dockers"
+terraform {
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.4.1"
+    }
   }
 }

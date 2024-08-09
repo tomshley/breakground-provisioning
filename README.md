@@ -1,7 +1,26 @@
 # Tomshley LLC Breakground Provisioning
 This repository is the seed for the infrastructure and gitops tenancy of tomshley
 
-[![wakatime](https://wakatime.com/badge/gitlab/tomshley/breakground-provisioning.svg)](https://wakatime.com/badge/gitlab/tomshley/breakground-provisioning)
+#### Step 0 - setup your repository from github
+```shell
+mkdir breakground-provisioning
+cd breakground-provisioning
+git init
+
+git remote add origin git@gitlab.com:<mycompanyname>/breakground-provisioning.git
+
+git remote add public-upstream-fork-sync https://github.com/tomshley/breakground-provisioning.git
+
+git remote -v
+```
+
+```shell
+git pull public-upstream-fork-sync
+git branch --track public-upstream-fork-sync-main public-upstream-fork-sync/main
+git checkout public-upstream-fork-sync-main
+git checkout -b main
+git push -u origin main
+```
 
 #### Step 1 - create an access token for gitlab and github
 - https://github.com/settings/tokens

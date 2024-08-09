@@ -31,3 +31,7 @@ variable "github_token" {
 variable "github_mirror_token" {
   type = string
 }
+variable "dockers_group_name" {
+  default = "tomshley"
+  type    = string
+}

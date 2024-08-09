@@ -51,6 +51,7 @@ _planonly:
 	-var github_owner_org="${GH_OWNER_ORG}" \
 	-var github_mirror_token="${GH_MIRROR_TOKEN}" \
 	-var gitlab_token="${GL_PASSWORD}" \
+	-var dockers_group_name="${DOCKERS_GROUPNAME}" \
 	-out=.tfstate.plan
 
 plan: init _planonly artifact
@@ -71,4 +72,5 @@ destroy: init
 	-var github_token="${GH_PASSWORD}" \
 	-var github_owner_org="${GH_OWNER_ORG}" \
 	-var github_mirror_token="${GH_MIRROR_TOKEN}" \
-	-var gitlab_token="${GL_PASSWORD}"
+	-var gitlab_token="${GL_PASSWORD}" \
+	-var dockers_group_name="${DOCKERS_GROUPNAME}"
