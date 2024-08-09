@@ -44,7 +44,7 @@ group "provisioning" {
 
 # region REGISTRIES
 variable "REGISTRY" {
-  default = "registry.gitlab.com/tomshley/${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}"
+  default = "registry.gitlab.com/${TOMSHLEY_BREAKGROUND_DOCKERS_GROUPNAME}/${TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME}"
 }
 variable "OS_ALPINE" {
   default = "os_alpine"
@@ -54,6 +54,9 @@ variable "CICD_SCRIPTS" {
 }
 variable "PROVISIONING_TERRAFORM_WITH_PY" {
   default = "provisioning_terraform_with_py"
+}
+variable "TOMSHLEY_BREAKGROUND_DOCKERS_GROUPNAME" {
+  default = "DOCKERS_GROUPNAME"
 }
 variable "TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME" {
   default = "PROJECTNAME"
