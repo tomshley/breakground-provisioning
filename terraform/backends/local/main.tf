@@ -59,7 +59,7 @@ module "provisioning-backends-local-gl" {
 
 module "provisioning-generic-deploy-containers" {
   depends_on = [module.provisioning-backends-local-gl]
-  source     = "../../modules/provisioning-generic-deploy-containers"
+  source             = "../../modules/provisioning-generic-deploy-containers"
   dockers_group_name = var.dockers_group_name
 }
 # For Debug:
