@@ -26,6 +26,7 @@ current_arch := $(shell uname -m)
 export ARCH ?= $(shell case $(current_arch) in (x86_64) echo "amd64" ;; (i386) echo "386";; (aarch64|arm64) echo "arm64" ;; (armv6*) echo "arm/v6";; (armv7*) echo "arm/v7";; (ppc64*|s390*|riscv*) echo $(current_arch);; (*) echo "UNKNOWN-CPU";; esac)
 build_version_tag := v$(shell cat ../VERSION | sed -r 's/^.{1}//')
 export TOMSHLEY_DOCKERS_BUILD_PROJECT_NAME ?= breakground-provisioning
+export TOMSHLEY_BREAKGROUND_DOCKERS_GROUPNAME ?= tomshley
 export TOMSHLEY_DOCKERS_BUILD_REF ?= $(build_version_tag)
 
 ifeq ($(TOMSHLEY_DOCKERS_BUILD_REF),$(build_version_tag))
