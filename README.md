@@ -36,7 +36,7 @@ module "provisioning-backends-local-gl" {
   github_mirror_token     = var.github_mirror_token
   github_owner_group_path = var.github_owner_org
   github_projects_with_parent = [
-    (["breakground-provisioning", "<mycompanyname>", "rossmachi<mycompanyname>nerysales", "private"]),
+    (["breakground-provisioning", "<mycompanyname>", "<mycompanyname>", "private"]),
   ]
   gitlab_projects_with_parent = [
     (["breakground-provisioning", "<mycompanyname>", "<group_id>", "private"]),
