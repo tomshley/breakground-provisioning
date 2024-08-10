@@ -4,7 +4,9 @@ This repository is the seed for the infrastructure and gitops tenancy of tomshle
 #### Step 0 - setup your repository from github
 ```shell
 mkdir breakground-provisioning
+
 cd breakground-provisioning
+
 git init
 
 git remote add origin git@gitlab.com:<mycompanyname>/breakground-provisioning.git
@@ -12,6 +14,7 @@ git remote add origin git@gitlab.com:<mycompanyname>/breakground-provisioning.gi
 git remote add public-upstream-fork-sync https://github.com/tomshley/breakground-provisioning.git
 
 git remote -v
+
 ```
 
 ```shell
@@ -46,6 +49,7 @@ module "provisioning-backends-local-gl" {
   ]
 }
 ```
+
 ```shell
 cd terraform/backends/local
 
@@ -53,24 +57,28 @@ make plan
 
 make apply
 
-git add -f .terraform.lock.hcl .tfstate.plan* .tfstate.plan.json main.tf
+git add -f .terraform.lock.hcl terraform.tfstate main.tf 
 
 git commit -m "Initial breakground provision" 
 
-git checkout --track origin/main
-
 git fetch
+
+git checkout --track origin/main
 
 git checkout main
 
-git merge --allow-unrelated-histories main-bootstrap 
+git merge --allow-unrelated-histories -s recursive main-bootstrap 
 
+git lfs fetch --all public-upstream-fork-sync
 
-```
+git lfs push --all origin
 
+git push origin
 
+git checkout --track origin/develop
 
-git push -u origin main-bootstrap
+git mg main
+
 ```
 
 #### Step 1 - create an access token for gitlab and github
