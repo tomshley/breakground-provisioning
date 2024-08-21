@@ -87,9 +87,18 @@ git mg main
 
 #### Step 2 - copy the owner group in gitlab
 
-![readme-gitlab-group-id.png](readme-gitlab-group-id.png)
+[//]: # (![readme-gitlab-group-id.png]&#40;readme-gitlab-group-id.png&#41;)
 
 #### Step 3 - create a .tfstate.env file in local and remote backends
+
+```shell
+curl -sL https://tomshleytech.jfrog.io/artifactory/api/system/licenses/ | jq .
+#{
+#  "type" : "Enterprise Plus Trial",
+#  "validThrough" : "Jan 29, 2022",
+#  "licensedTo" : "JFrog Ltd"
+#}
+```
 
 Example:
 ```dotenv
@@ -142,7 +151,8 @@ docker login registry.gitlab.com
 
 ### Setup the CI/CD Prerequisites
 This file is needed to run Terraform init and plan
-![.tfstate.env](readme-tfstate-example.png)
+
+[//]: # (![.tfstate.env]&#40;readme-tfstate-example.png&#41;)
 
 
 ## License
