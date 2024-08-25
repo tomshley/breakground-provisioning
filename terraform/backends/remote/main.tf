@@ -20,32 +20,65 @@ terraform {
   backend "http" {}
 
   required_providers {
-    random = {
-      source  = "hashicorp/random"
-      version = "3.6.0"
-    }
-    local = {
-      source  = "hashicorp/local"
-      version = "2.4.1"
-    }
-    gitlab = {
-      source  = "gitlabhq/gitlab"
-      version = "16.8.1"
+    artifactory = {
+      source  = "jfrog/artifactory"
+      version = "11.6.0"
     }
     github = {
       source  = "integrations/github"
       version = "5.45.0"
     }
+    gitlab = {
+      source  = "gitlabhq/gitlab"
+      version = "16.8.1"
+    }
+    local = {
+      source  = "hashicorp/local"
+      version = "2.4.1"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.6.0"
+    }
   }
+}
+
+provider "artifactory" {
+  url          = "${var.artifactory_url}/artifactory"
+  access_token = sensitive(var.artifactory_access_token)
 }
 
 provider "github" {
   token = sensitive(var.github_token)
   owner = var.github_owner_org
 }
+
 provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
+
+module "provisioning-packages-jfrog" {
+  providers = {
+    artifactory = artifactory
+    local       = local
+  }
+  source                    = "../../modules/provisioning-packages-jfrog"
+  docker_repositories_local = ["tomshley/brands/global/tware/tech/products/hexagonal"]
+  docker_repositories_virtual = [
+    (["tomshley/brands/global/tware/tech/products/hexagonal", "hexagonal"]),
+  ]
+  docker_repositories_virtual_include = [
+    (["tomshley/brands/global/tware/tech/products/hexagonal", "tomshley/brands/global/tware/tech/products/hexagonal"])
+  ]
+  sbt_repositories_local = ["tomshley/brands/global/tware/tech/products/hexagonal"]
+  sbt_repositories_virtual = [
+    (["tomshley/brands/global/tware/tech/products/hexagonal", "hexagonal"]),
+  ]
+  sbt_repositories_virtual_include = [
+    (["tomshley/brands/global/tware/tech/products/hexagonal", "tomshley/brands/global/tware/tech/products/hexagonal"])
+  ]
+}
+
 module "provisioning-backends-remote-gl" {
   providers = {
     random = random
@@ -130,10 +163,17 @@ module "provisioning-backends-remote-gl" {
     (["reactive-patterns", "tomshley/brands/global/docs/architecture/execution/patterns", "", "private"]),
     (["people-process-conways", "tomshley/brands/global/docs/architecture/execution/people", "", "private"]),
     (["reactive-principles", "tomshley/brands/global/docs/architecture/execution/principles", "", "private"]),
-    (["fast-architecture-playbook", "tomshley/brands/global/docs/architecture/execution/technology/playbooks", "", "private"]),
+    ([
+      "fast-architecture-playbook", "tomshley/brands/global/docs/architecture/execution/technology/playbooks", "",
+      "private"
+    ]),
     (["domain-driven-design", "tomshley/brands/global/docs/architecture/execution/technology/learning", "", "private"]),
-    (["event-driven-modeling", "tomshley/brands/global/docs/architecture/execution/technology/learning", "", "private"]),
-    (["reactive-event-driven", "tomshley/brands/global/docs/architecture/execution/technology/learning", "", "private"]),
+    ([
+      "event-driven-modeling", "tomshley/brands/global/docs/architecture/execution/technology/learning", "", "private"
+    ]),
+    ([
+      "reactive-event-driven", "tomshley/brands/global/docs/architecture/execution/technology/learning", "", "private"
+    ]),
     (["data-centric", "tomshley/brands/global/docs/architecture/execution/technology/themes", "", "private"]),
     (["recurring-revenue", "tomshley/brands/global/docs/architecture/strategy", "", "private"]),
     (["2023-community-banking", "tomshley/brands/global/docs/architecture/trends", "", "private"]),

@@ -77,6 +77,8 @@ plan-no-lock: clean init
 	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
 	-var state_remote_host="${TF_HOST}" \
+	-var artifactory_url="${ARTIFACTORY_URL}" \
+	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}" \
 	-out=.tfstate.plan
 
 # nb: https://developer.godaddy.com/keys?hbi_code=1
@@ -92,6 +94,8 @@ _planonly:
 	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
 	-var state_remote_host="${TF_HOST}" \
+	-var artifactory_url="${ARTIFACTORY_URL}" \
+	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}" \
 	-out=.tfstate.plan
 
 plan: clean init _planonly artifact
@@ -115,4 +119,6 @@ destroy: init
 	-var gitlab_token="${GL_PASSWORD}" \
 	-var state_identifier="${TF_PROJECT_ID}" \
 	-var state_username="${TF_USERNAME}" \
-	-var state_remote_host="${TF_HOST}"
+	-var state_remote_host="${TF_HOST}" \
+	-var artifactory_url="${ARTIFACTORY_URL}" \
+	-var artifactory_access_token="${ARTIFACTORY_ACCESS_TOKEN}"

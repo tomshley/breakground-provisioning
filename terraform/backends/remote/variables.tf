@@ -40,3 +40,10 @@ variable "state_username" {
 variable "state_remote_host" {
   type = string
 }
+variable "artifactory_url" {
+  type = string
+}
+variable "artifactory_access_token" {
+  type = string
+}
+
