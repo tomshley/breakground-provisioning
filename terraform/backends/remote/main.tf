@@ -59,6 +59,7 @@ provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
 
+/* Under Construction; relevant for example purposes
 module "provisioning-packages-jfrog" {
   providers = {
     artifactory = artifactory
@@ -80,6 +81,7 @@ module "provisioning-packages-jfrog" {
     (["tomshley/brands/global/tware/tech/products/hexagonal", "tomshley/brands/global/tware/tech/products/hexagonal"])
   ]
 }
+*/
 
 module "provisioning-backends-remote-gl" {
   providers = {
