@@ -43,10 +43,12 @@ terraform {
   }
 }
 
+/* Under construction
 provider "artifactory" {
   url          = "${var.artifactory_url}/artifactory"
   access_token = sensitive(var.artifactory_access_token)
 }
+*/
 
 provider "github" {
   token = sensitive(var.github_token)
