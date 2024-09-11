@@ -43,10 +43,12 @@ terraform {
   }
 }
 
+/* Under construction
 provider "artifactory" {
   url          = "${var.artifactory_url}/artifactory"
   access_token = sensitive(var.artifactory_access_token)
 }
+*/
 
 provider "github" {
   token = sensitive(var.github_token)
@@ -57,6 +59,7 @@ provider "gitlab" {
   token = sensitive(var.gitlab_token)
 }
 
+/* Under Construction; relevant for example purposes
 module "provisioning-packages-jfrog" {
   providers = {
     artifactory = artifactory
@@ -78,6 +81,7 @@ module "provisioning-packages-jfrog" {
     (["tomshley/brands/global/tware/tech/products/hexagonal", "tomshley/brands/global/tware/tech/products/hexagonal"])
   ]
 }
+*/
 
 module "provisioning-backends-remote-gl" {
   providers = {
@@ -117,6 +121,7 @@ module "provisioning-backends-remote-gl" {
     (["eda-example-infra-tf", "tomshley", "tomshley", "private"]),
     (["www-tomshley-com-monorepo", "tomshley", "tomshley", "private"]),
     (["www-tomshley-com-proto", "tomshley", "tomshley", "private"]),
+    (["www-tomshley-com-provisioning", "tomshley", "tomshley", "private"]),
     (["www-tomshley-com-contact-service", "tomshley", "tomshley", "private"]),
     (["www-tomshley-com-web", "tomshley", "tomshley", "private"]),
   ]
@@ -153,6 +158,7 @@ module "provisioning-backends-remote-gl" {
     (["www-tomshley-com-acceptance", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-avro", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-proto", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
+    (["www-tomshley-com-provisioning", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-gatling", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-user-service", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
     (["www-tomshley-com-contact-service", "tomshley/brands/usa/tomshleyllc/tech", "", "private"]),
@@ -206,6 +212,7 @@ module "provisioning-backends-remote-gl" {
     (["eda-pulsar-aws-tf", "eda-example-infra-tf"]),
     (["www-tomshley-com-monorepo", ""]),
     (["www-tomshley-com-proto", ""]),
+    (["www-tomshley-com-provisioning", ""]),
     (["www-tomshley-com-contact-service", ""]),
     (["www-tomshley-com-web", ""]),
   ]
