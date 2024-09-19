@@ -136,6 +136,7 @@ module "provisioning-backends-remote-gl" {
     (["hexagonal-lib-py", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
     (["hexagonal-sdk-java", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
     (["hexagonal-sdk-scala", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
+    (["hexagonal-registry", "tomshley/brands/global/tware/tech/products/hexagonal", "", "private"]),
     (["telemetry-aggregator-scala", "tomshley/brands/global/tware/tech/products/telemetry", "", "private"]),
     (["tuuid-scala", "tomshley/brands/global/tware/tech/products/tuuid", "", "private"]),
     (["module-lib-tf", "tomshley/brands/global/tware/tech/products/provisioning", "", "private"]),
